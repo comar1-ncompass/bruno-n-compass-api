@@ -1,0 +1,19 @@
+meta {
+  name: Get Host by Dealer - minify
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/host/getallminify?dealerId=49b7ff43-3728-437c-9d0b-87d1b6d26d33
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: 49b7ff43-3728-437c-9d0b-87d1b6d26d33
+}
+
+settings {
+  encodeUrl: true
+}

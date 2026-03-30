@@ -1,0 +1,39 @@
+meta {
+  name: Log In as Admin Mikoo
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/account/login
+  body: json
+  auth: bearer
+}
+
+params:query {
+  ~email: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "username": "{{mikooAdminUser}}",
+      "password": "{{mikooAdminPassword}}"
+  }
+}
+
+script:post-response {
+  test('Token is set', () => {
+      const response = res.getBody();
+      bru.setEnvVar('bearer_token', response.token);
+      const tokenNow = bru.getEnvVar('bearer_token');
+      expect(response.token).to.equal(tokenNow);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

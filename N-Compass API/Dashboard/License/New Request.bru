@@ -1,0 +1,19 @@
+meta {
+  name: New Request
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate=07-09-2025
+  body: none
+  auth: inherit
+}
+
+params:query {
+  installdate: 07-09-2025
+}
+
+settings {
+  encodeUrl: true
+}

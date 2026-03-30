@@ -1,0 +1,90 @@
+meta {
+  name: Delete Host Place
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/host/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "hostIds": [
+          "6ccb5c1d-c1cc-48d2-b017-f2fc9f82f557"
+      ],
+      "forceDelete": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Delete Host API
+  
+  This endpoint allows clients to delete one or more hosts from the system. It is designed to facilitate the removal of hosts by their unique identifiers.
+  
+  ### Request
+  
+  - **Method:** POST
+      
+  - **Endpoint:** `{{baseUrl}}/api/host/delete`
+      
+  - **Content-Type:** application/json
+      
+  
+  #### Request Body
+  
+  The request body must be a JSON object containing the following parameters:
+  
+  - `hostIds` (Array of Strings): A list of unique identifiers for the hosts that you wish to delete. Each identifier should be a valid UUID.
+      
+  - `forceDelete` (Boolean): A flag indicating whether the deletion should be forced. If set to `true`, the deletion will proceed regardless of any dependencies or constraints.
+      
+  
+  **Example Request Body:**
+  
+  ``` json
+  {
+    "hostIds": ["6ccb5c1d-c1cc-48d2-b017-f2fc9f..."],
+    "forceDelete": false
+  }
+  
+   ```
+  
+  ### Response
+  
+  Upon a successful request, the server will respond with a status code of 200 and a JSON object containing the following structure:
+  
+  - `message` (String): A message indicating the result of the operation. This may be empty if there are no specific messages to convey.
+      
+  - `data` (Object): An object containing the details of the deletion operation:
+      
+      - `hostIds` (Array of Strings): An array of host IDs that were processed in the request.
+          
+      - `forceDelete` (Boolean): The value of the `forceDelete` flag that was sent in the request.
+          
+  
+  **Example Response:**
+  
+  ``` json
+  {
+    "message": "",
+    "data": {
+      "hostIds": [""],
+      "forceDelete": true
+    }
+  }
+  
+   ```
+  
+  ### Notes
+  
+  - Ensure that the `hostIds` provided are valid and exist in the system to avoid errors during deletion.
+      
+  - The `forceDelete` option should be used with caution, as it may lead to the removal of hosts that are currently in use or have dependencies.
+}

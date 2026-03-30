@@ -1,0 +1,64 @@
+meta {
+  name: Get Dealer Logo
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getlogo?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Dealer Logo
+  
+  This endpoint retrieves the logo associated with a specific dealer identified by their unique dealer ID. It is useful for applications that need to display dealer logos dynamically based on the dealer's identification.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/dealer/getlogo`
+      
+  - **Query Parameters:**
+      
+      - `dealerid` (required): The unique identifier for the dealer whose logo is being requested.
+          
+  
+  ### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  - { "files": \[""\]}
+      
+      - `files`: An array containing the file paths or URLs of the dealer's logo. If no logo is available, the array may contain an empty string.
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "files": [""]
+  }
+  
+   ```
+  
+  ### Related Endpoints
+  
+  This endpoint is part of a broader API that may include other endpoints related to dealer information and user roles. Responses from these endpoints typically include user details, dealer information, and associated content, all structured in a similar JSON format.
+  
+  ### Notes
+  
+  Ensure that the `dealerid` parameter is valid to receive the correct logo information. An empty response may indicate that no logo is available for the specified dealer.
+}

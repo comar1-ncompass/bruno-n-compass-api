@@ -1,0 +1,19 @@
+meta {
+  name: Prod content 2
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/playlistsv2/GetPlaylistContentSchedule?playlistContentId=642e8d3b-f1e7-41dc-a2aa-4e7f45d40adf
+  body: none
+  auth: inherit
+}
+
+params:query {
+  playlistContentId: 642e8d3b-f1e7-41dc-a2aa-4e7f45d40adf
+}
+
+settings {
+  encodeUrl: true
+}

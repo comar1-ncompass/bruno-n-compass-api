@@ -1,0 +1,30 @@
+meta {
+  name: User Logout
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/logout
+  body: text
+  auth: bearer
+}
+
+params:query {
+  ~email: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:text {
+  {
+      "username": "{{choyAdmin}}",
+      "password": "{{choyAdminPassword}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,54 @@
+meta {
+  name: Export Logs per Hosts by Content
+  type: http
+  seq: 12
+}
+
+get {
+  url: https://dev-api.n-compass.online/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a&startDate=2026-01-01&endDate=2026-02-16
+  body: none
+  auth: inherit
+}
+
+params:query {
+  contentId: 74986eb0-c728-499a-8012-55ddebf4684a
+  startDate: 2026-01-01
+  endDate: 2026-02-16
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0
+  Accept: application/json
+  Accept-Language: en-US,en;q=0.9
+  Accept-Encoding: gzip, deflate, br, zstd
+  Content-Type: application/json
+  credentials: include
+  Origin: https://dev-dashboard.n-compass.online
+  Connection: keep-alive
+  Referer: https://dev-dashboard.n-compass.online/
+  Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTI5OTA2NywiZXhwIjoxNzcxMzM1MDY3LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.J9QBWu9SCE-HQ-PNAQTXc-yATMgHv1pHkIEkrSGqlhQ; nctvRefToken=yssyA6mRmYuc6Qt6RFVqwGZU%2FJB0HhEUGbHmNppsLoQ%3D; nctvDealerId=; nctvRoleName=Super%20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-site
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl.exe ^"https://dev-api.n-compass.online/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a^&startDate=2026-01-01^&endDate=2026-02-16^" ^
+    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+    -H ^"Accept: application/json^" ^
+    -H ^"Accept-Language: en-US,en;q=0.9^" ^
+    -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+    -H ^"Content-Type: application/json^" ^
+    -H ^"credentials: include^" ^
+    -H ^"Origin: https://dev-dashboard.n-compass.online^" ^
+    -H ^"Connection: keep-alive^" ^
+    -H ^"Referer: https://dev-dashboard.n-compass.online/^" ^
+    -H ^"Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTI5OTA2NywiZXhwIjoxNzcxMzM1MDY3LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.J9QBWu9SCE-HQ-PNAQTXc-yATMgHv1pHkIEkrSGqlhQ; nctvRefToken=yssyA6mRmYuc6Qt6RFVqwGZU^%^2FJB0HhEUGbHmNppsLoQ^%^3D; nctvDealerId=; nctvRoleName=Super^%^20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125^" ^
+    -H ^"Sec-Fetch-Dest: empty^" ^
+    -H ^"Sec-Fetch-Mode: cors^" ^
+    -H ^"Sec-Fetch-Site: same-site^"
+}

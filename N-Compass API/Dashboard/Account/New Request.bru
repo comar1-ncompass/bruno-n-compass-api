@@ -1,0 +1,31 @@
+meta {
+  name: New Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}​/api​/Host​/GetHostStates?page=1&pageSize=15
+  body: json
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 15
+}
+
+body:json {
+  {
+      "ParentId": "parent-123",
+      "RoleId": "role-456",
+      "FirstName": "Test_User_5678",
+      "LastName": "Automation_García",
+      "Email": "qa.test+1681234567@domain.com",
+      "CreatedBy": "test-automation-script-v1.2"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

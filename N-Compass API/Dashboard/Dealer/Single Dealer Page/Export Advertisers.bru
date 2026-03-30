@@ -1,0 +1,95 @@
+meta {
+  name: Export Advertisers
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/api/advertiser/export?dealer_id={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealer_id: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Endpoint Description
+  
+  This endpoint allows users to export advertiser data associated with a specific dealer. It retrieves a list of advertisers along with their details, which can be useful for reporting or data analysis purposes.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/advertiser/export?dealer_id={{dealerId}}`
+      
+  
+  #### Query Parameters
+  
+  - `dealer_id` (required): The unique identifier for the dealer whose advertisers you want to export. This parameter should be provided in the query string.
+      
+  
+  ### Response
+  
+  Upon a successful request, the API will return a JSON array containing the details of advertisers. The response structure is as follows:
+  
+  - **advertiserId**: (string) The unique identifier for the advertiser.
+      
+  - **name**: (string) The name of the advertiser.
+      
+  - **dealerName**: (string) The name of the dealer associated with the advertiser.
+      
+  - **status**: (string) The current status of the advertiser (e.g., active, inactive).
+      
+  - **assignedUser**: (string) The user assigned to manage the advertiser.
+      
+  - **contentCount**: (integer) The number of contents associated with the advertiser.
+      
+  - **address**: (string) The address of the advertiser.
+      
+  - **city**: (string) The city where the advertiser is located.
+      
+  - **state**: (string) The state where the advertiser is located.
+      
+  - **postalCode**: (string) The postal code of the advertiser's address.
+      
+  - **dateCreated**: (string) The date when the advertiser was created.
+      
+  - **contents**: (array of strings) A list of content identifiers associated with the advertiser.
+      
+  
+  ### Example Response
+  
+  ``` json
+  [
+      {
+          "advertiserId": "",
+          "name": "",
+          "dealerName": "",
+          "status": "",
+          "assignedUser": "",
+          "contentCount": 0,
+          "address": "",
+          "city": "",
+          "state": "",
+          "postalCode": "",
+          "dateCreated": "",
+          "contents": [""]
+      }
+  ]
+  
+   ```
+  
+  ### Status Codes
+  
+  - **200 OK**: The request was successful, and the advertiser data has been returned.
+      
+  
+  This endpoint is crucial for obtaining detailed information about advertisers linked to a specific dealer, facilitating better management and insights into advertising operations.
+}

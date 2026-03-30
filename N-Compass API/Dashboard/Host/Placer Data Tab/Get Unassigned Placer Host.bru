@@ -1,0 +1,135 @@
+meta {
+  name: Get Unassigned Placer Host
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/placer/host/unassigned?pageSize=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageSize: 0
+}
+
+script:post-response {
+  test("Response contains a paging object with correct structure", function () {
+      const responseJson = res.getBody();
+      expect(responseJson).to.have.property('paging').that.is.an('object');
+      expect(responseJson.paging).to.have.all.keys('hasPreviousPage', 'hasNextPage', 'page', 'pageSize', 'pages', 'totalEntities', 'pageStart', 'entities');
+      expect(responseJson.paging.hasPreviousPage).to.be.a('boolean');
+      expect(responseJson.paging.hasNextPage).to.be.a('boolean');
+      expect(responseJson.paging.page).to.be.a('number');
+      expect(responseJson.paging.pageSize).to.be.a('number');
+      expect(responseJson.paging.pages).to.be.a('number');
+      expect(responseJson.paging.totalEntities).to.be.a('number');
+      expect(responseJson.paging.pageStart).to.be.a('number');
+      expect(responseJson.paging.entities).to.be.an('array');
+  });
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Endpoint Description
+  
+  This endpoint retrieves a paginated list of unassigned hosts from the N-Compass API. It allows users to specify the size of the page to control the number of results returned.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `https://dev-api.n-compass.online/api/placer/host/unassigned?pageSize=0`
+      
+  
+  ### Response
+  
+  The response from this endpoint includes a JSON object that contains paging information and an array of entities representing the unassigned hosts. Below is the detailed structure of the response:
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": (boolean),        // Indicates if there is a previous page of results
+      "hasNextPage": (boolean),            // Indicates if there is a next page of results
+      "page": (integer),                   // Current page number
+      "pageSize": (integer),               // Number of results per page
+      "pages": (integer),                  // Total number of pages available
+      "totalEntities": (integer),          // Total number of entities available
+      "pageStart": (integer),              // Starting index of the current page
+      "entities": [                        // Array of host entities
+        {
+          "hostId": (string),              // Unique identifier for the host
+          "hostName": (string),            // Name of the host
+          "placerId": (string or null),    // Identifier for the placer (may be null)
+          "dateCreated": (string),         // Date the host was created
+          "address": (string),             // Address of the host
+          "street": (string or null),      // Street address (may be null)
+          "city": (string),                // City where the host is located
+          "postalCode": (string),          // Postal code of the host's address
+          "region": (string),              // Region of the host
+          "state": (string),               // State of the host
+          "country": (string or null),     // Country of the host (may be null)
+          "latitude": (string),            // Latitude coordinate of the host
+          "longitude": (string),           // Longitude coordinate of the host
+          "timeZone": (string),            // Time zone of the host
+          "storeHours": (string),          // Operating hours of the host
+          "venueType": (string or null),   // Type of venue (may be null)
+          "avgTicket": (number or null),   // Average ticket value (may be null)
+          "demographics": (string or null),// Demographic information (may be null)
+          "internet": (string or null),    // Internet availability (may be null)
+          "notes": (string),               // Additional notes about the host
+          "installDate": (string or null), // Installation date (may be null)
+          "dateUpdated": (string or null), // Date the host was last updated (may be null)
+          "createdBy": (string),           // User who created the host entry
+          "updatedBy": (string or null),   // User who last updated the host entry (may be null)
+          "status": (string),              // Current status of the host
+          "category": (string),            // Category of the host
+          "others": (string or null),      // Other relevant information (may be null)
+          "logo": (string),                // URL to the host's logo
+          "contactPerson": (string),       // Name of the contact person for the host
+          "contactNumber": (string),       // Contact number for the host
+          "businessName": (string),        // Name of the business associated with the host
+          "dmaCode": (string),             // DMA code related to the host
+          "dmaName": (string),             // DMA name related to the host
+          "dmaRank": (integer),            // Rank of the DMA
+          "generalCategory": (string),     // General category of the host
+          "timezoneName": (string),        // Name of the time zone
+          "totalLicenses": (integer),      // Total licenses associated with the host
+          "tags": (array)                  // Array of tags related to the host
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  This structure provides a comprehensive overview of the response data, allowing users to understand the details of each unassigned host returned by the API.
+  
+  This endpoint is used to retrieve a list of unassigned hosts from the system. The response provides information about the hosts that are currently not assigned to any dealer or user.
+  
+  #### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `https://dev-api.n-compass.online/api/placer/host/unassigned`
+      
+  - **Query Parameters**:
+      
+      - `pageSize`: (integer) Specifies the number of records to return. A value of `0` indicates no records will be returned.
+          
+  
+  #### Response
+  
+  - **Status Code**: 200
+      
+  - **Content-Type**: application/json
+      
+  - {"paging": { "hasPreviousPage": (boolean), "hasNextPage": (boolean), "page": (integer), "pageSize": (integer), "pages": (integer), "totalEntities": (integer), "pageStart": (integer), "entities": \[ { "hostId": (string), "hostName": (string), "placerId": (string or null), "dateCreated": (string), "address": (string), "street": (string or null), "city": (string), "postalCode": (string), "region": (string), "state": (string), "country": (string or null), "latitude": (string), "longitude": (string), "timeZone": (string), "storeHours": (string), "venueType": (string or null), "avgTicket": (number or null), "demographics": (string or null), "internet": (string or null), "notes": (string), "installDate": (string or null), "dateUpdated": (string or null), "createdBy": (string), "updatedBy": (string or null), "status": (string), "category": (string), "others": (string or null), "logo": (string), "contactPerson": (string), "contactNumber": (string), "businessName": (string), "dmaCode": (string), "dmaName": (string), "dmaRank": (integer), "generalCategory": (string), "timezoneName": (string), "totalLicenses": (integer), "tags": (array) } \]}}
+      
+  
+  The `paging` object contains details about the pagination of the results, including whether there are previous or next pages, the current page number, and the total number of entities. The `entities` array holds the details of each unassigned host, including identifiers, location information, and other relevant attributes.
+}

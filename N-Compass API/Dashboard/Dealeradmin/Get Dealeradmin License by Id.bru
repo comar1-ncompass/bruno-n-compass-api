@@ -1,0 +1,19 @@
+meta {
+  name: Get Dealeradmin License by Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dealeradmin/license/GetLicenseById?licenseid=01f7ff2a-e957-4739-a9f0-ad16256fa476
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseid: 01f7ff2a-e957-4739-a9f0-ad16256fa476
+}
+
+settings {
+  encodeUrl: true
+}

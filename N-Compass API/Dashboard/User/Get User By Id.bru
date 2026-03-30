@@ -1,0 +1,19 @@
+meta {
+  name: Get User By Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/user/getbyid?user_id=9d51fb25-3e61-4f93-a230-d048b3b15ad3
+  body: none
+  auth: inherit
+}
+
+params:query {
+  user_id: 9d51fb25-3e61-4f93-a230-d048b3b15ad3
+}
+
+settings {
+  encodeUrl: true
+}

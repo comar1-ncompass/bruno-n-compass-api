@@ -1,0 +1,41 @@
+meta {
+  name: Get Viewport Info
+  type: http
+  seq: 9
+}
+
+post {
+  url: https://maps.googleapis.com/$rpc/google.internal.maps.mapsjs.v1.MapsJsInternalService/GetViewportInfo
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+      [
+          [
+              39.455990901112834,
+              -76.63986297665062
+          ],
+          [
+              39.460792897539946,
+              -76.63506098022351
+          ]
+      ],
+      19,
+      null,
+      "en-US",
+      0,
+      "m@742000000",
+      0,
+      0,
+      null,
+      null,
+      null,
+      2
+  ]
+}
+
+settings {
+  encodeUrl: true
+}

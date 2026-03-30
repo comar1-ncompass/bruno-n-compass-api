@@ -1,0 +1,53 @@
+meta {
+  name: Create a new genre
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{awsUrl}}/api/genres
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "genreName": "API Test Table Sports",
+      "genreCode": "tSports",
+      "textColor": "#ffffff",
+      "bgColor": "#020618",
+      "createdBy": "0a59766e-1f71-4e85-a4ff-48891043758d"
+  }
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract genreId
+  let genreId = response.data.genreId;
+  
+  // Save to environment variable
+  bru.setEnvVar("genreId", genreId);
+  
+  // Optional: log to console
+  console.log("Saved genreId:", genreId);
+  
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

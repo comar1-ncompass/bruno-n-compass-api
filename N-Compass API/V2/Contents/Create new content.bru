@@ -1,0 +1,121 @@
+meta {
+  name: Create new content
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/contents
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{bearer_token}}
+  ~Content-Type: application/json
+  ~Accept: /
+}
+
+body:json {
+  {
+    "title": "{{templatedContentTitle}}",
+    "ownerId": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+    "description": "Landscape banner used for the lobby LED wall.",
+    "fileName": "summer-banner-final.png",
+    "fileType": "image/png",
+    "fileSize": 1048576,
+    "url": "https://thumbs.dreamstime.com/b/juicy-watermelon-slices-pattern-shallow-turquoise-water-background-357805574.jpg",
+    "thumbnail": "https://thumbs.dreamstime.com/b/juicy-watermelon-slices-pattern-shallow-turquoise-water-background-357805574.jpg",
+    "duration": 30.5,
+    "isProtected": false,
+    "isConverted": true,
+    "isChannel": false,
+    "metadata": "{ \"upload\": { \"provider\": \"filestack\", \"handleId\": \"file-xyz123\" } }",
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+    "nameConflict": "auto"
+  }
+}
+
+script:pre-request {
+  // Get current date and time
+  const now = new Date();
+  
+  // Format date and time (YYYY-MM-DD and HHMMSS)
+  const date = now.toISOString().split('T')[0]; 
+  const time = now.toTimeString().split(' ')[0].replace(/:/g, ''); 
+  
+  // Build the dynamic content title
+  const templatedContentTitle = `Content_Promo_${date}_${time}`;
+  
+  // Save to environment variable for use in the Body
+  bru.setEnvVar("templatedContentTitle", templatedContentTitle);
+}
+
+script:post-response {
+  // 1. Three Main Tests
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody(); 
+      expect(responseJson).to.be.an('object');
+  });
+  
+  // 2. Helper function to create extra content for testing
+  function createExtraContent(varName, description) {
+      const body = {
+          "title": `Prep_${varName}_` + Math.random().toString(36).substring(7),
+          "ownerId": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+          "description": description,
+          "fileName": "prep-file.png",
+          "fileType": "image/png",
+          "fileSize": 1048576,
+          "url": "https://t4.ftcdn.net/jpg/01/57/41/35/360_F_157413579_PqSOgnAlCgYCE0tU4OsHEydENvk3C9IR.jpg",
+          "thumbnail": "https://t4.ftcdn.net/jpg/01/57/41/35/360_F_157413579_PqSOgnAlCgYCE0tU4OsHEydENvk3C9IR.jpg",
+          "duration": 30.5,
+          "isProtected": false,
+          "isConverted": true,
+          "isChannel": false,
+          "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+          "nameConflict": "auto"
+      };
+  
+      await bru.sendRequest({
+          url: bru.getEnvVar("baseUrl") + "/api/contents",
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${bru.getEnvVar("bearer_token")}`
+          },
+          data: JSON.stringify(body)
+      }, async function(err, res) {
+          if (!err) {
+              const resJson = res.data;
+              bru.setEnvVar(varName, resJson.data.contentId);
+              console.log(`Saved ${varName}:`, resJson.data.contentId);
+          }
+      });
+  }
+  
+  // 3. Extract FIRST ID and trigger creation of 2nd and 3rd items
+  let response = res.getBody();
+  if (response.data && response.data.contentId) {
+      bru.setEnvVar("lastContentId", response.data.contentId);
+      
+      // Create item for Bulk Delete
+      createExtraContent("secondContentId", "Prep for Bulk Delete");
+      
+      // Create item for Single Delete
+      createExtraContent("thirdContentId", "Prep for Single Delete");
+  }
+}
+
+settings {
+  encodeUrl: true
+}

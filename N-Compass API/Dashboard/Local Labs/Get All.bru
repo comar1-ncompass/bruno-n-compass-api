@@ -1,0 +1,15 @@
+meta {
+  name: Get All
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/locallabs
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

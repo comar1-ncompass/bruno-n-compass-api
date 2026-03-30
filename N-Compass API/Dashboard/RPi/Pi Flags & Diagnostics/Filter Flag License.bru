@@ -1,0 +1,22 @@
+meta {
+  name: Filter Flag License
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/pi/flag/license/filter
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "pageNumber": 1,
+      "pageSize": 15
+  }
+}
+
+settings {
+  encodeUrl: true
+}

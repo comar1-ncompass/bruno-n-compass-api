@@ -1,0 +1,19 @@
+meta {
+  name: Get Playlist by Dealer
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/playlists/getplaylistbydealerid/minify?dealerid=49b7ff43-3728-437c-9d0b-87d1b6d26d33
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: 49b7ff43-3728-437c-9d0b-87d1b6d26d33
+}
+
+settings {
+  encodeUrl: true
+}

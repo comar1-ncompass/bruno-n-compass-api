@@ -1,0 +1,236 @@
+meta {
+  name: Create Screen
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/screen/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "screen": {
+          "screenName": "[API] Test Screen",
+          "description": "Screen created through API testing",
+          "screenTypeId": "59af2b80-7a3e-11eb-9439-0242ac130002",
+          "dealerid": "{{dealerId}}",
+          "hostid": "{{hostId}}",
+          "templateid": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+          "createdby": "333da0f4-8b31-4dd8-a61f-59bd98787714"
+      },
+      "screenZonePlaylists": [
+      {
+        "templateId": "e5d3f83b-6802-49b2-b765-ac70425be9be",
+        "templateZoneId": "1a6ef200-fd02-43e1-b9e9-0cc59e0327f6",
+        "playlistId": "e0410a60-91cf-481e-ae16-1f955d6662a0"
+      },
+      {
+        "templateId": "165e2ec5-cb9c-499b-b122-cd1e7ec6c012",
+        "templateZoneId": "8b260604-a293-4f5c-b6f2-cabbf4602135",
+        "playlistId": "faec83cc-ca5d-43c8-bf62-31665185b7a5"
+      },
+      {
+        "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+        "templateZoneId": "c36a106f-2271-4709-88ae-a3bccdb1f81d",
+        "playlistId": "5fdfdd42-7e47-4048-a6d0-c2773cd359a8"
+      },
+      {
+        "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+        "templateZoneId": "cd39dc92-8072-45a6-9a30-d9bd9a5e68e9",
+        "playlistId": "bc2e0264-ae60-43ff-aede-f89769f1dc93"
+      }
+    ],
+      "licenses": [
+          {
+              // Called from Single Host - Licenses Tab where it checks
+              // what license key is still not activated
+              "licenseId": "{{inactiveLicenseId}}"
+          }
+      ]
+  }
+}
+
+script:pre-request {
+  // Pre-request script for Screen Creation
+  // This script handles all preconditions in a simpler, more reliable way
+  
+  console.log("=== Starting Screen Creation Preconditions ===");
+  
+  // Get environment variables
+  const baseUrl = bru.getEnvVar("baseUrl") || "https://dev-api.n-compass.online";
+  const dealerId = bru.getEnvVar("dealerId") || "dcb88788-22c8-48e3-ac3f-6be98c75ab35";
+  const hostId = bru.getEnvVar("hostId") || "936ef7b7-469b-47dd-b3b2-373813b6d9a5";
+  
+  // Set defaults if not already set
+  bru.setEnvVar("baseUrl", baseUrl);
+  bru.setEnvVar("dealerId", dealerId);
+  bru.setEnvVar("hostId", hostId);
+  
+  console.log("Using values:");
+  console.log("- baseUrl:", baseUrl);
+  console.log("- dealerId:", dealerId);
+  console.log("- hostId:", hostId);
+  
+  // Counter for tracking async operations
+  let operationsCompleted = 0;
+  const totalOperations = 3;
+  
+  // Step 1: Find unused license
+  console.log("\n📋 Step 1: Finding unused license...");
+  const licenseUrl = `${baseUrl}/api/license/getbydealer?dealerId=${dealerId}&page=3&search=&arrangement=online&pageSize=15&pending=`;
+  
+  await bru.sendRequest({
+      url: licenseUrl,
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }, async function(err, response1) {
+      if (err) {
+          console.error("❌ Error getting licenses:", err);
+          return;
+      }
+  
+      response1.status;
+  
+      if (response1.status !== 200) {
+          response1.status;
+          return;
+      }
+  
+      const licenseData = response1.data;
+      console.log("License data received:", licenseData.paging ? `${licenseData.paging.entities.length} entities` : "No paging data");
+  
+      // Find unused license
+      let unusedLicense = null;
+      if (licenseData.paging && licenseData.paging.entities) {
+          unusedLicense = licenseData.paging.entities.find(entity => 
+              entity.screenId === null && entity.hostName === null
+          );
+          
+          const unusedCount = licenseData.paging.entities.filter(entity => 
+              entity.screenId === null && entity.hostName === null
+          ).length;
+          console.log(`Found ${unusedCount} unused licenses`);
+      }
+  
+      if (!unusedLicense) {
+          console.error("❌ No unused license found");
+          return;
+      }
+  
+      console.log("✅ Found unused license:", unusedLicense.licenseId);
+      bru.setEnvVar("foundUnusedLicenseId", unusedLicense.licenseId);
+  
+      operationsCompleted++;
+  
+      // Step 2: Assign license to host
+      console.log("\n🔗 Step 2: Assigning license to host...");
+      const assignUrl = `${baseUrl}/api/license/assignhost`;
+      const assignBody = {
+          "host": {
+              "hostid": hostId
+          },
+          "licenses": [
+              {
+                  "licenseid": unusedLicense.licenseId
+              }
+          ]
+      };
+  
+      await bru.sendRequest({
+          url: assignUrl,
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          data: JSON.stringify(assignBody)
+      }, async function(err, response2) {
+          if (err) {
+              console.error("❌ Error assigning license:", err);
+              return;
+          }
+  
+          response2.status;
+  
+          if (response2.status !== 200) {
+              response2.status;
+              console.log("Response:", response2.data);
+              return;
+          }
+  
+          console.log("✅ License assigned successfully");
+          operationsCompleted++;
+  
+          // Wait a moment for the assignment to process
+          setTimeout(() => {
+              // Step 3: Find inactive license
+              console.log("\n🔍 Step 3: Finding inactive assigned license...");
+              const hostLicenseUrl = `${baseUrl}/api/license/getbyhost?hostid=${hostId}`;
+              
+              await bru.sendRequest({
+                  url: hostLicenseUrl,
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              }, async function(err, response3) {
+                  if (err) {
+                      console.error("❌ Error getting host licenses:", err);
+                      return;
+                  }
+  
+                  response3.status;
+  
+                  if (response3.status !== 200) {
+                      response3.status;
+                      return;
+                  }
+  
+                  const hostLicenseData = response3.data;
+                  console.log("Host license data received:", hostLicenseData.paging ? `${hostLicenseData.paging.entities.length} entities` : "No paging data");
+  
+                  // Find inactive license
+                  let inactiveLicense = null;
+                  if (hostLicenseData.paging && hostLicenseData.paging.entities) {
+                      inactiveLicense = hostLicenseData.paging.entities.find(entity => entity.isActivated === 0);
+                      
+                      const inactiveCount = hostLicenseData.paging.entities.filter(entity => entity.isActivated === 0).length;
+                      console.log(`Found ${inactiveCount} inactive licenses`);
+                      
+                      // Debug: show all licenses
+                      console.log("All host licenses:");
+                      hostLicenseData.paging.entities.forEach((entity, index) => {
+                          console.log(`${index + 1}. ID: ${entity.licenseId}, isActivated: ${entity.isActivated}, screenId: ${entity.screenId}`);
+                      });
+                  }
+  
+                  if (!inactiveLicense) {
+                      console.error("❌ No inactive license found");
+                      // Fallback: use the license we just assigned
+                      console.log("🔄 Using fallback: the license we just assigned");
+                      bru.setEnvVar("inactiveLicenseId", unusedLicense.licenseId);
+                  } else {
+                      console.log("✅ Found inactive license:", inactiveLicense.licenseId);
+                      bru.setEnvVar("inactiveLicenseId", inactiveLicense.licenseId);
+                  }
+  
+                  operationsCompleted++;
+  
+                  console.log("\n🎉 === Preconditions Setup Complete ===");
+                  console.log("Final environment variables:");
+                  console.log("- foundUnusedLicenseId:", bru.getEnvVar("foundUnusedLicenseId"));
+                  console.log("- inactiveLicenseId:", bru.getEnvVar("inactiveLicenseId"));
+                  console.log("✅ Ready to create screen!");
+              });
+          }, 2000); // Wait 2 seconds for assignment to process
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Serp Search
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://fastedgeapidev.n-compass.online/nc/googleapi/searchplaces?place=chowking%20davao
+  body: none
+  auth: inherit
+}
+
+params:query {
+  place: chowking%20davao
+}
+
+headers {
+  accept: application/json
+  x-api-key: kIwFkm6nVF5qYvAQfYKjB6h516yA918w5m1COWZA
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl --request GET \
+    --url 'https://fastedgeapidev.n-compass.online/nc/googleapi/searchplaces?place=chowking%20davao' \
+    --header 'accept: application/json' \
+    --header 'x-api-key: kIwFkm6nVF5qYvAQfYKjB6h516yA918w5m1COWZA'
+}

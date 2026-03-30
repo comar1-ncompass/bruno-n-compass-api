@@ -1,0 +1,139 @@
+meta {
+  name: Search Host Place
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{fastEdgeGoogle}}?place=canada%20restaurant,%20United%20States
+  body: none
+  auth: inherit
+}
+
+params:query {
+  place: canada%20restaurant,%20United%20States
+}
+
+script:post-response {
+  // Post-request script (Tests tab)
+  console.log("Post-request script starting...");
+  
+  // First, check if the current response has the data we need
+  try {
+      const currentResponse = res.getBody();
+      console.log("Current response:", currentResponse);
+      
+      // If this request already returns the Google search data, use it directly
+      if (currentResponse && currentResponse.google_search) {
+          console.log("Using data from current response");
+          const extractedData = currentResponse.google_search.map(place => ({
+              placeId: place.placeId,
+              title: place.title,
+              type: place.type,
+              address: place.address,
+              latitude: place.latitude,
+              longitude: place.longitude
+          }));
+          
+          // Store the extracted data for use in subsequent requests
+          bru.setEnvVar("extractedPlaces", JSON.stringify(extractedData));
+          
+          if (extractedData.length > 0) {
+              bru.setEnvVar("host_placeId", extractedData[0].placeId);
+              bru.setEnvVar("host_name", extractedData[0].title);
+              bru.setEnvVar("host_category", extractedData[0].type);
+              bru.setEnvVar("host_address", extractedData[0].address);
+              bru.setEnvVar("host_latitude", extractedData[0].latitude);
+              bru.setEnvVar("host_longitude", extractedData[0].longitude);
+              
+              console.log("Variables set from current response:");
+              console.log("host_name:", bru.getEnvVar("host_name"));
+          }
+      } else {
+          // If current response doesn't have the data, make the API call
+          console.log("Making separate API call for Google data");
+          
+          await bru.sendRequest({
+              url: '{{fastEdgeGoogle}}?place=canada%20restaurant,%20United%20States',
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+              }
+          }, async function(err, response) {
+              if (err) {
+                  console.log("Error:", err);
+              } else {
+                  console.log("Google API response received");
+                  const responseJson = response.data;
+                  
+                  if (responseJson && responseJson.google_search && responseJson.google_search.length > 0) {
+                      const extractedData = responseJson.google_search.map(place => ({
+                          placeId: place.placeId,
+                          title: place.title,
+                          type: place.type,
+                          address: place.address,
+                          latitude: place.latitude,
+                          longitude: place.longitude
+                      }));
+                      
+                      bru.setEnvVar("extractedPlaces", JSON.stringify(extractedData));
+                      
+                      if (extractedData.length > 0) {
+                          bru.setEnvVar("host_placeId", extractedData[0].placeId);
+                          bru.setEnvVar("host_name", extractedData[0].title);
+                          bru.setEnvVar("host_category", extractedData[0].type);
+                          bru.setEnvVar("host_address", extractedData[0].address);
+                          bru.setEnvVar("host_latitude", extractedData[0].latitude);
+                          bru.setEnvVar("host_longitude", extractedData[0].longitude);
+                          
+                          console.log("Variables set from API call:");
+                          console.log("host_name:", bru.getEnvVar("host_name"));
+                      }
+                  }
+              }
+          });
+      }
+  } catch (error) {
+      console.log("Error processing response:", error);
+      
+      // Fallback: make the API call anyway
+      await bru.sendRequest({
+          url: '{{fastEdgeGoogle}}?place=canada%20restaurant,%20United%20States',
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      }, async function(err, response) {
+          if (err) {
+              console.log("Fallback API call error:", err);
+          } else {
+              const responseJson = response.data;
+              if (responseJson && responseJson.google_search && responseJson.google_search.length > 0) {
+                  const extractedData = responseJson.google_search.map(place => ({
+                      placeId: place.placeId,
+                      title: place.title,
+                      type: place.type,
+                      address: place.address,
+                      latitude: place.latitude,
+                      longitude: place.longitude
+                  }));
+                  
+                  bru.setEnvVar("extractedPlaces", JSON.stringify(extractedData));
+                  
+                  if (extractedData.length > 0) {
+                      bru.setEnvVar("host_placeId", extractedData[0].placeId);
+                      bru.setEnvVar("host_name", extractedData[0].title);
+                      bru.setEnvVar("host_category", extractedData[0].type);
+                      bru.setEnvVar("host_address", extractedData[0].address);
+                      bru.setEnvVar("host_latitude", extractedData[0].latitude);
+                      bru.setEnvVar("host_longitude", extractedData[0].longitude);
+                  }
+              }
+          }
+      });
+  }
+}
+
+settings {
+  encodeUrl: true
+}

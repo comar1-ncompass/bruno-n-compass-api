@@ -1,0 +1,138 @@
+meta {
+  name: Get All Notifications
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/notification/getall?page=1&pageSize=50
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 50
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Get All Notifications
+  
+  This endpoint retrieves a paginated list of notifications for the authenticated user. It allows clients to specify the page number and the number of notifications to return per page.
+  
+  #### Request Method
+  
+  `GET`
+  
+  #### Endpoint
+  
+  `https://dev-api.n-compass.online/api/notification/getall`
+  
+  #### Query Parameters
+  
+  - `page` (integer, required): The page number to retrieve. For example, `page=1` retrieves the first page of results.
+      
+  - `pageSize` (integer, required): The number of notifications to return per page. For example, `pageSize=50` requests up to 50 notifications.
+      
+  
+  #### Expected Response Format
+  
+  The response will be in JSON format and includes the following fields:
+  
+  - `hasPreviousPage` (boolean): Indicates if there is a previous page of notifications.
+      
+  - `hasNextPage` (boolean): Indicates if there is a next page of notifications.
+      
+  - `page` (integer): The current page number.
+      
+  - `pageSize` (integer): The number of notifications per page.
+      
+  - `pages` (integer): The total number of pages available.
+      
+  - `totalEntities` (integer): The total number of notifications available.
+      
+  - `pageStart` (integer): The starting index of the notifications on the current page.
+      
+  - `entities` (array): An array containing the notifications retrieved for the current page. This may be empty if there are no notifications.
+      
+  
+  #### Example Response
+  
+  ``` json
+  {
+    "hasPreviousPage": true,
+    "hasNextPage": true,
+    "page": 0,
+    "pageSize": 0,
+    "pages": 0,
+    "totalEntities": 0,
+    "pageStart": 0,
+    "entities": []
+  }
+  
+   ```
+  
+  This endpoint is designed to facilitate the retrieval of notifications in a structured and efficient manner, allowing clients to navigate through large sets of data easily.
+  
+  This endpoint retrieves a list of notifications from the server. It supports pagination through query parameters.
+  
+  #### Request Method
+  
+  - **GET**
+      
+  
+  #### Endpoint
+  
+  - `https://dev-api.n-compass.online/api/notification/getall`
+      
+  
+  #### Query Parameters
+  
+  - **page** (integer): The page number to retrieve. For example, `page=1` retrieves the first page of notifications.
+      
+  - **pageSize** (integer): The number of notifications to return per page. For example, `pageSize=50` requests up to 50 notifications.
+      
+  
+  #### Expected Response
+  
+  The response will be in JSON format and contains the following fields:
+  
+  - **hasPreviousPage** (boolean): Indicates if there is a previous page of notifications.
+      
+  - **hasNextPage** (boolean): Indicates if there is a next page of notifications.
+      
+  - **page** (integer): The current page number.
+      
+  - **pageSize** (integer): The number of notifications per page.
+      
+  - **pages** (integer): The total number of pages available.
+      
+  - **totalEntities** (integer): The total number of notifications available.
+      
+  - **pageStart** (integer): The starting index of the current page.
+      
+  - **entities** (array): An array containing the notifications for the current page. This may be empty if there are no notifications.
+      
+  
+  #### Example Response
+  
+  ``` json
+  {
+    "hasPreviousPage": true,
+    "hasNextPage": true,
+    "page": 0,
+    "pageSize": 0,
+    "pages": 0,
+    "totalEntities": 0,
+    "pageStart": 0,
+    "entities": []
+  }
+  
+   ```
+  
+  This response structure allows clients to understand the pagination status and retrieve the notifications accordingly.
+}

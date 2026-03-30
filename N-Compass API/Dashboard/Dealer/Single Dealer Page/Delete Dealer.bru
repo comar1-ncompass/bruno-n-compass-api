@@ -1,0 +1,94 @@
+meta {
+  name: Delete Dealer
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/dealer/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "dealerId": "1dc71dbd-82ca-4267-9b02-9921295edb6b",
+      "userId": "89470845-d21e-4877-8bff-ab193da5a733",
+      "retainContents": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Delete Dealer Endpoint
+  
+  This endpoint allows the user to delete a dealer from the system. It requires the dealer's unique identifier and the user ID of the person making the request. The `retainContents` parameter specifies whether to keep the contents associated with the dealer after deletion.
+  
+  ### Request
+  
+  - **Method**: POST
+      
+  - **URL**: `{{baseUrl}}/api/dealer/delete`
+      
+  - **Content-Type**: application/json
+      
+  
+  #### Request Body
+  
+  The request body must be in JSON format and contain the following parameters:
+  
+  | Parameter | Type | Description |
+  | --- | --- | --- |
+  | `dealerId` | string | The unique identifier of the dealer to be deleted. |
+  | `userId` | string | The unique identifier of the user making the request. |
+  | `retainContents` | boolean | Indicates whether to retain the contents associated with the dealer. |
+  
+  **Example Request Body:**
+  
+  ``` json
+  {
+    "dealerId": "1dc71dbd-82ca-4267-9b02-992129...",
+    "userId": "89470845-d21e-4877-8bff-ab193d...",
+    "retainContents": false
+  }
+  
+   ```
+  
+  ### Response
+  
+  Upon successful deletion, the API responds with a JSON object containing the following structure:
+  
+  | Parameter | Type | Description |
+  | --- | --- | --- |
+  | `status` | string | The status of the deletion request (e.g., success message). |
+  | `dealers` | object | An object containing details about the dealer, including: |
+  | `dealerId` | string | The unique identifier of the dealer (can be empty if deleted). |
+  | `userId` | string | The unique identifier of the user (can be empty if deleted). |
+  | `retainContents` | boolean | Indicates whether the contents were retained (true/false). |
+  
+  **Example Response:**
+  
+  ``` json
+  {
+    "status": "",
+    "dealers": {
+      "dealerId": "",
+      "userId": "",
+      "retainContents": true
+    }
+  }
+  
+   ```
+  
+  ### Status Codes
+  
+  - **200 OK**: The request was successful, and the dealer has been deleted.
+      
+  - Other status codes may indicate errors or issues with the request.
+      
+  
+  This endpoint is essential for managing dealer records within the application, ensuring that users can effectively remove dealers as needed.
+}

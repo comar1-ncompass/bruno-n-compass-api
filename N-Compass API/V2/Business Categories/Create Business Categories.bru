@@ -1,0 +1,30 @@
+meta {
+  name: Create Business Categories
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/business-categories
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "categoryId": "bbfef406-2c68-4422-a135-46ff7fae6729",
+      "categoryCode": "dimsum_place",
+      "categoryName": "Dimsum Place",
+      "parentCategoryId": "bda31fa2-7e9e-4a1d-b91d-29c63d236beb",
+      "description": "Asian dimsum eateries and specialized places.",
+      "metadata": "",
+      "createdAt": "2024-07-31T18:55:23.000Z",
+      "createdBy": "e6b25db1-bb76-4437-991a-005cf16246a7",
+      "updatedAt": "2024-07-31T18:55:23.000Z",
+      "updatedBy": "e6b25db1-bb76-4437-991a-005cf16246a7"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

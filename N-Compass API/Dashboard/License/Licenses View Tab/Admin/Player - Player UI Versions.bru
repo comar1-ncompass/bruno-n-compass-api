@@ -1,0 +1,202 @@
+meta {
+  name: Player > Player UI Versions
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=2.2.0&uiVersion=2.1.5&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 2.2.0
+  uiVersion: 2.1.5
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # API Endpoint: Get All Licenses in Player > Player UI Versions
+  
+  This endpoint retrieves a paginated list of licenses that are using a specific Player UI version. This is useful for identifying all devices with a particular UI version, which can be essential for troubleshooting, monitoring, or planning updates.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and sort the licenses.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  - **search** (string, optional): A search term to filter licenses.
+      
+  - **sortColumn** (string, required): The column to sort the results by (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, required): The order of sorting (`desc`).
+      
+  - **pageSize** (integer, required): The number of records per page (e.g., `15`).
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **serverVersion** (string, required): Filter for licenses with a specific player server version. For this request, the value is `2.2.0`.
+      
+  - **uiVersion** (string, required): Filter for licenses with a specific Player UI version. For this request, the value is `2.1.5`.
+      
+  - **piStatus** (string, optional): Filter licenses by their PI status.
+      
+  - **... (other optional parameters)**: Other optional parameters are left blank to broaden the search within the specified filters.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  The response returns a list of license objects that meet the filter criteria, along with pagination information and summary counts.
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "259d8f50-3c4c-424f-8b42-965dc3d3e715",
+              "licenseKey": "3d85c9f3-55b9-442b-af62-e5cd6ccae54d",
+              "macAddress": "e4:5f:01:03:ae:dd",
+              "isRegistered": 1,
+              "isActivated": 1,
+              "dealerId": "c5a74d9d-5c13-4e34-be75-e494d4ba651b",
+              "hostId": "cb07f3f1-04d1-445d-9348-11dd4d3c0bd7",
+              "dateCreated": "2021-06-15T10:15:17+00:00",
+              "internetType": "wlan0",
+              "internetSpeed": "Slow",
+              "memory": "2 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "81 %",
+              "dateUpdated": "2024-11-01T19:32:30+00:00",
+              "contentsUpdated": "2021-09-09T10:03:29+00:00",
+              "playerSocketId": null,
+              "piSocketId": "1LHXTFVI4WuJU16tAVF2",
+              "playerStatus": 0,
+              "piStatus": 0,
+              "sequence": null,
+              "alias": "License # 2",
+              "timeIn": "September 09, 2021, 10:03:33 AM",
+              "timeOut": "September 09, 2021, 2:12:15 PM",
+              "anydeskId": "975278739",
+              "appVersion":"{\"chromium\":\"88.0.4324.187\",\"electron\":\"0.2.6\",\"puppeteer\":\"0.0.1\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.4\\u20ac\",\"server\":\"2.2.0\",\"ui\":\"2.1.5\"}",
+              "playerUiKey": null,
+              "playerAssetServerKey": null,
+              "installDate": "2021-06-30T00:00:00",
+              "internetInfo": "{\"date\":\"Thu Sep 09 2021 10:02:41 GMT-0400 (Eastern Daylight Time)\",\"downloadMbps\":5.027736,\"ping\":44.433,\"uploadMbps\":0.67452}",
+              "screenshot": "",
+              "displayStatus": 0,
+              "serverVersion": "2.2.0",
+              "uiVersion": "2.1.5",
+              "screenshotSettings": 1,
+              "speedtestSettings": 1,
+              "displayControlSettings": 1,
+              "resourceSettings": 0,
+              "bootDelay": null,
+              "emailSettings": 1,
+              "notificationSettings": 1,
+              "tvDisplaySettings": null,
+              "rebootTime": null,
+              "isCecEnabled": null,
+              "isCecCtlEnabled": null,
+              "fastEdgeMonitoringTool": 0,
+              "tvBrand": null,
+              "publicIP": null,
+              "prevPublicIP": null,
+              "installRequestDate": null,
+              "backgroundImageUrl": null,
+              "enableUpdates": false,
+              "piLocalDateTime": null,
+              "businessName": "132-DIGI",
+              "hostName": "Zona Caffe",
+              "templateName": "NCT Standard Template",
+              "screenName": "004 Zona Caffe",
+              "screenType": "ad",
+              "hostAddress": "9401 Jane St",
+              "category": "Cafe",
+              "storeHours": "[{\"id\":1,\"label\":\"M\",\"day\":\"Monday\",\"periods\":[{\"id\":\"6585d83f-8bb8-494b-8b90-1739a2e9b750\",\"day_id\":1,\"open\":\"6:30 AM\",\"close\":\"6:00 PM\"}],\"status\":true},{\"id\":2,\"label\":\"T\",\"day\":\"Tuesday\",\"periods\":[{\"id\":\"bdcb0493-2f43-4272-9c6b-382d3bd35d63\",\"day_id\":2,\"open\":\"6:30 AM\",\"close\":\"6:00 PM\"}],\"status\":true},{\"id\":3,\"label\":\"W\",\"day\":\"Wednesday\",\"periods\":[{\"id\":\"7340fb2d-e8d4-4350-aa5b-6f5a96bfee58\",\"day_id\":3,\"open\":\"6:30 AM\",\"close\":\"6:00 PM\"}],\"status\":true},{\"id\":4,\"label\":\"Th\",\"day\":\"Thursday\",\"periods\":[{\"id\":\"187193a2-1a8e-4254-bd2f-4227a18aee15\",\"day_id\":4,\"open\":\"6:30 AM\",\"close\":\"6:00 PM\"}],\"status\":true},{\"id\":5,\"label\":\"F\",\"day\":\"Friday\",\"periods\":[{\"id\":\"b4752901-6ffc-4ff3-ba6b-97e7f40bd1b2\",\"day_id\":5,\"open\":\"6:30 AM\",\"close\":\"6:00 PM\"}],\"status\":true},{\"id\":6,\"label\":\"St\",\"day\":\"Saturday\",\"periods\":[{\"id\":\"1b233b33-aa06-4687-9fb6-309665592c9c\",\"day_id\":6,\"open\":\"7:30 AM\",\"close\":\"5:00 PM\"}],\"status\":true},{\"id\":0,\"label\":\"Sn\",\"day\":\"Sunday\",\"periods\":[{\"id\":\"f53f29b1-b549-4e22-a4e9-7ce39e4b8d71\",\"day_id\":0,\"open\":\"7:00 AM\",\"close\":\"2:00 PM\"}],\"status\":true}]",
+              "screenId": "d7698833-1750-4f9e-8552-5ba8b896d133",
+              "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+              "timezoneName": "US/Eastern",
+              "startDate": "05/08/2018 00:00:00",
+              "dealerStatus": "A",
+              "offlineDays": 1421,
+              "installedDays": 1493,
+              "isFavorite": false,
+              "licenseFavoriteId": null,
+              "screenshotUrl": "",
+              "uploadSpeed": 0.67452,
+              "downloadSpeed": 5.027736,
+              "tags": null
+          },
+          // ... (remaining licenses with serverVersion 2.2.0 and uiVersion 2.1.5)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 1,
+          "totalEntities": 3,
+          "pageStart": 1,
+          "entities": [
+              // ... (duplicate of licenses array)
+          ]
+      },
+      "totalCounts": {
+          "total": 3,
+          "totalOnline": 0,
+          "totalOffline": 1,
+          "totalInActive": 2,
+          "totalUnAssigned": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

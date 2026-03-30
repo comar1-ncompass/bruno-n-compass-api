@@ -1,0 +1,65 @@
+meta {
+  name: Get License Installation Checklist
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/installationchecklists/getlicensechecklist?licenseid=de5796ea-b0ea-405d-95ab-3bccde81f19c
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseid: de5796ea-b0ea-405d-95ab-3bccde81f19c
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get License Installation Checklist
+  
+  This endpoint retrieves the specific installation checklist items that have been completed for a given license ID. It is used to track the installation progress for a particular device.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/installationchecklists/getlicensechecklist`
+  
+  ---
+  
+  #### Query Parameters
+  
+  - **licenseid** (string, required): The unique identifier of the license to retrieve installation checklists for. In this case, `de5796ea-b0ea-405d-95ab-3bccde81f19c`.
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response returns a JSON object with a single array, `checkLists`, which contains the installation checklists for the specified license. In this example, the array is empty, which indicates that no checklist items have been completed for this license.
+  
+  JSON
+  
+  ```
+  {
+      "checkLists": []
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

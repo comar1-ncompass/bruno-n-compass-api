@@ -1,0 +1,72 @@
+meta {
+  name: Get All Dealer Activity Logs
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/dealeractivitylog/getall?ownerId={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ownerId: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Get Dealer Activity Log
+  
+  This endpoint retrieves a list of dealer activity logs associated with a specific dealer identified by the `ownerId` parameter.
+  
+  #### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/dealeractivitylog/getall`
+      
+  - **Query Parameters:**
+      
+      - `ownerId` (required): The unique identifier for the dealer whose activity logs are being requested.
+          
+  
+  #### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  - { "paging": { "hasPreviousPage": true, "hasNextPage": true, "page": 0, "pageSize": 0, "pages": 0, "totalEntities": 0, "pageStart": 0, "entities": \[\] }}
+      
+  
+  #### Response Details:
+  
+  - The response contains a `paging` object that provides information about the pagination of the results:
+      
+      - `hasPreviousPage`: Indicates if there is a previous page of results.
+          
+      - `hasNextPage`: Indicates if there is a next page of results.
+          
+      - `page`: The current page number.
+          
+      - `pageSize`: The number of entries per page.
+          
+      - `pages`: The total number of pages available.
+          
+      - `totalEntities`: The total number of activity log entries.
+          
+      - `pageStart`: The starting index of the current page.
+          
+      - `entities`: An array that contains the actual activity log entries (empty in this example).
+          
+  
+  #### Notes:
+  
+  - Ensure that the `ownerId` is valid to retrieve the corresponding activity logs.
+      
+  - The response will include pagination details even if there are no logs available.
+}

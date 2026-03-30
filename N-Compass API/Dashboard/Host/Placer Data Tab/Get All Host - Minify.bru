@@ -1,0 +1,77 @@
+meta {
+  name: Get All Host - Minify
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/host/minify?pageSize=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageSize: 0
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Minify Hosts
+  
+  This endpoint retrieves a paginated list of hosts from the API. It allows clients to request host data with specific pagination settings.
+  
+  #### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `https://dev-api.n-compass.online/api/host/minify`
+      
+  - **Query Parameters:**
+      
+      - `pageSize` (integer): Specifies the number of host records to return per page. A value of `0` indicates that no records will be returned.
+          
+  
+  #### Response
+  
+  Upon a successful request, the response will return a JSON object structured as follows:
+  
+  - **paging** (object): Contains pagination information.
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page of results.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page of results.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The number of records requested per page.
+          
+      - **pages** (integer): The total number of pages available.
+          
+      - **totalEntities** (integer): The total number of entities available.
+          
+      - **pageStart** (integer): The starting index of the current page.
+          
+      - **entities** (array): An array of host objects, each containing:
+          
+          - **hostId** (string): Unique identifier for the host.
+              
+          - **name** (string): Name of the host.
+              
+          - **address** (string): Address of the host.
+              
+          - **city** (string): City where the host is located.
+              
+          - **longitude** (string): Longitude coordinate of the host's location.
+              
+          - **latitude** (string): Latitude coordinate of the host's location.
+              
+          - **programmaticId** (string): Identifier used for programmatic advertising.
+              
+          - **dateCreated** (string): Timestamp of when the host was created.
+              
+  
+  This endpoint is useful for applications that need to display or manage host data efficiently by implementing pagination.
+}

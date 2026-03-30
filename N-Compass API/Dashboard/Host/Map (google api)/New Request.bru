@@ -1,0 +1,19 @@
+meta {
+  name: New Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/googleapi/getstorehours?placeid=ChIJk27u97Jn7ogRytiMqEdj-XQ
+  body: none
+  auth: inherit
+}
+
+params:query {
+  placeid: ChIJk27u97Jn7ogRytiMqEdj-XQ
+}
+
+settings {
+  encodeUrl: true
+}

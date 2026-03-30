@@ -1,0 +1,22 @@
+meta {
+  name: Get Host Files by Type
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/Host/GetHostFilesByType?hostId=1ecdc863-820e-48d6-b2b0-5d633cf9c0a7&type=55&page=1&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  hostId: 1ecdc863-820e-48d6-b2b0-5d633cf9c0a7
+  type: 55
+  page: 1
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}

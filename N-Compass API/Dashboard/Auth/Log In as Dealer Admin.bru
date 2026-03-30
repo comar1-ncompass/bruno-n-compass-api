@@ -1,0 +1,39 @@
+meta {
+  name: Log In as Dealer Admin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/account/login
+  body: json
+  auth: bearer
+}
+
+params:query {
+  ~email: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "username": "test-bot@dealer-admin.com",
+      "password": "lhnRW?324r|{"
+  }
+}
+
+script:post-response {
+  test('Token is set', () => {
+      const response = res.getBody();
+      bru.setEnvVar('bearer_token', response.token);
+      const tokenNow = bru.getEnvVar('bearer_token');
+      expect(response.token).to.equal(tokenNow);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

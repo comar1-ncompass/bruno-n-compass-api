@@ -1,0 +1,113 @@
+meta {
+  name: Get License by Dealer
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/license/getbydealer?dealerId=f3db7f9f-ed57-46ae-b34b-7415cdea97dd
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: f3db7f9f-ed57-46ae-b34b-7415cdea97dd
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Licenses by Dealer
+  
+  This endpoint retrieves license information associated with a specific dealer. It allows users to filter and paginate through the licenses based on various optional parameters.
+  
+  ### Request Parameters
+  
+  The following query parameters can be included in the request:
+  
+  - **dealerId** (string, required): The unique identifier of the dealer for whom the licenses are being requested.
+      
+  - **page** (integer, optional): The page number for pagination. Default is 1.
+      
+  - **search** (string, optional): A search term to filter the licenses.
+      
+  - **sortColumn** (string, optional): The column by which to sort the results.
+      
+  - **sortOrder** (string, optional): The order of sorting (ascending or descending).
+      
+  - **pageSize** (integer, optional): The number of results per page. Default is 15.
+      
+  - **piStatus** (string, optional): Filter by the status of the licenses.
+      
+  - **daysOfflineFrom** (integer, optional): Filter licenses that have been offline for a specified number of days from this value.
+      
+  - **daysOfflineTo** (integer, optional): Filter licenses that have been offline for a specified number of days to this value.
+      
+  - **active** (boolean, optional): Filter to include only active licenses.
+      
+  - **daysInstalled** (integer, optional): Filter licenses based on the number of days since installation.
+      
+  - **timezone** (string, optional): The timezone to be considered for the results.
+      
+  - **hostId** (string, optional): Filter by the ID of the host.
+      
+  - **assigned** (boolean, optional): Filter to include only assigned licenses.
+      
+  - **pending** (boolean, optional): Filter to include only pending licenses.
+      
+  - **online** (boolean, optional): Filter to include only online licenses.
+      
+  - **isActivated** (boolean, optional): Filter to include only activated licenses.
+      
+  - **isFavorite** (boolean, optional): Filter to include only favorite licenses.
+      
+  - **serverVersion** (string, optional): The version of the server to filter results.
+      
+  - **uiVersion** (string, optional): The version of the UI to filter results.
+      
+  
+  ### Response Structure
+  
+  Upon a successful request, the response will include:
+  
+  - **paging** (object): Contains pagination details.
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The number of results per page.
+          
+      - **pages** (integer): Total number of pages available.
+          
+      - **totalEntities** (integer): Total number of entities available.
+          
+      - **pageStart** (integer): The starting index of the current page.
+          
+  - **licenses** (array): A list of license objects associated with the dealer. This array may be empty if no licenses are found.
+      
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0
+    },
+    "licenses": []
+  }
+  
+   ```
+  
+  This endpoint is essential for managing and retrieving license data efficiently based on dealer-specific criteria.
+}

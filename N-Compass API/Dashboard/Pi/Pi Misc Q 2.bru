@@ -1,0 +1,22 @@
+meta {
+  name: Pi Misc Q 2
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/pi/miscellaneous/q
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "licenseId": "a9f4e744-fdb6-484a-bda8-17eff2f61f05",
+      "monitorStatus": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

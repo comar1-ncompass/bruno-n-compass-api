@@ -1,0 +1,52 @@
+meta {
+  name: Bulk Delete
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/programmatic/vendor/bulkdelete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "ids": [
+          
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### POST /programmatic/bulkdelete
+  
+  This endpoint is used to perform a bulk delete operation for multiple items.
+  
+  #### Request Body
+  
+  - `ids` (array): An array of item IDs to be deleted.
+      
+  
+  #### Response
+  
+  - Status: 400
+      
+  - Content-Type: application/problem+json
+      
+  - `errors` (object): An object containing error details.
+      - `ids` (array): An array of error messages related to the item IDs.
+          
+  - `title` (string): A title for the error.
+      
+  - `status` (number): The status code of the error.
+      
+  - `traceId` (string): A unique identifier for tracing the error.
+      
+  
+  The last call to this endpoint with an empty `ids` array in the request body returned a 400 status with error details in the response.
+}

@@ -1,0 +1,47 @@
+meta {
+  name: Get License by Host
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/license/getbyhost?hostid={{hostId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  hostid: {{hostId}}
+}
+
+script:post-response {
+  // Parse the response JSON
+  const responseJson = res.getBody();
+  
+  // Find the first license with isActivated: 0
+  const firstInactiveLicense = responseJson.paging.entities.find(entity => entity.isActivated === 0);
+  
+  if (firstInactiveLicense) {
+      console.log("Found first inactive license:", firstInactiveLicense);
+      
+      // Set the licenseId as an environment variable
+      bru.setEnvVar("inactiveLicenseId", firstInactiveLicense.licenseId);
+      console.log("Set environment variable 'inactiveLicenseId' to:", firstInactiveLicense.licenseId);
+  } else {
+      console.log("No inactive license found.");
+  }
+  
+  // Alternative search in licenses array, if needed
+  const firstInactiveLicenseInLicenses = responseJson.licenses.find(license => license.isActivated === 0);
+  
+  if (firstInactiveLicenseInLicenses) {
+      console.log("Found first inactive license in licenses array:", firstInactiveLicenseInLicenses);
+      
+      // Set additional variables if needed
+      bru.setEnvVar("inactiveLicenseIdFromLicenses", firstInactiveLicenseInLicenses.licenseId);
+  }
+}
+
+settings {
+  encodeUrl: true
+}

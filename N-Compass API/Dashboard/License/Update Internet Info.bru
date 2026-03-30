@@ -1,0 +1,28 @@
+meta {
+  name: Update Internet Info
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/license/updateinternetinfo
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "licenseId": "94ae9daa-9ba0-4414-b20b-c3f153f291df",
+      "internetInfo": {
+          "date": "Thu Sep 26 2024 22:20:54 GMT-0500 (Central Daylight Time)",
+          "ping": 69.261,
+          "uploadMbps": 2.969368,
+          "downloadMbps": 30.397528
+      },
+      "internetSpeed": "Good"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

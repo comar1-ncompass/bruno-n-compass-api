@@ -1,0 +1,23 @@
+meta {
+  name: Clone Playlist
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/playlists/clone
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlistId": "42a17241-1b0a-4e51-90cd-f805800c786e",
+      "playlistName": "zzxxcvvb",
+      "playlistDescription": "asdasdasdasd"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

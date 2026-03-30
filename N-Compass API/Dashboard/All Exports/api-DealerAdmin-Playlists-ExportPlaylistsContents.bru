@@ -1,0 +1,30 @@
+meta {
+  name: /api/DealerAdmin/Playlists/ExportPlaylistsContents
+  type: http
+  seq: 29
+}
+
+get {
+  url: {{baseUrl}}/api/DealerAdmin/Playlists/ExportPlaylistsContents?playlistId=04d8394c-777e-41c9-b5c2-024c57e0f3fc
+  body: json
+  auth: inherit
+}
+
+params:query {
+  playlistId: 04d8394c-777e-41c9-b5c2-024c57e0f3fc
+}
+
+body:json {
+  {
+      "dealerid": "136ce61b-8c69-4723-95f3-45600090cf8b",
+      "from": "2026-01-01",
+      "to": "2026-02-16",
+      "pageSize": 10,
+      "page": 1,
+      "contenttitle": ""
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,119 @@
+meta {
+  name: Get All Purchases
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/billing/get/all/purchases
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Get All Purchases
+  
+  This endpoint retrieves a list of all purchases associated with the billing records. It is a **GET** request made to the path `{{baseUrl}}/api/billing/get/all/purchases`.
+  
+  ## Request Method
+  
+  - **GET**
+      
+  
+  ## Endpoint
+  
+  - `{{baseUrl}}/api/billing/get/all/purchases`
+      
+  
+  ## Response Format
+  
+  The response will be in JSON format and includes two main components: `purchases` and `paging`.
+  
+  ### Response Fields
+  
+  - **purchases**: An array of purchase objects, each containing the following fields:
+      
+      - `dealerId`: (string) Identifier for the dealer.
+          
+      - `dealerAlias`: (string) Alias for the dealer.
+          
+      - `businessName`: (string) Name of the business.
+          
+      - `orderNo`: (string) Order number associated with the purchase.
+          
+      - `date`: (string) Date of the purchase.
+          
+      - `description`: (string) Description of the purchase.
+          
+      - `status`: (string) Current status of the purchase.
+          
+      - `receiptUrl`: (string) URL to the receipt of the purchase.
+          
+      - `quantity`: (string) Quantity of items purchased.
+          
+      - `hasViewed`: (integer) Indicator of whether the purchase has been viewed (0 for no, 1 for yes).
+          
+  - **paging**: An object that contains pagination information:
+      
+      - `hasPreviousPage`: (boolean) Indicates if there is a previous page of results.
+          
+      - `hasNextPage`: (boolean) Indicates if there is a next page of results.
+          
+      - `page`: (integer) Current page number.
+          
+      - `pageSize`: (integer) Number of items per page.
+          
+      - `pages`: (integer) Total number of pages available.
+          
+      - `totalEntities`: (integer) Total number of purchase entities.
+          
+      - `pageStart`: (integer) Starting index of the current page.
+          
+      - `entities`: An array of purchase objects similar to the `purchases` field.
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "purchases": [{
+      "dealerId": "",
+      "dealerAlias": "",
+      "businessName": "",
+      "orderNo": "",
+      "date": "",
+      "description": "",
+      "status": "",
+      "receiptUrl": "",
+      "quantity": "",
+      "hasViewed": 0
+    }],
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0,
+      "entities": [{
+        "dealerId": "",
+        "dealerAlias": "",
+        "businessName": "",
+        "orderNo": "",
+        "date": "",
+        "description": "",
+        "status": "",
+        "receiptUrl": "",
+        "quantity": "",
+        "hasViewed": 0
+      }]
+    }
+  }
+  
+   ```
+}

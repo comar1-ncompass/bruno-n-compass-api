@@ -1,0 +1,37 @@
+meta {
+  name: Get All Vendors
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/programmatic/vendor?sortColumn=
+  body: json
+  auth: inherit
+}
+
+params:query {
+  sortColumn: 
+}
+
+body:json {
+  {
+      "name": "Test Vendor",
+      "description": "asdadad",
+      "apiUrl": "asdasdas.com",
+      "programmaticKeyValues": [
+          {
+              "key": "id",
+              "value": "1232131"
+          },
+          {
+              "key": "apiKey",
+              "value": "asdasdzxc123"
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

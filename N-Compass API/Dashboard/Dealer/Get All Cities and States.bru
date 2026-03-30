@@ -1,0 +1,113 @@
+meta {
+  name: Get All Cities and States
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/citiesStateData/getall
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get All Cities State Data
+  
+  This endpoint retrieves a list of all cities along with their associated state data. It is useful for obtaining a comprehensive overview of city information within the system.
+  
+  ### Request Method
+  
+  - **GET**
+      
+  
+  ### Endpoint
+  
+  - `{{baseUrl}}/api/citiesStateData/getall`
+      
+  
+  ### Request Parameters
+  
+  This endpoint does not require any query parameters.
+  
+  ### Expected Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  
+  #### Response Structure
+  
+  The response will contain the following structure:
+  
+  - **paging**: An object that provides pagination information.
+      
+      - **totalCount**: The total number of cities available.
+          
+      - **pageSize**: The number of cities per page.
+          
+      - **currentPage**: The current page number.
+          
+      - **pages**: The total number of pages available.
+          
+  - **data**: An array of city objects, where each object contains:
+      
+      - **id**: The unique identifier for the city.
+          
+      - **city**: The name of the city.
+          
+      - **abbreviation**: The abbreviation for the city.
+          
+      - **state**: The state in which the city is located.
+          
+      - **region**: The region of the city.
+          
+      - **country**: The country of the city.
+          
+      - **isManuallyAdded**: A boolean indicating if the city was manually added.
+          
+      - **dateCreated**: The date the city entry was created.
+          
+      - **dateUpdated**: The date the city entry was last updated (if applicable).
+          
+      - **createdBy**: The identifier of the user who created the city entry (if applicable).
+          
+      - **updatedBy**: The identifier of the user who last updated the city entry (if applicable).
+          
+      - **status**: The status of the city entry (if applicable).
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "paging": {
+      "totalCount": 0,
+      "pageSize": 0,
+      "currentPage": 0,
+      "pages": 0
+    },
+    "data": [
+      {
+        "id": 0,
+        "city": "",
+        "abbreviation": "",
+        "state": "",
+        "region": "",
+        "country": "",
+        "isManuallyAdded": true,
+        "dateCreated": "",
+        "dateUpdated": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "status": null
+      }
+    ]
+  }
+  
+   ```
+}

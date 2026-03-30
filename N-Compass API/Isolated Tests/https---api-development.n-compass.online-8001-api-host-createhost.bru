@@ -1,0 +1,66 @@
+meta {
+  name: https://api-development.n-compass.online:8001/api/host/createhost
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api-development.n-compass.online:8001/api/host/createhost
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.5.1
+}
+
+body:json {
+  {
+      "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+      "businessName": "[API] Test Suite Host",
+      "createdBy": "333da0f4-8b31-4dd8-a61f-59bd98787714",
+      "latitude": 39.4583795,
+      "longitude": -76.6374968,
+      "address": "15 Texas Station Ct",
+      "city": "Lutherville Timonium",
+      "state": "MD",
+      "postalCode": "12345",
+      "region": "NE",
+      "storeHours": "[{\"id\":1,\"label\":\"M\",\"day\":\"Monday\",\"periods\":[{\"id\":\"0871960e-6011-499c-aa44-54e6c674c17d\",\"day_id\":1,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":2,\"label\":\"T\",\"day\":\"Tuesday\",\"periods\":[{\"id\":\"5b7d827a-7f86-4d21-a177-33820c76b5d5\",\"day_id\":2,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":3,\"label\":\"W\",\"day\":\"Wednesday\",\"periods\":[{\"id\":\"61ad4b47-6570-4b7b-94ac-02532a576ee5\",\"day_id\":3,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":4,\"label\":\"Th\",\"day\":\"Thursday\",\"periods\":[{\"id\":\"868db470-58cc-4238-90a6-4ade941c47db\",\"day_id\":4,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":5,\"label\":\"F\",\"day\":\"Friday\",\"periods\":[{\"id\":\"2ac9fb13-accb-418a-ac94-5a9f73f4eb2e\",\"day_id\":5,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":6,\"label\":\"St\",\"day\":\"Saturday\",\"periods\":[{\"id\":\"9c01c5e7-285d-4264-8f10-5c410e001804\",\"day_id\":6,\"open\":\"9:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":9,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":0,\"label\":\"Sn\",\"day\":\"Sunday\",\"periods\":[{\"id\":\"138779a5-eaa4-4402-80f3-75949a946526\",\"day_id\":0,\"open\":\"10:00 AM\",\"close\":\"6:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":18,\"minute\":0,\"second\":0}}],\"status\":true}]",
+      "category": "Warehouse Club",
+      "timezone": "42c4bbb1-d9ee-4511-a164-32b93c84db56",
+      "logo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npPZcMnHLGHbh2VynC-Qp-W5yitXAAsASwaMv77fGmEMGESImHXP3qHhRnm_SfXDhZAJsF70AMRguGH96YvqPXbg17Sl-uvtkYv_StxGSsFtEVmX9Jp0wnIj1p3Z88b8UDjEFE=w152-h86-k-no",
+      "contactPerson": "Brian Miller",
+      "contactNumber": "0912345678"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl --request POST \
+    --url https://api-development.n-compass.online:8001/api/host/createhost \
+    --header 'Content-Type: application/json' \
+    --header 'User-Agent: insomnia/8.5.1' \
+    --data '{
+      "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+      "businessName": "[API] Test Suite Host",
+      "createdBy": "333da0f4-8b31-4dd8-a61f-59bd98787714",
+      "latitude": 39.4583795,
+      "longitude": -76.6374968,
+      "address": "15 Texas Station Ct",
+      "city": "Lutherville Timonium",
+      "state": "MD",
+      "postalCode": "12345",
+      "region": "NE",
+      "storeHours": "[{\"id\":1,\"label\":\"M\",\"day\":\"Monday\",\"periods\":[{\"id\":\"0871960e-6011-499c-aa44-54e6c674c17d\",\"day_id\":1,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":2,\"label\":\"T\",\"day\":\"Tuesday\",\"periods\":[{\"id\":\"5b7d827a-7f86-4d21-a177-33820c76b5d5\",\"day_id\":2,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":3,\"label\":\"W\",\"day\":\"Wednesday\",\"periods\":[{\"id\":\"61ad4b47-6570-4b7b-94ac-02532a576ee5\",\"day_id\":3,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":4,\"label\":\"Th\",\"day\":\"Thursday\",\"periods\":[{\"id\":\"868db470-58cc-4238-90a6-4ade941c47db\",\"day_id\":4,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":5,\"label\":\"F\",\"day\":\"Friday\",\"periods\":[{\"id\":\"2ac9fb13-accb-418a-ac94-5a9f73f4eb2e\",\"day_id\":5,\"open\":\"10:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":6,\"label\":\"St\",\"day\":\"Saturday\",\"periods\":[{\"id\":\"9c01c5e7-285d-4264-8f10-5c410e001804\",\"day_id\":6,\"open\":\"9:00 AM\",\"close\":\"8:00 PM\",\"openingHourData\":{\"hour\":9,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":20,\"minute\":0,\"second\":0}}],\"status\":true},{\"id\":0,\"label\":\"Sn\",\"day\":\"Sunday\",\"periods\":[{\"id\":\"138779a5-eaa4-4402-80f3-75949a946526\",\"day_id\":0,\"open\":\"10:00 AM\",\"close\":\"6:00 PM\",\"openingHourData\":{\"hour\":10,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":18,\"minute\":0,\"second\":0}}],\"status\":true}]",
+      "category": "Warehouse Club",
+      "timezone": "42c4bbb1-d9ee-4511-a164-32b93c84db56",
+      "logo": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npPZcMnHLGHbh2VynC-Qp-W5yitXAAsASwaMv77fGmEMGESImHXP3qHhRnm_SfXDhZAJsF70AMRguGH96YvqPXbg17Sl-uvtkYv_StxGSsFtEVmX9Jp0wnIj1p3Z88b8UDjEFE=w152-h86-k-no",
+      "contactPerson": "Brian Miller",
+      "contactNumber": "0912345678"
+  }'
+}

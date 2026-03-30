@@ -1,0 +1,38 @@
+meta {
+  name: Create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/license/create?dealerId=11111111111&licensecount=2
+  body: text
+  auth: inherit
+}
+
+params:query {
+  dealerId: 11111111111
+  licensecount: 2
+}
+
+body:text {
+  {
+      "name": "Test Vendor",
+      "description": "asdadad",
+      "apiUrl": "asdasdas.com",
+      "programmaticKeyValues": [
+          {
+              "key": "id",
+              "value": "1232131"
+          },
+          {
+              "key": "apiKey",
+              "value": "asdasdzxc123"
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

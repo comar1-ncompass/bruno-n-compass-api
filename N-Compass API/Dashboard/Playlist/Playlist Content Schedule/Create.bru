@@ -1,0 +1,27 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/API/PlaylistContentsSchedule/Create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlistContentId": "41bedcd3-713b-4cd5-93b5-3c5f1c10280f",
+      "type": 2,
+      "from": "2020-02-01",
+      "to": "2020-02-02",
+      "days": "1,2,3",
+      "playtimeStart": "09:00 AM",
+      "playTimeEnd": "11:00 AM"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get All Timezone
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/timezone/getall
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

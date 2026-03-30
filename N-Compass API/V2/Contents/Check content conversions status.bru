@@ -1,0 +1,39 @@
+meta {
+  name: Check content conversions status
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/contents/{{lastContentId}}/conversion-status
+  body: none
+  auth: inherit
+}
+
+headers {
+  Content-Type: text/plain
+  Authorization: Bearer {{bearer_token}}
+}
+
+script:post-response {
+  // 1. Status code is 200
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  // 2. Response time is acceptable
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

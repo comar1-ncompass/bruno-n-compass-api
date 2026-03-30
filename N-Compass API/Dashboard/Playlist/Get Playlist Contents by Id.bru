@@ -1,0 +1,21 @@
+meta {
+  name: Get Playlist Contents by Id
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/playlistsv2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~playlistid: b513c85d-fce0-4a52-a7ac-37dca76bb976
+  ~test: 333333333333
+  ~1: 1
+}
+
+settings {
+  encodeUrl: true
+}
