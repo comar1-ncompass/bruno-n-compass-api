@@ -1,0 +1,87 @@
+meta {
+  name: Client-Information Create
+  type: graphql
+  seq: 18
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    createClientInformation(input: {
+      clientTypeId: "1d0af283-14e4-42f2-a00c-a098df3f03df"
+      businessName: "Acme Corp"
+      contactPerson: "Jane Doe"
+      contactNumber: "+15551234567"
+      region: "West Coast"
+      state: "California"
+      city: "Los Angeles"
+      address: "123 Elm Street"
+      zip: "90001"
+      alias: "ACME-LAX"
+      dateActivated: "2025-04-01"
+      logoUrl: "https://example.com/logo.png"
+      metadata: "{\"vertical\":\"automotive\",\"priority\":\"high\"}"
+    }) {
+      clientInformationId
+      clientTypeId
+      businessName
+      contactPerson
+      contactNumber
+      region
+      state
+      city
+      address
+      zip
+      alias
+      dateActivated
+      logoUrl
+      metadata
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

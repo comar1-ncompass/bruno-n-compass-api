@@ -1,0 +1,78 @@
+meta {
+  name: Statuses Get
+  type: graphql
+  seq: 9
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  query {
+    getStatuses(
+      queryOptions: {
+        page: 1,
+        limit: 10,
+        sortBy: "createdAt",       # or "statusLabel", etc.
+        sortOrder: "DESC",
+        filters: "" # optional JSON stringified filter
+      }
+    ) {
+      data {
+        statusId
+        statusLabel
+        description
+        createdAt
+        updatedAt
+      }
+      meta {
+        totalCount
+        totalPages
+        page
+        limit
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

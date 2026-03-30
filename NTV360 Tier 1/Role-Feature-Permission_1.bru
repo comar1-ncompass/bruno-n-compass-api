@@ -1,0 +1,28 @@
+meta {
+  name: Role-Feature-Permission_1
+  type: http
+  seq: 66
+}
+
+post {
+  url: {{API_URL}}/role-feature-permissions
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "organizationId": "b66b0b12-c025-4877-99b1-8018825ee424",
+      "roleId": "441732fe-c661-4576-9324-7287e6ddf28b",
+      "permissionId": "45907cc8-afbf-4050-a829-6e1d86adca1c",
+      "featureId": "907aad90-ffa1-4c27-b413-6b89c9f557db"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

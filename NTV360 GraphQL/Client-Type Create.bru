@@ -1,0 +1,67 @@
+meta {
+  name: Client-Type Create
+  type: graphql
+  seq: 22
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    createClientType(input: {
+      clientTypeCode: "seller"
+      clientTypeName: "Seller"
+      organizationId: "31534e64-0d6b-411a-bc60-adc900a5ec2c"
+      createdBy: "633866de-c7ec-4b34-967d-db88b0e1fad2"
+    }) {
+      clientTypeId
+      clientTypeCode
+      clientTypeName
+      organizationId
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

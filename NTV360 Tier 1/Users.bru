@@ -1,0 +1,57 @@
+meta {
+  name: Users
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{API_URL}}/users/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "username": "lester",
+      "emailAddress": "lester@hello.com",
+      "firstName": "Lester",
+      "lastName": "Pogi",
+      "contactNumber": "1234567890",
+      "statusId": 1,
+      "password": "qwerty123@A",
+      "passwordConfirmation": "qwerty123@A",
+      "organizationIdSignin": "5170b521-07cd-4c7a-a837-293d85ef6d70"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

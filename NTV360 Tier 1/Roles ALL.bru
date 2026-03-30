@@ -1,0 +1,19 @@
+meta {
+  name: Roles ALL
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{API_URL}}/roles
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+settings {
+  encodeUrl: true
+}

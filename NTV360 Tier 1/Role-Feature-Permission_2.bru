@@ -1,0 +1,27 @@
+meta {
+  name: Role-Feature-Permission_2
+  type: http
+  seq: 67
+}
+
+patch {
+  url: {{API_URL}}/role-feature-permissions/b66b0b12-c025-4877-99b1-8018825ee424/441732fe-c661-4576-9324-7287e6ddf28b/45907cc8-afbf-4050-a829-6e1d86adca1c/907aad90-ffa1-4c27-b413-6b89c9f557db
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "permissionId": "8c3e3176-b9a0-4731-9b3b-8a5b02e13598",
+      "organizationId": "b66b0b12-c025-4877-99b1-8018825ee424",
+      "createdBy": "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

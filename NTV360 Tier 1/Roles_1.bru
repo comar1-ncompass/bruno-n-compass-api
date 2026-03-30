@@ -1,0 +1,27 @@
+meta {
+  name: Roles_1
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{API_URL}}/roles
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "roleCode": "dealer",
+      "roleName": "Dealer",
+      "description": "Dealerist"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

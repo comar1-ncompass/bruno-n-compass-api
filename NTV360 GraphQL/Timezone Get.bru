@@ -1,0 +1,67 @@
+meta {
+  name: Timezone Get
+  type: graphql
+  seq: 60
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  query {
+    getTimezones(queryOptions: { filters: "" }) {
+      data {
+          timezoneId
+          timezoneName
+          metadata
+      }
+      meta {
+        totalCount
+        page
+        limit
+        totalPages
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

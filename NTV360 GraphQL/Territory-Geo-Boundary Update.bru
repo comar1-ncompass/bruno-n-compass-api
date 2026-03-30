@@ -1,0 +1,63 @@
+meta {
+  name: Territory-Geo-Boundary Update
+  type: graphql
+  seq: 70
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateTerritoryGeoBoundary(
+      boundaryId: "fdc20d96-17a4-4d7b-bfa7-7c9d9cdf8a34"
+      input: {
+          label: "Mindanao"
+    }) {
+      boundaryId
+      territoryId
+      boundaryGeo
+      label
+      createdAt
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

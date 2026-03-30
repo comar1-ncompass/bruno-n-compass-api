@@ -1,0 +1,47 @@
+meta {
+  name: User-Client-Assignment_3
+  type: http
+  seq: 20
+}
+
+delete {
+  url: {{API_URL}}/user-client-assignments/9be9e55e-a002-45e8-a72d-a78d6cfd5e5e
+  body: none
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

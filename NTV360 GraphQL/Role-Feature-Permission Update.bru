@@ -1,0 +1,67 @@
+meta {
+  name: Role-Feature-Permission Update
+  type: graphql
+  seq: 58
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateRoleFeaturePermission(
+      organizationId: "b66b0b12-c025-4877-99b1-8018825ee424"
+      roleId: "441732fe-c661-4576-9324-7287e6ddf28b"
+      featureId: "907aad90-ffa1-4c27-b413-6b89c9f557db"
+      permissionId: "a936f509-4a4d-49bb-8a67-aa0efa80605c"
+      input: {
+          createdBy: "0a59766e-1f71-4e85-a4ff-48891043758d"
+    }) {
+      organizationId
+      roleId
+      permissionId
+      featureId
+      createdAt
+      createdBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

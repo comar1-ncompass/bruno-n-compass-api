@@ -1,0 +1,79 @@
+meta {
+  name: Users Create
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    createUser(input: {
+      username: "lester_test"
+      emailAddress: "lester_test@zz.com"
+      firstName: "Lester"
+      lastName: "Test"
+      contactNumber: "1234566345"
+      statusId: 2
+      password: "qwerty123@A"
+      passwordConfirmation: "qwerty123@A"
+      roleId: "53433c30-b8a3-46f7-b189-f451b821e7e5"
+    }) {
+      userId
+      username
+      emailAddress
+      firstName
+      lastName
+      contactNumber
+      profilePicture
+      statusId
+      lastLoginAt
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      deletedAt
+      deletedBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

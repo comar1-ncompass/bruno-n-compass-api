@@ -1,0 +1,74 @@
+meta {
+  name: Host-Locations_1
+  type: http
+  seq: 91
+}
+
+post {
+  url: {{API_URL}}/host-locations
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "businessName": "Silogan ni Wak",
+      "sourceType": "gbp",
+      "ownerId": "f1e4eacb-401c-4af0-b530-a7e58431f3c9",
+      "category": "Restaurant",
+      "city": "Cebu",
+      "zip": "zip-zip",
+      "state": "State of Calamity",
+      "region": "Region7",
+      "country": "Philippines",
+      "addressLine1": "Sitio Kawatan",
+      "addressLine2": "Sitio Pulis",
+      "contactPerson": "Lester Pogi",
+      "contactNumber": "+6399999999",
+      "emailAddress": "email@email.add",
+      "googlePlaceId": "12345454",
+      "latitude": 12.334094,
+      "longitude": 122.9172,
+      "boundaryId": "6d0cffd0-c230-491f-9266-36566c22b6e0",
+      "timezoneId": 3,
+      "businessHours": "{\"tuesday\": true}",
+      "metadata": "{\"hello\": \"metadata\"}",
+      "createdBy": "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

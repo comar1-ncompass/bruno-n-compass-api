@@ -1,0 +1,25 @@
+meta {
+  name: Roles_2
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{API_URL}}/roles/7f3e51c8-0dda-4f4c-bdab-d7d77eefc7e0
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "roleCode": "admin"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

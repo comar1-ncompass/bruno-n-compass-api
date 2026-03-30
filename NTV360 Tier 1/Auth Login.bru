@@ -1,0 +1,51 @@
+meta {
+  name: Auth Login
+  type: http
+  seq: 122
+}
+
+post {
+  url: {{API_URL}}/api/auth/login
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik0tdjA2QlBfMXJsdnowTzktdkhSbSJ9.eyJpc3MiOiJodHRwczovL2Rldi1lNjRzamp2c250dzJpNWEyLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJJT0hVbmxZdEZUQ1FKUm9KR1N5T3ZQdFpHaGRhZE1Wc0BjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9kZXYtZTY0c2pqdnNudHcyaTVhMi51cy5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTc0NTQ4NjU3MSwiZXhwIjoxNzQ1NTcyOTcxLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMiLCJhenAiOiJJT0hVbmxZdEZUQ1FKUm9KR1N5T3ZQdFpHaGRhZE1WcyJ9.dxGLWzE0LNUqfzNt1keBv3Se1LpmQe-GNibccy0Y49PhDdwZhA0sr-sP4Ux2csgx3KI2UlvXkjfjh1fv4C4clym142F1UhwZVHYZB3TyT1Yn1GDah62OHt1eqWDgLZq3eAbWSUsL_Srmo29zd6tQCSKJ_pMfRKbfKrY14hQAr7mBp_1JGY8XU_rWHiJSmv3_LxUQQke_MQbh7O6gTqunFvvGvcdzi_5uCuogRm6SQooOoNWiP0hVCnhUrfrK-wMoUTM0EAf5I9ICK3tDAzFwjhqslBUEbORk81nj0w7FeSDHebOP07Ot_VUWd-Leqtf4jRHY96MLENIfumOJb_PGnw
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

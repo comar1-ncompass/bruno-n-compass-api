@@ -1,0 +1,21 @@
+meta {
+  name: New Parse
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://rss-parser-ai.onrender.com/api/feeds
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "url": "https://afro.com/section/news/national-news/feed"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

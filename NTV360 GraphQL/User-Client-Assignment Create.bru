@@ -1,0 +1,73 @@
+meta {
+  name: User-Client-Assignment Create
+  type: graphql
+  seq: 49
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    createUserClientAssignment(input: {
+      userId: "633866de-c7ec-4b34-967d-db88b0e1fad2"
+      clientTypeId: "1d0af283-14e4-42f2-a00c-a098df3f03df"
+      clientInformationId: "18b8cbd3-e4f1-4227-a626-2c8e2bcd2f1c"
+      organizationId: "31534e64-0d6b-411a-bc60-adc900a5ec2c"
+      roleId: "7f3e51c8-0dda-4f4c-bdab-d7d77eefc7e0"
+      createdBy: "816485b9-54ac-49ac-bd62-46ede60f665f"
+      updatedBy: "816485b9-54ac-49ac-bd62-46ede60f665f"
+    }) {
+      userClientAssignmentId
+      userId
+      clientTypeId
+      clientInformationId
+      organizationId
+      roleId
+      createdBy
+      updatedBy
+      createdAt
+      updatedAt
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

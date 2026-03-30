@@ -1,0 +1,57 @@
+meta {
+  name: Entity_1
+  type: http
+  seq: 56
+}
+
+post {
+  url: {{API_URL}}/entities
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "entitySlug": "white_entity",
+      "entityName": "White Entity",
+      "tableName": "roles",
+      "description": "Details about roles.",
+      "createdBy": "ead27ca4-91d3-430f-b117-921e478170b5"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

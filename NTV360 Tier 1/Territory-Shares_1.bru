@@ -1,0 +1,59 @@
+meta {
+  name: Territory-Shares_1
+  type: http
+  seq: 86
+}
+
+post {
+  url: {{API_URL}}/territory-shares
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "territoryId": "0b683f25-5499-48f2-9338-a792edc8105d",
+      "sharedWithUserId": "0a59766e-1f71-4e85-a4ff-48891043758d",
+      "boundaryId": "2d5e5b92-32cf-4633-b7d3-2db2fd356d7f",
+      "requestedBy": "f1e4eacb-401c-4af0-b530-a7e58431f3c9",
+      "hostLocationsIds": "[\"location_1\",\"location_2\",\"location_3\"]",
+      "createdAt": "2025-07-30T00:37:16.683Z",
+      "createdBy": "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

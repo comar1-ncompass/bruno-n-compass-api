@@ -1,0 +1,19 @@
+meta {
+  name: Role-Feature-Permission ALL
+  type: http
+  seq: 64
+}
+
+get {
+  url: {{API_URL}}/role-feature-permissions
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+settings {
+  encodeUrl: true
+}

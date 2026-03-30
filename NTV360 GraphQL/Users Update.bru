@@ -1,0 +1,74 @@
+meta {
+  name: Users Update
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateUser(
+      userId: "7b5d74ee-56dc-46fb-b3d5-c00ec02e1aba",
+      input: {
+          username: "testRoleUsername1_edited"
+      }
+    ) {
+      userId
+        username
+        emailAddress
+        firstName
+        lastName
+        contactNumber
+        profilePicture
+        statusId
+        lastLoginAt
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        deletedAt
+        deletedBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

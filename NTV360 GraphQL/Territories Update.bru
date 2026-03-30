@@ -1,0 +1,79 @@
+meta {
+  name: Territories Update
+  type: graphql
+  seq: 66
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateTerritory(
+      territoryId: "90b1675d-113a-4bb9-82ef-b3132888559c"
+      input: {
+          territoryName: "USA-USB-USC"
+          ownerId: "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+          region: "Region USA"
+          state: "State of Washington"
+          country: "America"
+          statusId: 2
+          metadata: "{\"rock\": \"star\"}"
+          updatedBy: "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+    }) {
+      territoryId
+      territoryName
+      ownerId
+      region
+      state
+      country
+      statusId
+      metadata
+      createdAt
+      createdBy
+      deletedAt
+      deletedBy
+      updatedAt
+      updatedBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,55 @@
+meta {
+  name: Host-Location-Category
+  type: http
+  seq: 100
+}
+
+post {
+  url: {{API_URL}}/host-location-categories
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "hostLocationId": "b9b71cc5-7d11-404f-a659-dc15542a11eb",
+      "categoryId": "6c98c7e5-12a8-46ad-be7f-98db1aa87b62",
+      "assignedBy": "0a59766e-1f71-4e85-a4ff-48891043758d"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

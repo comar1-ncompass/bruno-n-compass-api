@@ -1,0 +1,69 @@
+meta {
+  name: Users-Roles Create
+  type: graphql
+  seq: 14
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation{
+    createUserRole(input: {
+      userId: "1af8d6c1-a0e5-4429-ba53-8861a2f1cff1"
+      roleId: "750579e8-2aae-4e9f-9c5a-7a37a11cd4f5"
+      isPrimary: true
+      statusId: 1
+      assignedBy: "1af8d6c1-a0e5-4429-ba53-8861a2f1cff1"
+    }) {
+      userRoleId
+      userId
+      roleId
+      isPrimary
+      statusId
+      assignedBy
+      createdAt
+      updatedAt
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

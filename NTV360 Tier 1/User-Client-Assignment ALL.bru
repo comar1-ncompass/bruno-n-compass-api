@@ -1,0 +1,58 @@
+meta {
+  name: User-Client-Assignment ALL
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{API_URL}}/user-client-assignments
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpSTTJrV3Z4SkQ0RE9MbWMwTnJvZCJ9.eyJodHRwOi8vbG9jYWxob3N0L2VtYWlsIjoibGVzdGVyQGdtYWlsLmNvbSIsImh0dHA6Ly9sb2NhbGhvc3Qvcm9sZXMiOlsiYWRtaW4iXSwiaXNzIjoiaHR0cHM6Ly9kZXYtMThvaTdwcWdvdHdnanh6Zi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8Njg1MjM4YjAxM2M4OGVjMDU1MzQwYmM5IiwiYXVkIjpbImh0dHBzOi8vZGV2LTE4b2k3cHFnb3R3Z2p4emYudXMuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL2Rldi0xOG9pN3BxZ290d2dqeHpmLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3NTE4NTIyMzQsImV4cCI6MTc1MTkzODYzNCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImF6cCI6IlNlNDJiUVpwS3BwNkNLVVpNSFdFZkFMTHdmbUJGV2h6In0.N-jHA8RcpVsw76qaJIlsCZPqfF-2Foo9_R-bvcAtvUbL4eQ3XCVg6hgBlvgebeSuTldfR2qjRBwpeWS7eKAbrNKPIohKGeF_GRBhywEddhy4X5OJlkOxSdHM6HboNB8qrWr0M0_zJo9MWdLM8dcMTIZ5cuIkYHWUgW_YAcdVz-0qrUeoRxQpfLkWxaECD8IYfMuw3T8abz7ODhbV8-ev9BHVbRkoriKadBZIA0nnsT_1NLjnzA9M05Prz2tapDum0TZb6R7JK1I-modUNia0y0IaPlh311P9zsGXithZuZlJKxsDhz1SvgDEohcPpNWTOZ6bTl-mhCsWjqZoDNVLpA
+}
+
+body:json {
+  {
+      "statusLabel": "Online",
+      "description": "Indicates that the record is active"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

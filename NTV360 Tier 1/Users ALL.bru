@@ -1,0 +1,22 @@
+meta {
+  name: Users ALL
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{API_URL}}/users?page=1&limit=4&sortBy=username&sortOrder=DESC
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 4
+  sortBy: username
+  sortOrder: DESC
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,66 @@
+meta {
+  name: Client-Information_1
+  type: http
+  seq: 46
+}
+
+post {
+  url: {{API_URL}}/client-information
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "clientTypeId": "1c288f9b-4d76-4e42-927c-906b3842d5c7",
+      "businessName": "Toyota",
+      "contactPerson": "Onii chan",
+      "contactNumber": "+639171234567",
+      "region": "Central Visayas",
+      "state": "Cebu",
+      "city": "Cebu City",
+      "address": "123 Main Street, Downtown",
+      "zip": "6000",
+      "alias": "NTV",
+      "dateActivated": "2024-01-15",
+      "logoUrl": "https://example.com/logos/acme_innovations.png",
+      "metadata": "{\"industry\": \"Technology\",\"notes\": \"Key partner for software distribution.\"}",
+      "createdBy": "ccf5aa71-9685-49b8-95d5-f26d581743a8"
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

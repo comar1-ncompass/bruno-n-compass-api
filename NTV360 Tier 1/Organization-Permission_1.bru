@@ -1,0 +1,54 @@
+meta {
+  name: Organization-Permission_1
+  type: http
+  seq: 32
+}
+
+post {
+  url: {{API_URL}}/organizations/0f53be41-60ab-4997-b003-8c5e3ee589bd/permissions
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "permissionIds": ["82ED074E-41B2-11F0-B3EF-4EF8861DBDF6","82EDA741-41B2-11F0-B3EF-4EF8861DBDF6","82EDB22F-41B2-11F0-B3EF-4EF8861DBDF6","82EDB4A7-41B2-11F0-B3EF-4EF8861DBDF6","82EDB5E9-41B2-11F0-B3EF-4EF8861DBDF6"]
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

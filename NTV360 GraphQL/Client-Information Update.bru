@@ -1,0 +1,78 @@
+meta {
+  name: Client-Information Update
+  type: graphql
+  seq: 19
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateClientInformation(
+      clientInformationId: "5f8d042b-8c2e-4e89-8c87-d14aef9cdefa",
+      input: {
+        metadata: "{\"jsonString\": \"eyyy\"}"
+      }
+    ) {
+      clientInformationId
+      clientTypeId
+      businessName
+      contactPerson
+      contactNumber
+      region
+      state
+      city
+      address
+      zip
+      alias
+      dateActivated
+      logoUrl
+      metadata
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

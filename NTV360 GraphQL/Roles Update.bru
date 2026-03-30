@@ -1,0 +1,69 @@
+meta {
+  name: Roles Update
+  type: graphql
+  seq: 7
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateRole( roleId: "fd84ab79-2f49-4c29-abf3-334aeb942224" , input: {
+      roleCode: "admin_edit",
+      roleName: "sample_role_name_edit"
+      statusId: 0
+    }) {
+      roleId
+      roleCode
+      roleName
+      description
+      statusId
+      createdAt
+      createdBy
+      updatedAt
+      updatedBy
+      deletedAt
+      deletedBy
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

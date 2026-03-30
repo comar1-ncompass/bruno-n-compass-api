@@ -1,0 +1,69 @@
+meta {
+  name: Business-Category Update
+  type: graphql
+  seq: 82
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    updateBusinessCategory(
+      categoryId: "6161b70e-5b65-44fb-a0f2-5397f233cc6a"
+      input: {
+        categoryCode: "pan"
+        categoryName: "Pan"
+        description: "Used for pan goods"
+      }
+    ) {
+      categoryId
+      categoryCode
+      categoryName
+      description
+      metadata
+      createdBy
+      createdAt
+    }
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

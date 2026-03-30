@@ -1,0 +1,105 @@
+meta {
+  name: Host-Location Create
+  type: graphql
+  seq: 77
+}
+
+post {
+  url: {{GQL_URL}}
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:graphql {
+  mutation {
+    createHostLocation(input: {
+        businessName: "KKB ni Wapo"
+        sourceType: "gbp"
+        ownerId: "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+        category: "Restaurant"
+        city: "Cebu"
+        state: "State of Calamity"
+        region: "Region7"
+        country: "Philippines"
+        addressLine1: "Sitio Wakwak"
+        addressLine2: "Sitio AntiWakwak"
+        contactPerson: "Lester Pogi"
+        contactNumber: "+6399999999"
+        emailAddress: "email@email.add"
+        googlePlaceId: "lmnopqwer"
+        latitude: 11.334094
+        longitude: 124.917200
+        zip: "321"
+        boundaryId: "6d0cffd0-c230-491f-9266-36566c22b6e0"
+        timezoneId: 3
+        businessHours: "{\"monday\": true}"
+        metadata: "{\"some\": \"metadata\"}"
+        createdBy: "f1e4eacb-401c-4af0-b530-a7e58431f3c9"
+    }) {
+      hostLocationId
+      businessName
+      sourceType
+      ownerId
+      category
+      city
+      state
+      region
+      country
+      addressLine1
+      addressLine2
+      contactPerson
+      contactNumber
+      emailAddress
+      googlePlaceId
+      latitude
+      longitude
+      zip
+      boundaryId
+      timezoneId
+      businessHours
+      metadata
+      createdBy
+      createdAt
+      updatedBy
+      updatedAt
+      deletedBy
+      deletedAt
+    }
+  }
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

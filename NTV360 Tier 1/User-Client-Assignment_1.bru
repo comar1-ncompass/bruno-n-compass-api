@@ -1,0 +1,60 @@
+meta {
+  name: User-Client-Assignment_1
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{API_URL}}/user-client-assignments
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "userId": "55adf089-bc10-431c-8f91-1b027e34df14",
+    "roleId": "3cb77143-c36a-4d9c-8ad1-48e80abe48e1",
+    "clientTypeId": "6f1c0c7d-2025-45e0-8d91-5f6b41e5e777",
+    "clientInformationId": "5f8d042b-8c2e-4e89-8c87-d14aef9cdefa",
+    "organizationId": "0f53be41-60ab-4997-b003-8c5e3ee589bd",
+    "createdBy": "ccf5aa71-9685-49b8-95d5-f26d581743a8",
+    "updatedBy": "ccf5aa71-9685-49b8-95d5-f26d581743a8"
+  }
+  
+}
+
+script:pre-request {
+  // Configure range
+  let start = 1;
+  let end = 50;
+  
+  let current = bru.getEnvVar("userIndex");
+  
+  if (!current) {
+      current = start;
+  } else {
+      current = parseInt(current) + 1;
+  }
+  
+  // Stop runner if we've reached the end
+  if (current > end) {
+      bru.setNextRequest(null); // halts the runner
+  } else {
+      bru.setEnvVar("userIndex", current);
+  
+      const username = `qwerty${current}`;
+      const email = `${username}@example.com`;
+  
+      bru.setEnvVar("username", username);
+      bru.setEnvVar("email", email);
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}
