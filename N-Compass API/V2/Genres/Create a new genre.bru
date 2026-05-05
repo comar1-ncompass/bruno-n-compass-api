@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{awsUrl}}/api/genres
+  url: {{baseUrl}}/api/genres
   body: json
   auth: inherit
 }
@@ -16,7 +16,7 @@ body:json {
       "genreCode": "tSports",
       "textColor": "#ffffff",
       "bgColor": "#020618",
-      "createdBy": "0a59766e-1f71-4e85-a4ff-48891043758d"
+      "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936"
   }
 }
 
@@ -50,4 +50,5 @@ script:post-response {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -5,15 +5,9 @@ meta {
 }
 
 get {
-  url: https://stg-api.n-compass.online/api/dealeradmin/dealer/getall?page=1&search=&pageSize=15
+  url: {{baseUrl}}/api/Dealer/GetAll
   body: none
   auth: inherit
-}
-
-params:query {
-  page: 1
-  search: 
-  pageSize: 15
 }
 
 headers {
@@ -34,6 +28,7 @@ headers {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {

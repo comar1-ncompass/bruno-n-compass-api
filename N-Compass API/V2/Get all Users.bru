@@ -1,11 +1,11 @@
 meta {
   name: Get all Users
   type: http
-  seq: 15
+  seq: 16
 }
 
 get {
-  url: {{baseUrl}}/api/contents
+  url: {{baseUrl}}/api/users
   body: text
   auth: inherit
 }
@@ -35,4 +35,5 @@ body:text {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

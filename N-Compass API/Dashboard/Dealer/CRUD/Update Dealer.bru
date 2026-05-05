@@ -1,0 +1,49 @@
+meta {
+  name: Update Dealer
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/dealer/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": "502f0397-5a9a-4947-b014-5d470ad56594",
+    "dealerId": "{{dealerId}}",
+    "playerCount": 0,
+    "businessName": "APIBusiness",
+    "dealerIdAlias": "APIDealerAlias",
+    "email": "apiautomation@dealer.com",
+    "contactNumber": "1234556444",
+    "region": "NE",
+    "city": "Aaronsburg",
+    "state": "PA",
+    "startDate": "2026-04-08",
+    "updatedBy": "502f0397-5a9a-4947-b014-5d470ad56594"
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

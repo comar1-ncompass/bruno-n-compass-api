@@ -1,0 +1,41 @@
+meta {
+  name: Delete Dealer
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/dealer/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "dealerId": "{{dealerId}}",
+    "userId": "6ae871b4-70e6-4057-9e9e-6e1172c631d9",
+    "retainContents": false,
+    "updatedBy": "502f0397-5a9a-4947-b014-5d470ad56594"
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
