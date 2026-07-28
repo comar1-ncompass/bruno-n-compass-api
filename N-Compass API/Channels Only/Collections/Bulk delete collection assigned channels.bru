@@ -1,0 +1,131 @@
+meta {
+  name: Bulk delete collection assigned channels
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/collections/{{collectionId3}}/channels/bulk-delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "channelIds": [
+          "88979d05-f662-4e36-8d6d-09db9ee3034a" //should be channel that exists under a collection
+      ]
+  }
+}
+
+script:pre-request {
+  console.log("Starting Bulk Delete Pre-requests")
+  // Get number of collections
+  await bru.sendRequest({
+      url: "https://dev-nctvapi2.n-compass.online/api/collections",
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${bru.getEnvVar("bearer_token")}`
+      }
+  }, async function(err, res) {
+      if (err) {
+          console.log("Error calling API:", err);
+          return;
+      }
+  
+      const jsonData = res.data;
+      const totalCount = jsonData.meta.pagination.totalCount;
+      const nextAvailableIndex = totalCount + 1;
+      console.log("Next Available Index: ", nextAvailableIndex);
+  
+      bru.setEnvVar("nextAvailableIndex", nextAvailableIndex);
+      console.log("[Step 1] Set nextAvailableIndex:", nextAvailableIndex);
+  
+      // STEP 2: Create collection
+      await bru.sendRequest({
+          url: "https://dev-nctvapi2.n-compass.online/api/collections",
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${bru.getEnvVar("bearer_token")}`
+          },
+          data: JSON.stringify({
+              collectionName: "API Test Featured Products",
+              position: bru.getEnvVar("nextAvailableIndex"),
+              isVisible: true,
+              isFeatured: false,
+              createdBy: "321e6547-b98c-21d3-b456-426614174000",
+              channels: [
+                  {
+                      channelId: "88979d05-f662-4e36-8d6d-09db9ee3034a",
+                      sequenceOrder: 1,
+                      duration: 30
+                  },
+                  {
+                      channelId: "4232dae3-b296-41d2-bf3c-80f38be03a0c",
+                      sequenceOrder: 2,
+                      duration: 45
+                  }
+              ]
+          })
+      }, async function(err, res) {
+          if (err) {
+              console.log("POST collection failed:", err);
+              return;
+          }
+  
+          const response = res.data;
+          const collectionId3 = response.data.collectionId;
+  
+          console.log("[Step 2] Created collectionId:", collectionId3);
+          bru.setEnvVar("collectionId3", collectionId3);
+          // STEP 3: Add channels to collection
+          await bru.sendRequest({
+              url: `https://dev-nctvapi2.n-compass.online/api/collections/${collectionId3}/contents`,
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${bru.getEnvVar("bearer_token")}`
+              },
+              data: JSON.stringify({
+                  channels: [
+                      {
+                          channelId: "88979d05-f662-4e36-8d6d-09db9ee3034a",
+                          sequenceOrder: 1,
+                          duration: 30
+                      },
+                  ]
+              })
+          }, async function(err, res) {
+              if (err) {
+                  console.log("POST channels failed:", err);
+                  return;
+              }
+  
+              console.log("[Step 3] Channels added:", res.data);
+          });
+      });
+  });
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

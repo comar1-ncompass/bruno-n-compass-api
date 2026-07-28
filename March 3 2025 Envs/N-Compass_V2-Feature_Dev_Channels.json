@@ -1,0 +1,654 @@
+{
+  "name": "N-Compass V2-Feature Dev Channels",
+  "variables": [
+    {
+      "name": "baseUrl",
+      "value": "https://ntv360api-dev.n-compass.online",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "socketUrl",
+      "value": "https://stg-socket.n-compass.online",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "programmaticUrl",
+      "value": "https://programmatic-stg.n-compass.online",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "licenseTimestampUrl",
+      "value": "https://nctv-stg-pi.n-compass.online",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "licenseMiscUrl",
+      "value": "https://dmysrs6477.execute-api.us-east-1.amazonaws.com/dev/api/license/update/miscellaneous/q",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "env",
+      "value": "Development",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "piServiceBaseUrl",
+      "value": "https://dmysrs6477.execute-api.us-east-1.amazonaws.com/dev",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "myAdminPassword",
+      "value": "{{devAdminPassword}}",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "fastEdgeGoogle",
+      "value": "https://fastedgeapidev.n-compass.online/nc/googleapi/searchplaces",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "apiVersion",
+      "value": "{{currentApiVersion}}",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "staticValidSearchHost",
+      "value": "Brian's Office",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "staticValidHostAddress",
+      "value": "406 Fremont St",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "staticValidPostalCode",
+      "value": "66090",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "testType",
+      "value": "happy",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "search",
+      "value": "406 Fremont St",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "apiTimezoneBaseUrl",
+      "value": "https://api.timezonedb.com/v2.1/get-time-zone?key=VDREUWGAR8QT&format=json&by=position&lat=39.4583795&lng=-76.6374968",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "latitude",
+      "value": "39.4583795",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "longitude",
+      "value": "-76.6374968",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "placeId",
+      "value": "ChIJSd0e0f4NyIkRIhNWCQfhLC4",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdLicenseId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdLicenseKey",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdFromLicenses",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdHostNameLicenseId",
+      "value": "175988e7-49b0-4d75-8c31-bdd7317942b0",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdHostNameLicenseKey",
+      "value": "809f5a31-75f5-4b35-bafb-c96183c5bc53",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdHostNameAlias",
+      "value": "License # 112",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullFromLicensesId",
+      "value": "175988e7-49b0-4d75-8c31-bdd7317942b0",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nullScreenIdOnlyLicenseId",
+      "value": "ef83178c-d746-45cc-9b33-298c48dbefaf",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "inactiveLicenseId",
+      "value": "175988e7-49b0-4d75-8c31-bdd7317942b0",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "inactiveLicenseIdFromLicenses",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "dealerId",
+      "value": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "hostId",
+      "value": "936ef7b7-469b-47dd-b3b2-373813b6d9a5",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "foundUnusedLicenseId",
+      "value": "ca1c23dd-8057-46f0-9bcd-7ff9274b663e",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "foundAvailableLicenseId",
+      "value": "37f56aba-b405-4f35-91a9-033ee4424f80",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "foundAvailableLicenseKey",
+      "value": "7a2c15a9-1544-4929-a786-17e58f692a95",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "foundAvailableLicenseAlias",
+      "value": "License # 55",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "filler_group_id",
+      "value": "f8e3b50a-7df6-4ecf-aa9a-2b885c965a07",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "filler_group_user_id",
+      "value": "97234c91-34c0-426f-b08d-90d14e3f535d",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "alternative_filters",
+      "value": "{\"useConverted\":true,\"useValidUrls\":true,\"useRecentUploads\":false,\"recentDays\":30}",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "api_headers",
+      "value": "{\"Content-Type\":\"application/json\",\"Authorization\":\"Bearer undefined\"}",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "fillerContentId1",
+      "value": "b3b05740-8b45-4eb7-8cec-355f870f978d",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "fillerContentId2",
+      "value": "9e72a9a5-9165-4b44-bd3a-02c047330827",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "fillerContentId3",
+      "value": "e587a2a5-fbeb-4a55-8af1-f6707cf2b4e6",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "test_group_id",
+      "value": "f8e3b50a-7df6-4ecf-aa9a-2b885c965a07",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "test_group_name",
+      "value": "Peaceful Footage",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "test_group_status",
+      "value": "A",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "test_role_id",
+      "value": "bb7a061e-495c-11ea-b77f-2e728ce88125",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "test_role_name",
+      "value": "Super Admin",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "super_admin_role_id",
+      "value": "bb7a061e-495c-11ea-b77f-2e728ce88125",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "super_admin_role_name",
+      "value": "Super Admin",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "confirmed_super_admin_id",
+      "value": "bb7a061e-495c-11ea-b77f-2e728ce88125",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "confirmed_super_admin_name",
+      "value": "Super Admin",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "last_schedule_update_success",
+      "value": "true",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "last_schedule_update_count",
+      "value": "1",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "last_schedule_update_message",
+      "value": "Bulk upsert completed.",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "verification_success_rate",
+      "value": "100.0",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "verification_items_found",
+      "value": "1",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "verification_total_items",
+      "value": "1",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "id",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "genreId",
+      "value": "0316a980-de82-46b5-9bb1-76b150db6664",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "awsUrl",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "nextAvailableIndex",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "channelId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "channelId2",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "channelId3",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "collectionId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "collectionId2",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "collectionId3",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "collectionId3__",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "templatedName",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "token",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "bearer_token",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "tempContentId1",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "tempContentId2",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "templatedContentTitle",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "lastContentId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "secondContentId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "thirdContentId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channelId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_collectionId",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "reorder_contentId1",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "reorder_contentId2",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "reorder_contentId3",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channelId_A",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channelId_B",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channelId_C",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_contentMapping_Id",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_chanContent_Id",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_content_ToMap",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channel_ForMapping",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_content_Initial",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channel_ForGenre",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    },
+    {
+      "name": "standalone_channel_ForUser",
+      "value": "",
+      "type": "text",
+      "enabled": true,
+      "secret": false
+    }
+  ],
+  "info": {
+    "type": "bruno-environment",
+    "exportedAt": "2026-07-17T07:47:50.231Z",
+    "exportedUsing": "Bruno/v3.2.0"
+  }
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Popular CURL
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://channel360-dev.n-compass.online/api/popular
+  body: none
+  auth: inherit
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:151.0) Gecko/20100101 Firefox/151.0^
+  ^Accept: */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Referer: https://channel360-dev.n-compass.online/^
+  ^Connection: keep-alive^
+  ^Cookie: dev_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4MDg4MTc2NCwiZXhwIjoxNzgwOTEwNTY0LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.CjycawSA6ad7u25AaXldTz9aShZT7DFc1q-BJ4gdKWU; dev_nctvRefToken=v9CjDHSclMEmnRdngtkZM3Qdm4Es0rw5sztJkW0xpuo^%^3D; dev_nctvDealerId=; dev_nctvRoleName=Super^%^20Admin; dev_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; dev_nctvUserId=32c3eec4-c6df-43be-9ba6-7347382fae43^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^Priority: u=4^
+  ^TE: trailers^
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

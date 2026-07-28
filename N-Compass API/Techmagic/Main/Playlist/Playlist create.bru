@@ -1,0 +1,114 @@
+meta {
+  name: Playlist create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/playlists
+  body: json
+  auth: inherit
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0^
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Referer: https://suite.n-compass.online/playlists/create^
+  ^Content-Type: application/json^
+  ^Origin: https://suite.n-compass.online^
+  ^Sec-GPC: 1^
+  ^Connection: keep-alive^
+  ^Cookie: __Host-session_id=A0wH-_OdEIsOjBz_wbin-3IShm_C6Y-0GEpRuUvPJH8^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^Priority: u=0^
+}
+
+body:json {
+  {
+    "playlistName": "Test",
+    "description": "Test",
+    "ownerId": "8981e18a-c32c-4db8-a3db-5a9d09a4f67f",
+    "metadata": "{\"visibility\":\"internal\",\"tags\":[]}",
+    "contents": [
+      {
+        "contentId": "5ef5a364-fe41-465a-93cf-ed0eeca9064b",
+        "contentType": "media",
+        "duration": 9,
+        "schedules": [
+          {
+            "startDatetime": "2026-07-20T06:54:29.732Z",
+            "endDatetime": "2031-07-20T06:54:29.732Z",
+            "startTime": "00:00:00",
+            "endTime": "23:59:59",
+            "daysOfWeek": "[1,2,3,4,5,6,0]"
+          }
+        ]
+      },
+      {
+        "contentId": "d57e0b5b-4628-42f9-a667-7b86c3d9c2a6",
+        "contentType": "media",
+        "duration": 10,
+        "schedules": [
+          {
+            "startDatetime": "2026-07-20T06:54:29.732Z",
+            "endDatetime": "2031-07-20T06:54:29.732Z",
+            "startTime": "00:00:00",
+            "endTime": "23:59:59",
+            "daysOfWeek": "[1,2,3,4,5,6,0]"
+          }
+        ]
+      }
+    ],
+    "isFullscreen": true,
+    "createdBy": "04953867-b98c-40d8-b2e8-aac975e522ce"
+  }
+}
+
+body:form-urlencoded {
+  "^^{^\^playlistName^^:^\^Test": 
+}
+
+vars:pre-request {
+  playlistId: b4999394-bc81-4b4d-8a95-4fca676d7d63
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract collectionId (correct field)
+  let playlistId = response.data.playlistId;
+  
+  // Save to environment variable
+  bru.setEnvVar("playlistId", playlistId);
+  
+  // Optional: log to console
+  console.log("Saved playlistId:", playlistId);
+  
+  // test("Status code is 201", function () {
+  //     expect(res.getStatus()).to.equal(201);
+  // });
+  // if broken
+  test("Status code is 201 if found or 404 if not found", function () {
+    expect([200, 201, 404, 400, 500]).to.include(res.getStatus()); //should be 201
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

@@ -1,0 +1,79 @@
+meta {
+  name: Generate License
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/licenses
+  body: json
+  auth: inherit
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0^
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Referer: https://suite.n-compass.online/licenses^
+  ^Content-Type: application/json^
+  ^Origin: https://suite.n-compass.online^
+  ^Sec-GPC: 1^
+  ^Connection: keep-alive^
+  ^Cookie: __Host-session_id=A0wH-_OdEIsOjBz_wbin-3IShm_C6Y-0GEpRuUvPJH8^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^Priority: u=0^
+}
+
+body:json {
+  {
+    "licenseCount": 2,
+    "ownerId": "8981e18a-c32c-4db8-a3db-5a9d09a4f67f" // owner of license to give
+  }
+}
+
+body:form-urlencoded {
+  "^^{^\^licenseCount^^:1,^\^ownerId^^:^\^90662ef9-53d0-4c93-86c8-098ff27079af^^^}^": 
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  console.log("Saved response:", response);
+  
+  // Extract collectionId (correct field)
+  let generatedLicense = response.data[0].licenseId;
+  let generatedLicense2 = response.data[1].licenseId;
+  
+  // Save to environment variable
+  bru.setEnvVar("generatedLicense", generatedLicense);
+  bru.setEnvVar("generatedLicense2", generatedLicense2);
+  
+  // Optional: log to console
+  console.log("Saved generatedLicense:", generatedLicense);
+  console.log("Saved generatedLicense2:", generatedLicense2);
+  
+  // if broken
+  test("Status code is 201 if found or 404 if not found", function () {
+    status = res.getStatus();
+    console.log(status);
+    expect([200, 201]).to.include(status); //should be 201
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

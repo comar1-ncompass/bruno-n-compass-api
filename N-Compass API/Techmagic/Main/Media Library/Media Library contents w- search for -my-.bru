@@ -1,0 +1,53 @@
+meta {
+  name: Media Library contents w/ search for "my"
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/media-library?limit=34&page=1&filters=%7B%22fileName%22:%7B%22_ilike%22:%22my%22%7D%7D
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 34
+  page: 1
+  filters: %7B%22fileName%22:%7B%22_ilike%22:%22my%22%7D%7D
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0^
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Referer: https://suite.n-compass.online/media-library^
+  ^Connection: keep-alive^
+  ^Cookie: __Host-session_id=5g057U0w6yEsbu8HhS6PfNC-1hGS0ID93drRB5apfGM^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^If-None-Match: W/^\^a076-HQUVVe7xkKXqQGbIwWvcitTsV+4^^^
+  ^Priority: u=4^
+}
+
+script:post-response {
+  test("Status code is 200 if found or 404 if not found", function () {
+    expect([200, 404]).to.include(res.getStatus());
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

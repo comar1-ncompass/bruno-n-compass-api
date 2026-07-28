@@ -1,0 +1,133 @@
+meta {
+  name: Create a channel-content mapping
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/channel-contents
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{bearer_token}}
+  ~Content-Type: application/json
+}
+
+body:json {
+  {
+    "channelId": "{{standalone_channel_ForMapping}}",
+    "contents": [
+      {
+        "contentId": "{{standalone_content_ToMap}}",
+        "sequenceOrder": 2,
+        "duration": 45
+      }
+    ],
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936"
+  }
+}
+
+script:pre-request {
+  const timestamp = new Date().getTime();
+  const ownerId = "a06d4cba-01ad-4792-a3eb-3c112fe62936";
+  const baseUrl = bru.getEnvVar("baseUrl");
+  const token = bru.getEnvVar("bearer_token");
+  
+  // Helper to build the Content Body
+  function getContentBody(titleSuffix) {
+      return JSON.stringify({
+          "title": `Mapping_Content_${titleSuffix}_${timestamp}`,
+          "ownerId": ownerId,
+          "description": "Landscape banner used for the lobby LED wall.",
+          "fileName": `banner_${titleSuffix}.png`,
+          "fileType": "image/png",
+          "fileSize": 1048576,
+          "url": "https://thumbs.dreamstime.com/b/fresh-papaya-fruit-splashes-drops-dark-background-fresh-papaya-splashes-water-drops-dark-background-328364865.jpg",
+          "thumbnail": "https://thumbs.dreamstime.com/b/fresh-papaya-fruit-splashes-drops-dark-background-fresh-papaya-splashes-water-drops-dark-background-328364865.jpg",
+          "duration": 30.5,
+          "isProtected": false,
+          "isConverted": true,
+          "isChannel": false,
+          "metadata": "{ \"upload\": { \"provider\": \"filestack\", \"handleId\": \"file-xyz123\" } }",
+          "createdBy": ownerId,
+          "nameConflict": "auto"
+      });
+  }
+  
+  // STEP 1: Create Content A (For the Channel)
+  await bru.sendRequest({
+      url: `${baseUrl}/api/contents`,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      data: getContentBody("A")
+  }, async function(err, res) {
+      if (!err && res.status === 201) {
+          const contentA_Id = res.data.data.contentId;
+          bru.setEnvVar("standalone_content_Initial", contentA_Id);
+          console.log("Prep 1/3: Content A Created", contentA_Id);
+  
+          // STEP 2: Create Content B (To be mapped in the main request)
+          await bru.sendRequest({
+              url: `${baseUrl}/api/contents`,
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+              data: getContentBody("B")
+          }, async function(errB, resB) {
+              if (!errB && resB.status === 201) {
+                  const contentB_Id = resB.data.data.contentId;
+                  bru.setEnvVar("standalone_content_ToMap", contentB_Id);
+                  console.log("Prep 2/3: Content B Created", contentB_Id);
+  
+                  // STEP 3: Create the Channel using Content A
+                  await bru.sendRequest({
+                      url: `${baseUrl}/api/channels`,
+                      method: "POST",
+                      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                      data: JSON.stringify({
+                          "channelName": `Mapping_Channel_${timestamp}`,
+                          "description": "A channel focused on science and nature documentaries.",
+                          "genreIds": ["f5fb8536-e0f7-4277-9eef-b57834f63afb"],
+                          "thumbnailUrl": "https://images.pexels.com/photos/867349/pexels-photo-867349.jpeg?cs=srgb&dl=pexels-asphotography-867349.jpg&fm=jpg",
+                          "isHero": false,
+                          "metadata": "",
+                          "createdBy": ownerId,
+                          "contents": [{ "contentId": contentA_Id, "sequenceOrder": 1, "duration": 30 }]
+                      })
+                  }, async function(errCh, resCh) {
+                      if (!errCh && resCh.status === 201) {
+                          const channelId = resCh.data.data.channelId;
+                          bru.setEnvVar("standalone_channel_ForMapping", channelId);
+                          console.log("Prep 3/3: Channel Created with Content A", channelId);
+                      }
+                  });
+              }
+          });
+      }
+  });
+}
+
+script:post-response {
+  // 1. Status code is 201
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  // 2. Response time is acceptable
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

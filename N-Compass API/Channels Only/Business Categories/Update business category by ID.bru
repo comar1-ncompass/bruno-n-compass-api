@@ -1,0 +1,27 @@
+meta {
+  name: Update business category by ID
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/business-categories/{{id}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "categoryCode": "dimsum_place223",
+    "categoryName": "Dimsum Place223",
+    "parentCategoryId": "",
+    "description": "Asian dimsum eateries and specialized places.",
+    "metadata": "{\"icon\": \"dimsum.png\", \"tags\": [\"food\", \"chinese\"]}",
+    "updatedBy": "e6b25db1-bb76-4437-991a-005cf16246a7"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

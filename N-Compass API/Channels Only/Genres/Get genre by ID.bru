@@ -1,0 +1,55 @@
+meta {
+  name: Get genre by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/genres/{{genreId}}
+  body: text
+  auth: inherit
+}
+
+body:text {
+  {
+      "emailAddress": "johndoe@example.com",
+      "userId": "550e8400-e29b-41d4-a716-446655440000",
+      "userName": "johndoe",
+      "firstName": "John",
+      "lastName": "Doe",
+      "contactNumber": "+1234567890",
+      "organizationId": "660e8400-e29b-41d4-a716-446655440000",
+      "lastLoginAt": "2025-01-01T00:00:00.000Z",
+      "profilePicture": "https://example.com/profile.jpg",
+      "roleName": "Administrator",
+      "roleCode": "ADMIN",
+      "roleId": "770e8400-e29b-41d4-a716-446655440000",
+      "metadata": {
+          "referralCode": "X123YZ"
+      },
+      "sessionId": "1234567890",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "message": "Logged in"
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

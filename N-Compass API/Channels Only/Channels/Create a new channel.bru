@@ -1,0 +1,88 @@
+meta {
+  name: Create a new channel
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/channels
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "channelName": "{{templatedName}}",
+    "description": "A channel focused on science and nature documentaries.",
+    "genreIds": [
+      "550e8400-e29b-41d4-a716-446655440047",
+      "550e8400-e29b-41d4-a716-446655440048"
+    ],
+    "thumbnailUrl": "https://cdn.example.com/thumbnails/discovery.png",
+    "isHero": false,
+    "metadata": "",
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+    "contents": [
+      {
+        "contentId": "70d4ec3d-bf61-40d8-a8a0-e78d13c788c5",
+        "sequenceOrder": 1,
+        "duration": 30
+      },
+      {
+        "contentId": "68a3c343-4566-4cd0-a7b8-193b47496855",
+        "sequenceOrder": 2,
+        "duration": 45
+      }
+    ]
+  }
+}
+
+script:pre-request {
+  // Get current date and time
+  const now = new Date();
+  
+  // Format date and time
+  const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+  const time = now.toTimeString().split(' ')[0].replace(/:/g, ''); // HH-MM-SS
+  
+  // Build the collection name
+  const templatedName = `API_Discovery_Channel_${date}_${time}`;
+  
+  // Save to environment variable
+  bru.setEnvVar("templatedName", templatedName);
+  
+  //remove everything above when fix is made
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract collectionId (correct field)
+  let channelId = response.data.channelId;
+  
+  // Save to environment variable
+  bru.setEnvVar("channelId", channelId);
+  
+  // Optional: log to console
+  console.log("Saved channelId:", channelId);
+  
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,15 @@
+meta {
+  name: PI Load Testing Endpoint
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseUrl}}/api/pi/status 
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

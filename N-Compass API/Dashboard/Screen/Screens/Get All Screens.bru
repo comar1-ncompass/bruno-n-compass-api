@@ -17,6 +17,37 @@ params:query {
   sortOrder: 
 }
 
+script:post-response {
+  // Parse response JSON
+  test("Authenticated request contains a token", function () {
+    const headers = req.getHeaders();
+    const authorization = headers.authorization || headers.Authorization;
+  
+    expect(authorization).to.match(/^Bearer\s+\S+$/);
+  });
+  
+  test("Unauthenticated request must not succeed", function () {
+    expect(
+      [200, 201, 202, 204],
+      `Unauthenticated request unexpectedly succeeded with ${status}`
+    ).to.not.include(status);
+  });
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -1,0 +1,39 @@
+meta {
+  name: Raspi
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/dealers?page=1&limit=40&sortBy=createdAt&sortOrder=desc&fields=createdAt,createdBy
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 40
+  sortBy: createdAt
+  sortOrder: desc
+  fields: createdAt,createdBy
+}
+
+headers {
+  accept: application/json, text/plain, */*
+  accept-language: en-US,en;q=0.9
+  Cookie: __Host-session_id=-5Q4CGTvRZwFtA7XVJ_9myez8dGn12tcPuzfS_V63Rc; dev_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4MjQ1NDU3MiwiZXhwIjoxNzgyNDgzMzcyLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.8yiyjzBsB-xSV6Kjc3TDIedEfDJLTgoBqFmksT7AGpw; dev_nctvRefToken=oipiMtTpHWFhlXeRyzx9KqW%2By4Mqzx7SPnuhLSwPlrQ%3D; dev_nctvUserId=32c3eec4-c6df-43be-9ba6-7347382fae43; dev_nctvRoleName=Super%20Admin; dev_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125
+  if-none-match: W/"b9-C9YP9xFucmROYTaPLOzwXkh9n5s"
+  priority: u=1, i
+  sec-ch-ua: "Google Chrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"
+  sec-ch-ua-mobile: ?0
+  sec-ch-ua-platform: "Windows"
+  sec-fetch-dest: empty
+  sec-fetch-mode: cors
+  sec-fetch-site: same-origin
+  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

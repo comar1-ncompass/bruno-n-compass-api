@@ -1,0 +1,101 @@
+meta {
+  name: Create a channel-user association
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/channel-users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "channelId": "{{standalone_channel_ForUser}}",
+    "userId": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936"
+  }
+}
+
+script:pre-request {
+  const timestamp = new Date().getTime();
+  const harroldId = "a06d4cba-01ad-4792-a3eb-3c112fe62936"; // Your ID
+  const baseUrl = bru.getEnvVar("baseUrl");
+  const token = bru.getEnvVar("bearer_token");
+  
+  // STEP 1: Create Content (Peach)
+  await bru.sendRequest({
+      url: `${baseUrl}/api/contents`,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      data: JSON.stringify({
+          "title": `User_Prep_Content_${timestamp}`,
+          "ownerId": harroldId,
+          "description": "Content for user-channel mapping test.",
+          "fileName": "peach-wallpaper.png",
+          "fileType": "image/png",
+          "fileSize": 1048576,
+          "url": "https://png.pngtree.com/thumb_back/fh260/background/20240726/pngtree-yellow-citrus-lemon-fruits-on-a-tree-branch-with-green-leaves-image_15927003.jpg",
+          "thumbnail": "https://png.pngtree.com/thumb_back/fh260/background/20240726/pngtree-yellow-citrus-lemon-fruits-on-a-tree-branch-with-green-leaves-image_15927003.jpg",
+          "duration": 30.5,
+          "isProtected": false,
+          "isConverted": true,
+          "isChannel": false,
+          "metadata": "{ \"upload\": { \"provider\": \"filestack\", \"handleId\": \"file-xyz123\" } }",
+          "createdBy": harroldId,
+          "nameConflict": "auto"
+      })
+  }, async function(err, res) {
+      if (!err && res.status === 201) {
+          const contentId = res.data.data.contentId;
+  
+          // STEP 2: Create a Channel
+          await bru.sendRequest({
+              url: `${baseUrl}/api/channels`,
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+              data: JSON.stringify({
+                  "channelName": `User_Access_Channel_${timestamp}`,
+                  "description": "A channel created to test user associations.",
+                  "genreIds": ["f5fb8536-e0f7-4277-9eef-b57834f63afb"],
+                  "thumbnailUrl": "https://t4.ftcdn.net/jpg/02/20/02/41/360_F_220024121_lvQqND2X6YcINIlgNwTXcwC5Ws6no0RQ.jpg",
+                  "isHero": false,
+                  "metadata": "",
+                  "createdBy": harroldId,
+                  "contents": [{ "contentId": contentId, "sequenceOrder": 1, "duration": 30 }]
+              })
+          }, async function(errCh, resCh) {
+              if (!errCh && resCh.status === 201) {
+                  const channelId = resCh.data.data.channelId;
+                  bru.setEnvVar("standalone_channel_ForUser", channelId);
+                  console.log("Prep finished: Channel created for User Mapping.");
+              }
+          });
+      }
+  });
+}
+
+script:post-response {
+  // 1. Status code is 201
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  // 2. Response time check
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,51 @@
+meta {
+  name: Create Admin
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/admin/create
+  body: json
+  auth: inherit
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:152.0) Gecko/20100101 Firefox/152.0^
+  ^Accept: application/json^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Content-Type: application/json^
+  ^Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdC1ib3RAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkZWE4Y2VkMS02YmE2LTRiOWMtYjljYy0yY2Q3ZWZmZDkyNzciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4MzM4ODg0NCwiZXhwIjoxNzgzNDE3NjQ0LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.7AQg4rcqIrtwkMVGRxIQKX3Pxnq276hMzCLwqcMG0bM^
+  ^Origin: https://sandbox-dashboard.n-compass.online^
+  ^Connection: keep-alive^
+  ^Referer: https://sandbox-dashboard.n-compass.online/^
+  ^Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI3Mjk5MmM1Ny1jYjNkLTQyNjctOTI4Ny02MmNhMzQzYTkzYWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4MzM4Njk4MywiZXhwIjoxNzgzNDE1NzgzLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.JXxsAEzW8wjqB_6omlWaX7agHWIZM48isJayLH2-jmE; nctvRefToken=lT8uOh6tShFyIamenGByacNNRaJEorv^%^2B2Oe6OulZRts^%^3D; nctvUserId=72992c57-cb3d-4267-9287-62ca343a93ae; nctvRoleName=Super^%^20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; res_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdC1ib3RAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkZWE4Y2VkMS02YmE2LTRiOWMtYjljYy0yY2Q3ZWZmZDkyNzciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4MzM4ODg0NCwiZXhwIjoxNzgzNDE3NjQ0LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.7AQg4rcqIrtwkMVGRxIQKX3Pxnq276hMzCLwqcMG0bM; res_nctvRefToken=k^%^2B0A6vnjv0nUhfs^%^2FR^%^2BsOCjWTkuG1aBpv9f^%^2FhG^%^2FUBugw^%^3D; res_nctvUserId=dea8ced1-6ba6-4b9c-b9cc-2cd7effd9277; res_nctvRoleName=Super^%^20Admin; res_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-site^
+  ^Priority: u=0^
+  ^TE: trailers^
+}
+
+body:json {
+  {
+    "roleid": "bb7a061e-495c-11ea-b77f-2e728ce88125",
+    "firstname": "Francis",
+    "lastname": "Comar",
+    "contactnumber": "3281731287",
+    "email": "francisc2@admin.com",
+    "password": "password",
+    "re_password": "password",
+    "createdby": "46a517a2-dd4a-413c-ac5a-c693c3e15d2b"
+  }
+}
+
+body:form-urlencoded {
+  "^^{^\^roleid^^:^\^bb7a0ca4-495c-11ea-b77f-2e728ce88125^^,^\^firstname^^:^\^Francis^^,^\^lastname^^:^\^Comar^^,^\^email^^:^\^francisc^@dealer.com^^,^\^password^^:^\^password^^,^\^re_password^^:^\^password^^,^\^contactNumber^^:^\^2372187312^^,^\^generatedid^^:^\^Test": 
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

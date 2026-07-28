@@ -1,0 +1,96 @@
+meta {
+  name: Create a new collection
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/collections
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "collectionName": "API Test Featured Products 1",
+      "position": {{nextAvailableIndex}},
+      "isVisible": true,
+      "isFeatured": false,
+      "createdBy": "321e6547-b98c-21d3-b456-426614174000",
+      "channels": [
+          {
+              "channelId": "e2516420-eff3-47d8-95dd-1b7bcf1ccf15", //should use existing channels
+              "sequenceOrder": 1,
+              "duration": 30
+          },
+          {
+              "channelId": "9dbc0805-d2c1-4fa1-836e-a00951ebb8fa",
+              "sequenceOrder": 2,
+              "duration": 45
+          }
+      ]
+  }
+}
+
+script:pre-request {
+  await bru.sendRequest({
+      url: "https://dev-nctvapi2.n-compass.online/api/collections",
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      }
+  }, async function(err, res) {
+      if (err) {
+          console.log("Error calling API:", err);
+          return;
+      }
+  
+      const jsonData = res.data;
+  
+      if (jsonData.meta && jsonData.meta.pagination) {
+          const totalCount = jsonData.meta.pagination.totalCount;
+          const nextIndex = totalCount + 1;
+          console.log("nextIndex:", nextIndex);
+  
+          bru.setEnvVar("nextAvailableIndex", nextIndex);
+  
+          console.log("Total collections:", totalCount);
+          console.log("nextAvailableIndex set to:", nextIndex);
+      } else {
+          console.log("Unexpected response structure", jsonData);
+      }
+  });
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract collectionId (correct field)
+  let collectionId = response.data.collectionId;
+  
+  // Save to environment variable
+  bru.setEnvVar("collectionId", collectionId);
+  
+  // Optional: log to console
+  console.log("Saved collectionId:", collectionId);
+  
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

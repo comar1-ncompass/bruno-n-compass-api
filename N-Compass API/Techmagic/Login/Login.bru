@@ -2,6 +2,9 @@ meta {
   name: Login
   type: http
   seq: 1
+  tags: [
+    auth
+  ]
 }
 
 post {
@@ -28,9 +31,9 @@ headers {
 
 body:json {
   {
-    "code": "MTuAzaFG0e5U6tq8tzITzpBNBXw7iz8NSaW4h7NwlGZMT",
+    "code": "9XIywrjGsIFKNvhiaCMdwRlFIUbFR-Wr4UGM7zSY4aGDA",
     "redirectUri": "https://sample-login-6m38.onrender.com/samplelogin.html",
-    "codeVerifier": "t2RB3T~HcpXWEkNWvZ900aw80hkAmVl6gbHhA5xAupW",
+    "codeVerifier": "ZDJX1W8HsHuESCL476ccVv2VUhi_jOFPQSxDfUf7w6L",
     "audience": "https://api.ntv360.com"
   }
 }
@@ -40,11 +43,37 @@ body:form-urlencoded {
 }
 
 script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract collectionId (correct field)
+  let userId = response.data.userId;
+  
+  // Save to environment variable
+  bru.setEnvVar("userId", userId);
+  
+  // Optional: log to console
+  console.log("Saved userId:", userId);
+  
   test('Token is set', () => {
       const response = res.getBody();
       bru.setEnvVar('bearer_token', response.token);
       const tokenNow = bru.getEnvVar('bearer_token');
       expect(response.token).to.equal(tokenNow);
+  });
+  
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
   });
 }
 

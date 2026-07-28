@@ -1,0 +1,46 @@
+meta {
+  name: Revoke Token
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/token/revoke
+  body: json
+  auth: bearer
+}
+
+params:query {
+  ~email: 
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+body:json {
+  {
+      "username": "francisc2@admin.com",
+      "password": "password"
+  }
+}
+
+script:post-response {
+  // Functions modified for bruno
+  test('Token is set', () => {
+      bru.setEnvVar('bearer_token', '');
+      const tokenNow = bru.getEnvVar('bearer_token');
+      expect(response.token).to.equal(tokenNow);
+  });
+  
+  test('UserId token is set', () => {
+      bru.setEnvVar('dev_nctvUserId', '');
+      const tokenNow = bru.getEnvVar('dev_nctvUserId');
+      expect(response.token).to.equal(tokenNow);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

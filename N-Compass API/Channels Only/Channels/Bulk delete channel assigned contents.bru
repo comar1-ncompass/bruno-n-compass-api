@@ -1,0 +1,41 @@
+meta {
+  name: Bulk delete channel assigned contents
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/channels/{{channelId2}}/contents/bulk-delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "contentIds": [
+      "f1417ba9-8e09-48d2-b30c-2210bd2fc7dd",
+      "dc7cf273-7147-47a2-be51-ca5e7d79f494"
+    ]
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
