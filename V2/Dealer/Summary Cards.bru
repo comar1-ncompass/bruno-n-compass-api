@@ -1,0 +1,34 @@
+meta {
+  name: Summary Cards
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/stats
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  ### Summary Cards
+  
+   #### Total Dealers = Active + Inactive
+             1371 = 1330 + 7 (FAILED)
+    
+   #### This Week = ((This Week - Last Week) / Last Week) × 100
+        7.69  = ((14 - 13) / 13) × 100 (PASSED)
+      
+   #### Last Week = ((Last Week - Two Weeks Ago) / Two Weeks Ago) × 100
+       18.18  = ((13 - 11) / 11) × 100 (PASSED)
+  
+}

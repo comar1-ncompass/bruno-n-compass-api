@@ -1,0 +1,77 @@
+meta {
+  name: Setup Progress Overview Statistics
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/setup-progress-stats
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~month: 
+  ~year: 2026
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Setup Progress data should exist", function () {
+    expect(body.data).to.not.be.undefined;
+    expect(body.data).to.be.an("array");
+  });
+  
+  test("Setup Progress data should not be empty", function () {
+    expect(body.data.length).to.be.greaterThan(0);
+  });
+  
+  test("Each month should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.month).to.be.a("number");
+      expect(item.month).to.be.at.least(1);
+      expect(item.month).to.be.at.most(12);
+    });
+  });
+  
+  test("New count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.new).to.be.a("number");
+      expect(item.new).to.be.at.least(0);
+    });
+  });
+  
+  test("Active count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.active).to.be.a("number");
+      expect(item.active).to.be.at.least(0);
+    });
+  });
+  
+  test("Inactive count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.inactive).to.be.a("number");
+      expect(item.inactive).to.be.at.least(0);
+    });
+  });
+  
+  test("Onboarding field should exist", function () {
+    body.data.forEach(function (item) {
+      expect(item).to.have.property("onboarding");
+    });
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

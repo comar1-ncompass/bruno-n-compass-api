@@ -1,0 +1,45 @@
+meta {
+  name: License SC
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dashboard/licenses
+  body: none
+  auth: inherit
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Total Licenses should exist", function () {
+    expect(body.data.totalLicenses).to.not.be.undefined;
+  });
+  
+  test("Total Licenses overall count should be a number", function () {
+    expect(body.data.totalLicenses.overall).to.be.a("number");
+    expect(body.data.totalLicenses.overall).to.be.at.least(0);
+  });
+  
+  test("This Week count should exist and be valid", function () {
+    expect(body.data.totalLicenses.thisWeek).to.not.be.undefined;
+    expect(body.data.totalLicenses.thisWeek).to.be.a("number");
+    expect(body.data.totalLicenses.thisWeek).to.be.at.least(0);
+  });
+  
+  test("Last Week count should exist and be valid", function () {
+    expect(body.data.totalLicenses.lastWeek).to.not.be.undefined;
+    expect(body.data.totalLicenses.lastWeek).to.be.a("number");
+    expect(body.data.totalLicenses.lastWeek).to.be.at.least(0);
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

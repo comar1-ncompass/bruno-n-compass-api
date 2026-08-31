@@ -1,0 +1,72 @@
+meta {
+  name: Risk Status Overview
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/risk-stats
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Risk Status data should exist", function () {
+    expect(body.data).to.not.be.undefined;
+    expect(body.data).to.be.an("array");
+  });
+  
+  test("Risk Status data should not be empty", function () {
+    expect(body.data.length).to.be.greaterThan(0);
+  });
+  
+  test("Month should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.month).to.be.a("number");
+      expect(item.month).to.be.at.least(1);
+      expect(item.month).to.be.at.most(12);
+    });
+  });
+  
+  test("On Track count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.onTrack).to.be.a("number");
+      expect(item.onTrack).to.be.at.least(0);
+    });
+  });
+  
+  test("At Risk count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.atRisk).to.be.a("number");
+      expect(item.atRisk).to.be.at.least(0);
+    });
+  });
+  
+  test("High Risk count should be valid", function () {
+    body.data.forEach(function (item) {
+      expect(item.highRisk).to.be.a("number");
+      expect(item.highRisk).to.be.at.least(0);
+    });
+  });
+  
+  test("Weekly risk data should exist", function () {
+    body.data.forEach(function (item) {
+      expect(item.week).to.not.be.undefined;
+    });
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
