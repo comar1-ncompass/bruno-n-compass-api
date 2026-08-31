@@ -1,0 +1,51 @@
+meta {
+  name: Get Search Places
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{fastEdgeGoogle}}?place={{hostName}} {{hostZipCode}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  place: {{hostName}} {{hostZipCode}}
+}
+
+script:post-response {
+  // ===============================================================================
+  // Extracting LONGITUDE and LATITUDE to be called on other requests
+  // Parse the response JSON
+  const responseJson = res.getBody();
+  
+  // Extract latitude and longitude from the first search result
+  const latitude = responseJson.google_search[0].latitude;
+  const longitude = responseJson.google_search[0].longitude;
+  
+  // Store as environment variables (accessible across requests in the same environment)
+  bru.setEnvVar("latitude", latitude);
+  bru.setEnvVar("longitude", longitude);
+  
+  // Or store as collection variables (accessible across requests in the same collection)
+  // // pm.collectionVariables.set("latitude", latitude);
+  // // pm.collectionVariables.set("longitude", longitude);
+  
+  // Optional: Log the values to console for verification
+  console.log("Stored latitude:", latitude);
+  console.log("Stored longitude:", longitude);
+  // ===============================================================================
+  
+  // ===============================================================================
+  const placeId = responseJson.google_search[0].placeId;
+  
+  bru.setEnvVar("placeId", placeId);
+  
+  console.log("Stored placeId:", placeId);
+  // ===============================================================================
+}
+
+settings {
+  encodeUrl: true
+}

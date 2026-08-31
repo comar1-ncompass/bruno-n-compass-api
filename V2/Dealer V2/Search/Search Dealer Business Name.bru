@@ -1,0 +1,25 @@
+meta {
+  name: Search Dealer Business Name
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=15&search=LCA&searchFields=clientInformation.alias,clientInformation.businessName&sortBy=createdAt&sortOrder=desc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  search: LCA
+  searchFields: clientInformation.alias,clientInformation.businessName
+  sortBy: createdAt
+  sortOrder: desc
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

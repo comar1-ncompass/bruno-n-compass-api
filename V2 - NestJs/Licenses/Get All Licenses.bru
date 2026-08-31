@@ -1,0 +1,22 @@
+meta {
+  name: Get All Licenses
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/licenses?page=2&limit=10&sortBy=dateCreated&sortOrder=DESC
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 2
+  limit: 10
+  sortBy: dateCreated
+  sortOrder: DESC
+}
+
+settings {
+  encodeUrl: true
+}

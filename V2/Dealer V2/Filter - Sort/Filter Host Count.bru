@@ -1,0 +1,110 @@
+meta {
+  name: Filter Host Count
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=15&sortBy=hosts.total&sortOrder=desc&totalHosts=hosts_6_10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  sortBy: hosts.total
+  sortOrder: desc
+  @description('''
+    change this param for more filter:
+    hosts_0_5 (0-5 host)
+    hosts_6_10 (6-10 host)
+    hosts_11_plus (11 above host)
+  ''')
+  totalHosts: hosts_6_10
+}
+
+tests {
+  const response = res.getBody();
+  const dealers = response.data;
+  
+  // Get the filter from the request URL
+  const filter = req.getUrl().match(/totalHosts=([^&]+)/)?.[1];
+  
+  let filterName;
+  
+  if (filter === "hosts_0_5") {
+    filterName = "0-5 hosts";
+  } else if (filter === "hosts_6_10") {
+    filterName = "6-10 hosts";
+  } else if (filter === "hosts_11_plus") {
+    filterName = "11+ hosts";
+  } else {
+    filterName = filter;
+  }
+  
+  test("Response status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains dealer data", function() {
+    expect(response).to.have.property("data");
+    expect(dealers).to.be.an("array");
+  });
+  
+  test(`Host filter ${filterName} is correct`, function() {
+  
+    dealers.forEach((dealer, index) => {
+  
+      const totalHosts = dealer.hosts?.total;
+  
+      if (filter === "hosts_0_5") {
+  
+        expect(
+          totalHosts,
+          `Dealer ${index} has ${totalHosts} hosts`
+        ).to.be.within(0, 5);
+  
+      } else if (filter === "hosts_6_10") {
+  
+        expect(
+          totalHosts,
+          `Dealer ${index} has ${totalHosts} hosts`
+        ).to.be.within(6, 10);
+  
+      } else if (filter === "hosts_11_plus") {
+  
+        expect(
+          totalHosts,
+          `Dealer ${index} has ${totalHosts} hosts`
+        ).to.be.at.least(11);
+  
+      } else {
+  
+        throw new Error(`Unknown host filter: ${filter}`);
+  
+      }
+    });
+  
+  });
+  
+  test("Dealers are sorted by total hosts descending", function() {
+  
+    for (let i = 0; i < dealers.length - 1; i++) {
+  
+      const current = dealers[i].hosts?.total;
+      const next = dealers[i + 1].hosts?.total;
+  
+      expect(
+        current,
+        `Dealer ${i} (${current}) should be >= Dealer ${i + 1} (${next})`
+      ).to.be.at.least(next);
+    }
+  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

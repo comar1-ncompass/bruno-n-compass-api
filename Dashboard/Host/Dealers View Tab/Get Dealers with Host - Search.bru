@@ -1,0 +1,265 @@
+meta {
+  name: Get Dealers with Host - Search
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getdealerswithhost?page=1&search=test%20automation
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: test%20automation
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Dealers with Host
+  
+  This endpoint retrieves a list of dealers along with their associated host information. It supports searching through the `search` query parameter and pagination through the `page` query parameter.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `https://dev-api.n-compass.online/api/dealer/getdealerswithhost?page=1&search=test%20automation`
+      
+  
+  #### Query Parameters
+  
+  - `page` (integer): The page number to retrieve. This allows users to paginate through the list of dealers.
+      
+  - `search` (string): A search term used to filter dealers based on their business name, contact person, or other relevant fields. The input format should be a URL-encoded string representing the search query.
+      
+  
+  ### Response
+  
+  The response will return a JSON object containing the following structure:
+  
+  - **dealers** (array): A list of dealer objects matching the search criteria, each containing:
+      
+      - `dealerId` (string): Unique identifier for the dealer.
+          
+      - `businessName` (string): The name of the dealer's business.
+          
+      - `contactPerson` (string): The name of the contact person.
+          
+      - `contactNumber` (string): The contact number for the dealer.
+          
+      - `region` (string): The region where the dealer is located.
+          
+      - `state` (string): The state of the dealer.
+          
+      - `city` (string): The city of the dealer.
+          
+      - `userId` (string): Identifier for the user associated with the dealer.
+          
+      - `dateCreated` (string): The date when the dealer was created.
+          
+      - `dateUpdated` (string or null): The date when the dealer information was last updated.
+          
+      - `createdBy` (string or null): The user who created the dealer entry.
+          
+      - `updatedBy` (string or null): The user who last updated the dealer entry.
+          
+      - `status` (string): The current status of the dealer.
+          
+      - `totalHost` (string): Total number of hosts associated with the dealer.
+          
+      - `activeHost` (string): Number of active hosts.
+          
+      - `forInstallationHost` (string): Number of hosts for installation.
+          
+      - `email` (string): Email address of the dealer.
+          
+      - `generatedId` (string): Auto-generated identifier for the dealer.
+          
+      - **hosts** (array): A list of host objects associated with the dealer, each containing:
+          
+          - `hostId` (string): Unique identifier for the host.
+              
+          - `dealerId` (string): Identifier for the dealer associated with the host.
+              
+          - `userId` (string or null): Identifier for the user associated with the host.
+              
+          - `name` (string): Name of the host.
+              
+          - `address` (string): Address of the host.
+              
+          - `street` (string or null): Street address of the host.
+              
+          - `city` (string): City of the host.
+              
+          - `postalCode` (string): Postal code for the host.
+              
+          - `region` (string): Region of the host.
+              
+          - `state` (string): State of the host.
+              
+          - `country` (string or null): Country of the host.
+              
+          - `latitude` (string): Latitude of the host location.
+              
+          - `longitude` (string): Longitude of the host location.
+              
+          - `timeZone` (string): Time zone of the host.
+              
+          - `storeHours` (string): Operating hours of the host.
+              
+          - `notes` (string): Additional notes regarding the host.
+              
+          - Other relevant fields related to the host.
+              
+  - **advertisers** (array): A list of advertisers associated with the dealers (if any).
+      
+  - **licenses** (array): A list of licenses associated with the dealers (if any).
+      
+  - **paging** (object): Contains pagination information:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Size of each page.
+          
+      - `totalEntities` (integer): Total number of entities available.
+          
+  
+  ### Notes
+  
+  - Ensure to handle pagination when retrieving a large number of dealers.
+      
+  - The response may contain null values for optional fields.
+      
+  - The endpoint returns a 200 status code on successful retrieval of the dealer information.
+      
+  - Use the `search` parameter to filter results based on specific criteria relevant to dealers.
+      
+  
+  This endpoint retrieves a list of dealers along with their associated host information. It supports pagination through the `page` query parameter. The purpose of this request is to allow users to search for dealers based on specific criteria, such as business name or location.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `https://dev-api.n-compass.online/api/dealer/getdealerswithhost?page=1&search=test%20automation`
+      
+  
+  #### Query Parameters
+  
+  - `page` (integer): The page number to retrieve. This allows users to paginate through the list of dealers.
+      
+  - `search` (string): A search term to filter dealers based on their business name or other relevant attributes.
+      
+  
+  ### Response
+  
+  The response will return a JSON object containing the following structure:
+  
+  - **dealers** (array): A list of dealer objects, each containing:
+      
+      - `dealerId` (string): Unique identifier for the dealer.
+          
+      - `businessName` (string): The name of the dealer's business.
+          
+      - `contactPerson` (string): The name of the contact person.
+          
+      - `contactNumber` (string): The contact number for the dealer.
+          
+      - `region` (string): The region where the dealer is located.
+          
+      - `state` (string): The state of the dealer.
+          
+      - `city` (string): The city of the dealer.
+          
+      - `userId` (string): Identifier for the user associated with the dealer.
+          
+      - `dateCreated` (string): The date when the dealer was created.
+          
+      - `dateUpdated` (string or null): The date when the dealer information was last updated.
+          
+      - `createdBy` (string or null): The user who created the dealer entry.
+          
+      - `updatedBy` (string or null): The user who last updated the dealer entry.
+          
+      - `status` (string): The current status of the dealer.
+          
+      - `totalHost` (string): Total number of hosts associated with the dealer.
+          
+      - `activeHost` (string): Number of active hosts.
+          
+      - `forInstallationHost` (string): Number of hosts for installation.
+          
+      - `email` (string): Email address of the dealer.
+          
+      - `generatedId` (string): Auto-generated identifier for the dealer.
+          
+      - **hosts** (array): A list of host objects associated with the dealer, each containing:
+          
+          - `hostId` (string): Unique identifier for the host.
+              
+          - `dealerId` (string): Identifier for the dealer associated with the host.
+              
+          - `userId` (string or null): Identifier for the user associated with the host.
+              
+          - `name` (string): Name of the host.
+              
+          - `address` (string): Address of the host.
+              
+          - `street` (string or null): Street address of the host.
+              
+          - `city` (string): City of the host.
+              
+          - `postalCode` (string): Postal code for the host.
+              
+          - `region` (string): Region of the host.
+              
+          - `state` (string): State of the host.
+              
+          - `country` (string or null): Country of the host.
+              
+          - `latitude` (string): Latitude of the host location.
+              
+          - `longitude` (string): Longitude of the host location.
+              
+          - `timeZone` (string): Time zone of the host.
+              
+          - `storeHours` (string): Operating hours of the host.
+              
+          - `notes` (string): Additional notes regarding the host.
+              
+          - Other relevant fields related to the host.
+              
+  - **advertisers** (array): A list of advertisers associated with the dealers (if any).
+      
+  - **licenses** (array): A list of licenses associated with the dealers (if any).
+      
+  - **paging** (object): Contains pagination information:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Size of each page.
+          
+      - `totalEntities` (integer): Total number of entities available.
+          
+  
+  ### Notes
+  
+  - Ensure to handle pagination when retrieving a large number of dealers.
+      
+  - The response may contain null values for optional fields.
+      
+  - The endpoint returns a 200 status code on successful retrieval of the dealer information.
+}

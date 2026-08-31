@@ -1,0 +1,103 @@
+meta {
+  name: Get Advertiser by Dealer ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/advertiser/getbydealerid?dealer_id={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealer_id: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Endpoint Description
+  
+  This endpoint retrieves a list of advertisers associated with a specific dealer identified by the `dealer_id`. It is an HTTP GET request that returns data in JSON format.
+  
+  ### Request Parameters
+  
+  - **dealer_id** (required): The unique identifier of the dealer for whom the advertisers are being fetched. This parameter should be passed as a query string in the URL.
+      
+  
+  ### Response Structure
+  
+  On a successful request (HTTP Status 200), the response will contain the following structure:
+  
+  - **advertisers**: An array of advertiser objects, each containing:
+      
+      - `id`: The unique identifier for the advertiser.
+          
+      - `dealerId`: The identifier of the dealer associated with the advertiser.
+          
+      - `userId`: The identifier of the user associated with the advertiser (nullable).
+          
+      - `advertiserId`: The unique advertiser ID (nullable).
+          
+      - `name`: The name of the advertiser.
+          
+      - `region`: The region where the advertiser operates (nullable).
+          
+      - `state`: The state of the advertiser.
+          
+      - `status`: The current status of the advertiser.
+          
+      - `dateCreated`: The date when the advertiser was created.
+          
+      - `dateUpdated`: The date when the advertiser was last updated.
+          
+      - `createdBy`: The user who created the advertiser.
+          
+      - `updatedBy`: The user who last updated the advertiser (nullable).
+          
+      - `latitude`: The latitude of the advertiser's location.
+          
+      - `longitude`: The longitude of the advertiser's location.
+          
+      - `city`: The city where the advertiser is located.
+          
+      - `postalCode`: The postal code of the advertiser's address.
+          
+      - `address`: The physical address of the advertiser.
+          
+      - `category`: The category under which the advertiser falls.
+          
+      - `logo`: The logo associated with the advertiser (nullable).
+          
+      - `advertiserUser`: The user associated with the advertiser.
+          
+      - `totalAssets`: The total number of assets associated with the advertiser.
+          
+  - **paging**: An object that provides pagination information, including:
+      
+      - `hasPreviousPage`: A boolean indicating if there is a previous page of results.
+          
+      - `hasNextPage`: A boolean indicating if there is a next page of results.
+          
+      - `page`: The current page number.
+          
+      - `pageSize`: The number of items per page.
+          
+      - `pages`: The total number of pages available.
+          
+      - `totalEntities`: The total number of entities available.
+          
+      - `pageStart`: The starting index of the current page.
+          
+      - `entities`: An array of entities for the current page, structured similarly to the `advertisers` array.
+          
+  
+  ### Notes
+  
+  - Ensure that the `dealer_id` parameter is correctly specified to retrieve the relevant advertisers.
+      
+  - The response may contain nullable fields, which indicate that certain data may not be available for all advertisers.
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Get License Status
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/pi/status?licenseKey=5e3268ea-6ed8-4588-86bc-9985334010eb
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseKey: 5e3268ea-6ed8-4588-86bc-9985334010eb
+}
+
+settings {
+  encodeUrl: true
+}

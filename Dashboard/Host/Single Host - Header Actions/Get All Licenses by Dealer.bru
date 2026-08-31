@@ -1,0 +1,97 @@
+meta {
+  name: Get All Licenses by Dealer
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/license/getbydealer?dealerId={{dealerId}}&page=3&search=&arrangement=online&pageSize=15&pending=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: {{dealerId}}
+  page: 3
+  search: 
+  arrangement: online
+  pageSize: 15
+  pending: 
+}
+
+script:post-response {
+  // Parse the response JSON
+  const responseJson = res.getBody();
+  
+  // Method 1: Search in paging.entities array for both screenId and hostName being null
+  if (responseJson.paging && responseJson.paging.entities) {
+      const firstNullEntity = responseJson.paging.entities.find(entity => 
+          entity.screenId === null && entity.hostName === null
+      );
+      
+      if (firstNullEntity) {
+          console.log("Found first entity with null screenId AND null hostName:", firstNullEntity);
+          
+          // Set the relevant data as environment variables for use in other requests
+          bru.setEnvVar("nullScreenIdHostNameLicenseId", firstNullEntity.licenseId);
+          bru.setEnvVar("nullScreenIdHostNameLicenseKey", firstNullEntity.licenseKey);
+          bru.setEnvVar("nullScreenIdHostNameAlias", firstNullEntity.alias);
+          
+          // Or set as collection variables if you prefer
+  //         // pm.collectionVariables.set("nullScreenIdHostNameLicenseId", firstNullEntity.licenseId);
+          
+          console.log("Set environment variables:");
+          console.log("- nullScreenIdHostNameLicenseId:", firstNullEntity.licenseId);
+          console.log("- nullScreenIdHostNameLicenseKey:", firstNullEntity.licenseKey);
+          console.log("- nullScreenIdHostNameAlias:", firstNullEntity.alias);
+      } else {
+          console.log("No entity found with both null screenId AND null hostName in paging.entities");
+      }
+  }
+  
+  // Method 2: Search in licenses array (alternative approach)
+  if (responseJson.licenses) {
+      const firstNullInLicenses = responseJson.licenses.find(license => 
+          license.screenId === null && license.hostName === null
+      );
+      
+      if (firstNullInLicenses) {
+          console.log("Found first license with null screenId AND null hostName:", firstNullInLicenses);
+          
+          // Set additional variables if needed from licenses array
+          bru.setEnvVar("nullFromLicensesId", firstNullInLicenses.licenseId);
+      }
+  }
+  
+  // Method 3: Get all entities with both null values (for debugging)
+  if (responseJson.paging && responseJson.paging.entities) {
+      const allNullEntities = responseJson.paging.entities.filter(entity => 
+          entity.screenId === null && entity.hostName === null
+      );
+      
+      console.log(`Found ${allNullEntities.length} entities with both null screenId AND null hostName`);
+      allNullEntities.forEach((entity, index) => {
+          console.log(`Null entity ${index + 1}:`, {
+              licenseId: entity.licenseId,
+              alias: entity.alias,
+              isActivated: entity.isActivated,
+              isRegistered: entity.isRegistered
+          });
+      });
+  }
+  
+  // Method 4: Just find first with null screenId (if you want to be less restrictive)
+  if (responseJson.paging && responseJson.paging.entities) {
+      const firstNullScreenIdOnly = responseJson.paging.entities.find(entity => entity.screenId === null);
+      
+      if (firstNullScreenIdOnly) {
+          bru.setEnvVar("nullScreenIdOnlyLicenseId", firstNullScreenIdOnly.licenseId);
+          console.log("Also set nullScreenIdOnlyLicenseId for less restrictive search:", firstNullScreenIdOnly.licenseId);
+      }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

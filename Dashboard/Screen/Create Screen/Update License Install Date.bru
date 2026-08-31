@@ -1,0 +1,24 @@
+meta {
+  name: Update License Install Date
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/license/updateinstalldatelist
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+      {
+          "licenseId": "e4533e46-282a-45c8-b797-be95c925977f",
+          "installDate": "08/13/2025"
+      }
+  ]
+}
+
+settings {
+  encodeUrl: true
+}

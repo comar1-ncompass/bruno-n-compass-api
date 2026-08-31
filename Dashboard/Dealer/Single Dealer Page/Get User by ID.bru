@@ -1,0 +1,53 @@
+meta {
+  name: Get User by ID
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/user/getbyid?user_id={{userID}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  user_id: {{userID}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get User by ID
+  
+  This endpoint retrieves user information based on the provided user ID.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/user/getbyid`
+      
+  - **Query Parameters:**
+      
+      - `user_id` (required): The unique identifier of the user whose information is being requested. Replace `{{dealerId}}` with the actual user ID.
+          
+  
+  ### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  - **Response Body:**
+      
+      - `message`: A string indicating the status of the request. The content may vary based on the execution context.
+          
+  
+  ### Notes
+  
+  - Ensure that the `user_id` provided is valid and corresponds to an existing user in the system.
+      
+  - The response may contain additional information in different contexts, but the current implementation returns a simple message.
+}

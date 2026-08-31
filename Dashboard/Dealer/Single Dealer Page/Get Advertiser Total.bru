@@ -1,0 +1,60 @@
+meta {
+  name: Get Advertiser Total
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/advertiser/gettotal?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Total Advertisers
+  
+  This endpoint retrieves the total number of advertisers associated with a specific dealer. It provides insights into the overall status of advertisers, including counts of active and inactive advertisers, as well as new advertisers acquired in the last two weeks.
+  
+  ### Request Parameters
+  
+  - **dealerid** (query parameter, required): The unique identifier for the dealer whose advertiser statistics you wish to retrieve.
+      
+  
+  ### Response Structure
+  
+  On a successful request, the response will return a JSON object containing the following fields:
+  
+  - **total**: The total number of advertisers associated with the dealer.
+      
+  - **totalActive**: The number of active advertisers.
+      
+  - **totalInActive**: The number of inactive advertisers.
+      
+  - **newAdvertisersThisWeek**: The count of new advertisers added in the current week.
+      
+  - **newAdvertisersLastWeek**: The count of new advertisers added in the previous week.
+      
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "total": 0,
+    "totalActive": 0,
+    "totalInActive": 0,
+    "newAdvertisersThisWeek": 0,
+    "newAdvertisersLastWeek": 0
+  }
+  
+   ```
+  
+  This endpoint is useful for dealers to monitor their advertising network and make informed decisions based on the current state of their advertisers.
+}

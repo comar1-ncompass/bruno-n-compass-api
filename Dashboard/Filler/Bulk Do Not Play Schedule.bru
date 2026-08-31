@@ -1,0 +1,328 @@
+meta {
+  name: Bulk Do Not Play Schedule
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/filler/content/schedule/upsert/bulk
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+      {
+          "fillerContentId": "{{fillerContentId1}}",
+          "type": 2,
+          "schedule": {
+              "type": 2
+          },
+          "duration": 20,
+          "isFullScreen": 0,
+          "Recurring": false,
+          "LiveStream": 0,
+          "From": "",
+          "To": "",
+          "Days": "",
+          "AlternateWeek": 0,
+          "PlayTimeStart": "",
+          "PlayTimeEnd": "",
+          "Status": "A"
+      },
+      {
+          "fillerContentId": "{{fillerContentId2}}",
+          "type": 2,
+          "schedule": {
+              "type": 2
+          },
+          "duration": 20,
+          "isFullScreen": 0,
+          "Recurring": false,
+          "LiveStream": 0,
+          "From": "",
+          "To": "",
+          "Days": "",
+          "AlternateWeek": 0,
+          "PlayTimeStart": "",
+          "PlayTimeEnd": "",
+          "Status": "A"
+      },
+      {
+          "fillerContentId": "{{fillerContentId3}}",
+          "type": 2,
+          "schedule": {
+              "type": 2
+          },
+          "duration": 20,
+          "isFullScreen": 0,
+          "Recurring": false,
+          "LiveStream": 0,
+          "From": "",
+          "To": "",
+          "Days": "",
+          "AlternateWeek": 0,
+          "PlayTimeStart": "",
+          "PlayTimeEnd": "",
+          "Status": "A"
+      }
+  ]
+}
+
+script:pre-request {
+  // API endpoint to fetch filler content by group ID
+  const fillerGroupId = bru.getEnvVar("filler_group_id");
+  const accessToken = bru.getCollectionVar("access_token");
+  
+  // ADD DEBUG INFO AT THE START
+  console.log("=== REQUEST INFO ===");
+  console.log("filler_group_id:", fillerGroupId);
+  console.log("access_token exists:", !!accessToken);
+  
+  await bru.sendRequest({
+      url: `https://dev-api.n-compass.online/api/filler/content/getbygroupid?id=${fillerGroupId}`,
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+      }
+  }, async function(err, res) {
+      if (err) {
+          console.error("Error fetching filler content:", err);
+          return;
+      }
+  
+      // ADD RESPONSE DEBUG
+      console.log("=== RESPONSE INFO ===");
+      res.status;
+      res.statusText;
+  
+      let responseData = res.data;
+  
+      // Check if API returned "No records found"
+      if (responseData && responseData.message === "No records found") {
+          console.error(`No filler content found for group ID: ${fillerGroupId}`);
+          console.error("Please check if the filler_group_id is correct or if there's active content in that group");
+          
+          // Set empty fallback values
+          bru.setEnvVar("fillerContentId1", "");
+          bru.setEnvVar("fillerContentId2", "");
+          bru.setEnvVar("fillerContentId3", "");
+          return;
+      }
+  
+      // Handle array response
+      let contentArray;
+      if (Array.isArray(responseData)) {
+          contentArray = responseData;
+          
+          // ADD CONTENT DEBUG HERE
+          console.log("=== CONTENT DEBUG ===");
+          console.log("Total content items:", contentArray.length);
+          console.log("First item structure:", Object.keys(contentArray[0] || {}));
+          console.log("First item sample:", contentArray[0]);
+          
+      } else {
+          console.error("Unexpected response format");
+          console.error("Response type:", typeof responseData);
+          console.error("Response keys:", Object.keys(responseData || {}));
+          return;
+      }
+  
+      // Since all statuses are undefined, use alternative filtering
+      console.log("=== FILTERING DEBUG ===");
+  
+      // Filter by isConverted and valid URL (since status is undefined)
+      let activeContent = contentArray.filter(item => 
+          item.isConverted === true &&  // Only converted content
+          item.url &&                   // Must have a valid URL
+          item.url.length > 0 &&        // URL must not be empty
+          item.fillerContentId          // Must have valid ID
+      );
+  
+      console.log('Items with isConverted === true and valid URL:', activeContent.length);
+  
+      if (activeContent.length === 0) {
+          console.warn("No content found with isConverted filter. Using all available content...");
+          
+          // Fallback: use all content with valid IDs and URLs
+          activeContent = contentArray.filter(item => 
+              item.fillerContentId && 
+              item.url && 
+              item.url.length > 0
+          );
+          
+          if (activeContent.length === 0) {
+              console.error("No usable content found");
+              bru.setEnvVar("fillerContentId1", "");
+              bru.setEnvVar("fillerContentId2", "");
+              bru.setEnvVar("fillerContentId3", "");
+              return;
+          }
+      }
+  
+      console.log("=== FINAL ACTIVE CONTENT ===");
+      console.log("Using", activeContent.length, "active items");
+  
+      // Generate 3 random filler content IDs
+      if (activeContent.length >= 3) {
+          // Shuffle the array
+          let shuffled = [...activeContent];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+              let j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          
+          // Pick first 3 from shuffled array
+          const selected3 = shuffled.slice(0, 3);
+          
+          // Set individual environment variables for each filler content ID
+          bru.setEnvVar("fillerContentId1", selected3[0].fillerContentId);
+          bru.setEnvVar("fillerContentId2", selected3[1].fillerContentId);
+          bru.setEnvVar("fillerContentId3", selected3[2].fillerContentId);
+          
+          console.log("=== FINAL RESULTS ===");
+          console.log("fillerContentId1:", selected3[0].fillerContentId);
+          console.log("fillerContentId2:", selected3[1].fillerContentId);
+          console.log("fillerContentId3:", selected3[2].fillerContentId);
+          console.log("✅ Variables set successfully!");
+          
+      } else if (activeContent.length === 2) {
+          // Only 2 items available, use them twice
+          bru.setEnvVar("fillerContentId1", activeContent[0].fillerContentId);
+          bru.setEnvVar("fillerContentId2", activeContent[1].fillerContentId);
+          bru.setEnvVar("fillerContentId3", activeContent[0].fillerContentId); // Reuse first one
+          
+          console.log("=== FINAL RESULTS (Only 2 items available) ===");
+          console.log("fillerContentId1:", activeContent[0].fillerContentId);
+          console.log("fillerContentId2:", activeContent[1].fillerContentId);
+          console.log("fillerContentId3:", activeContent[0].fillerContentId, "(reused)");
+          console.log("⚠️ Variables set with reused content!");
+          
+      } else if (activeContent.length === 1) {
+          // Only 1 item available, use it for all 3
+          const singleId = activeContent[0].fillerContentId;
+          bru.setEnvVar("fillerContentId1", singleId);
+          bru.setEnvVar("fillerContentId2", singleId);
+          bru.setEnvVar("fillerContentId3", singleId);
+          
+          console.log("=== FINAL RESULTS (Only 1 item available) ===");
+          console.log("fillerContentId1:", singleId);
+          console.log("fillerContentId2:", singleId, "(reused)");
+          console.log("fillerContentId3:", singleId, "(reused)");
+          console.log("⚠️ Variables set with same content for all 3!");
+          
+      } else {
+          console.error("No active content available");
+          bru.setEnvVar("fillerContentId1", "");
+          bru.setEnvVar("fillerContentId2", "");
+          bru.setEnvVar("fillerContentId3", "");
+      }
+  });
+  
+}
+
+script:post-response {
+  // ===== DETERMINE SCHEDULE TYPE(S) FROM REQUEST =====
+  let scheduleTypesFound = [];
+  let fillerContentIdFromTest = null;
+  
+  try {
+      const requestBody = JSON.parse(req.getBody().raw);
+      scheduleTypesFound = [...new Set(requestBody.map(i => i.type))]; // Unique types
+      if (requestBody.length > 0) {
+          fillerContentIdFromTest = requestBody[0].fillerContentId; // take first item or adjust if multiple
+      }
+  } catch (e) {
+      console.log("⚠️ Could not parse request body for schedule type check");
+  }
+  
+  // Helper to get label
+  const getScheduleTypeLabel = t => t === 1 ? "TYPE 1 DEFAULT PLAY" : "TYPE 2 DO NOT PLAY";
+  const expectedScheduleType = 2; // Change to 2 if testing "Do Not Play"
+  const expectedScheduleTypeLabel = getScheduleTypeLabel(expectedScheduleType);
+  
+  // ===== BUSINESS RULES VALIDATION =====
+  test("✅ Business rules validation per type", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+  
+      requestBody.forEach((item, index) => {
+          expect(item.type, `Item ${index + 1} type`).to.be.oneOf([1, 2]);
+  
+          // Common rules
+          expect(item.duration, `Item ${index + 1} duration`).to.be.gte(5);
+          expect(item.isFullScreen, `Item ${index + 1} isFullScreen`).to.equal(0);
+          expect(item.LiveStream, `Item ${index + 1} LiveStream`).to.equal(0);
+          expect(item.Status, `Item ${index + 1} Status`).to.equal('A');
+          expect(item.Recurring, `Item ${index + 1} Recurring`).to.be.a('boolean');
+          expect(item.AlternateWeek, `Item ${index + 1} AlternateWeek`).to.be.oneOf([0, 1]);
+  
+          // Type-specific rules
+          if (item.type === 1) {
+              ['From', 'To', 'Days', 'PlayTimeStart', 'PlayTimeEnd'].forEach(f => {
+                  expect(item[f], `Item ${index + 1} ${f} must be empty for Type 1`).to.equal('');
+              });
+          } else if (item.type === 2) {
+              ['From', 'To', 'Days', 'PlayTimeStart', 'PlayTimeEnd'].forEach(f => {
+                  expect(item[f], `Item ${index + 1} ${f} should be string`).to.be.a('string');
+              });
+          }
+          console.log(`✅ Item ${index + 1}: ${getScheduleTypeLabel(item.type)} rules validated`);
+      });
+  });
+  
+  // ===== CHAINED REQUEST VERIFICATION =====
+  if (res.getStatus() >= 200 && res.getStatus() < 300 && fillerContentIdFromTest) {
+      const fillerGroupId = bru.getEnvVar("filler_group_id");
+      const baseUrl = bru.getCollectionVar("base_url") || bru.getEnvVar("baseUrl");
+      const accessToken = bru.getCollectionVar("access_token") || bru.getEnvVar("access_token");
+  
+      if (fillerGroupId) {
+          await bru.sendRequest({
+              url: `${baseUrl}/api/filler/content/getbygroupid?id=${fillerGroupId}`,
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
+              }
+          }, async function(err, res) {
+              if (err) return console.log("⚠️ Verification request failed:", err.message);
+  
+              test("✅ [Chained Request] Content Retrieval Status Code for Verification", () => 
+                  res.status.to.eql(200)
+              );
+  
+              const contentData = res.data;
+              const contentArray = Array.isArray(contentData) ? contentData : contentData.data || [];
+              const updatedContent = contentArray.find(item => item.fillerContentId === fillerContentIdFromTest);
+  
+              test("✅ [Chained Request] Configured schedule exists", () => 
+                  expect(updatedContent).to.exist
+              );
+  
+              const actualScheduleType = updatedContent?.fillerContentSchedule?.type;
+              const actualScheduleTypeLabel = getScheduleTypeLabel(actualScheduleType);
+  
+              test(`✅ Schedule type validation – Expected: ${expectedScheduleTypeLabel}`, function () {
+                  console.log(`🔍 Testing schedule type: ${actualScheduleType} (${actualScheduleTypeLabel})`);
+  
+                  expect(
+                      actualScheduleType,
+                      `Schedule type should be ${expectedScheduleType} (${expectedScheduleTypeLabel}) but got ${actualScheduleType} (${actualScheduleTypeLabel})`
+                  ).to.equal(expectedScheduleType);
+  
+                  if (actualScheduleType === expectedScheduleType) {
+                      console.log(`✅ Schedule type matches ${expectedScheduleTypeLabel}`);
+                  } else {
+                      console.error(`❌ Schedule type mismatch! Expected: ${expectedScheduleType} (${expectedScheduleTypeLabel}), Got: ${actualScheduleType} (${actualScheduleTypeLabel})`);
+                  }
+              });
+          });
+      }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

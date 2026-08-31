@@ -1,0 +1,36 @@
+meta {
+  name: Add Content
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/playlistsv2/addcontent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlistId": "361fe48e-d682-423f-a6fb-c7d895e4e6a3",
+      "playlistContentsLicenses": [
+          {
+              "fillerPlaylistId": null,
+              "classification": null,
+              "contentId": "8f05df17-d0ee-4f12-b54d-5304afbd4ff3",
+              "duration": 20,
+              "fileType": "png",
+              "isFullScreen": 0,
+              "licenseIds": [],
+              "seq": 0,
+              "type": 1,
+              "frequency": 0,
+              "formValid": true
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

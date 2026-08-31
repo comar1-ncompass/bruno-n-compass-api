@@ -1,0 +1,19 @@
+meta {
+  name: Get Template By Id
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/Template/GetTemplateById?templateId=7c74647b-1dbf-47eb-8371-e8f786642451
+  body: none
+  auth: inherit
+}
+
+params:query {
+  templateId: 7c74647b-1dbf-47eb-8371-e8f786642451
+}
+
+settings {
+  encodeUrl: true
+}

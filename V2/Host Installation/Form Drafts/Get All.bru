@@ -1,0 +1,19 @@
+meta {
+  name: Get All
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v2/form-drafts?page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}

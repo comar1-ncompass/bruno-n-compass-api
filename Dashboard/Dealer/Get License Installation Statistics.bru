@@ -1,0 +1,96 @@
+meta {
+  name: Get License Installation Statistics
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate=07-30-1995
+  body: json
+  auth: inherit
+}
+
+params:query {
+  installdate: 07-30-1995
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Endpoint Description
+  
+  This endpoint retrieves installation statistics for a specific license based on the installation date provided as a query parameter.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/license/getinstallationstats`
+      
+  - **Query Parameter:**
+      
+      - `installdate` (string): The date of installation in the format `MM-DD-YYYY`. For example, `07-30-1995`.
+          
+  
+  ### Response
+  
+  - **Status Code:** 200
+      
+  - **Content-Type:** application/json
+      
+  
+  #### Response Structure
+  
+  The response will contain a JSON object with the following structure:
+  
+  ``` json
+  {
+    "licenseInstallationStats": {
+      "total": integer,
+      "currentMonth": integer,
+      "nextMonth": integer,
+      "previousMonth": integer,
+      "today": integer,
+      "tomorrow": integer,
+      "nextThreeDays": integer
+    }
+  }
+  
+   ```
+  
+  - `total`: The total number of installations.
+      
+  - `currentMonth`: The number of installations for the current month.
+      
+  - `nextMonth`: The number of installations expected for the next month.
+      
+  - `previousMonth`: The number of installations for the previous month.
+      
+  - `today`: The number of installations for today.
+      
+  - `tomorrow`: The number of installations expected for tomorrow.
+      
+  - `nextThreeDays`: The number of installations expected over the next three days.
+      
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "licenseInstallationStats": {
+      "total": 0,
+      "currentMonth": 0,
+      "nextMonth": 0,
+      "previousMonth": 0,
+      "today": 0,
+      "tomorrow": 0,
+      "nextThreeDays": 0
+    }
+  }
+  
+   ```
+  
+  This endpoint is useful for tracking license installations over time, allowing for analysis of trends in installation activity.
+}

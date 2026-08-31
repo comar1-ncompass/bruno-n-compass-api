@@ -1,0 +1,22 @@
+meta {
+  name: Get All Screens
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/screen/getall?page=1&search=&sortColumn=&sortOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+}
+
+settings {
+  encodeUrl: true
+}

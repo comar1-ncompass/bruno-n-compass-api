@@ -1,0 +1,111 @@
+meta {
+  name: Filter Licenses Count
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=100&sortBy=licenses.total&sortOrder=desc&totalLicenses=licenses_11_plus
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 100
+  sortBy: licenses.total
+  sortOrder: desc
+  @description('''
+    change this param for more filtering:
+    licenses_0_5 (0-5 licenses)
+    licenses_6_10 (6-10)
+    licenses_11_plus (11 and above licenses)
+    
+  ''')
+  totalLicenses: licenses_11_plus
+}
+
+tests {
+  const response = res.getBody();
+  const dealers = response.data;
+  
+  // Get the filter from the request URL
+  const filter = req.getUrl().match(/totalLicenses=([^&]+)/)?.[1];
+  
+  let filterName;
+  
+  if (filter === "licenses_0_5") {
+    filterName = "0-5 licenses";
+  } else if (filter === "licenses_6_10") {
+    filterName = "6-10 licenses";
+  } else if (filter === "licenses_11_plus") {
+    filterName = "11+ licenses";
+  } else {
+    filterName = filter;
+  }
+  
+  test("Response status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains dealer data", function() {
+    expect(response).to.have.property("data");
+    expect(dealers).to.be.an("array");
+  });
+  
+  test(`License filter ${filterName} is correct`, function() {
+  
+    dealers.forEach((dealer, index) => {
+  
+      const totalLicenses = dealer.licenses?.total;
+  
+      if (filter === "licenses_0_5") {
+  
+        expect(
+          totalLicenses,
+          `Dealer ${index} has ${totalLicenses} licenses`
+        ).to.be.within(0, 5);
+  
+      } else if (filter === "licenses_6_10") {
+  
+        expect(
+          totalLicenses,
+          `Dealer ${index} has ${totalLicenses} licenses`
+        ).to.be.within(6, 10);
+  
+      } else if (filter === "licenses_11_plus") {
+  
+        expect(
+          totalLicenses,
+          `Dealer ${index} has ${totalLicenses} licenses`
+        ).to.be.at.least(11);
+  
+      } else {
+  
+        throw new Error(`Unknown license filter: ${filter}`);
+  
+      }
+    });
+  
+  });
+  
+  test("Dealers are sorted by total licenses descending", function() {
+  
+    for (let i = 0; i < dealers.length - 1; i++) {
+  
+      const current = dealers[i].licenses?.total;
+      const next = dealers[i + 1].licenses?.total;
+  
+      expect(
+        current,
+        `Dealer ${i} (${current}) should be >= Dealer ${i + 1} (${next})`
+      ).to.be.at.least(next);
+    }
+  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

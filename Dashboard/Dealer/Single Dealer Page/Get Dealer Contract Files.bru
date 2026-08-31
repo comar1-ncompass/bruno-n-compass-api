@@ -1,0 +1,64 @@
+meta {
+  name: Get Dealer Contract Files
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getcontractfiles?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Contract Files
+  
+  This endpoint retrieves contract files associated with a specific dealer.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/dealer/getcontractfiles`
+      
+  
+  #### Query Parameters
+  
+  - `dealerid` (required): The unique identifier for the dealer whose contract files are being requested.
+      
+  
+  ### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  
+  #### Response Structure
+  
+  The response will be an array of contract files related to the specified dealer. In the case where no contract files are found, an empty array `[]` will be returned.
+  
+  ### Example
+  
+  **Request:**
+  
+  ```
+  GET {{baseUrl}}/api/dealer/getcontractfiles?dealerid={{dealerId}}
+  
+   ```
+  
+  **Response:**
+  
+  ``` json
+  []
+  
+   ```
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Get Device Info
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{player-server-api}}/device
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  This endpoint is from the player-server.
+}

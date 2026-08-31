@@ -1,0 +1,20 @@
+meta {
+  name: PiDownloader - Old
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/pidownloader/getcontentsold?licenseKey={{licenseKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseKey: {{licenseKey}}
+}
+
+settings {
+  encodeUrl: true
+  followRedirects: true
+}

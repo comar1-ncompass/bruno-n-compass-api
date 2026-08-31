@@ -1,0 +1,37 @@
+meta {
+  name: Update Template
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "templateId": "",
+      "name": "",
+      "templateZones": [
+          {
+              "templateZoneId": "",
+              "templateId": "",
+              "name": "",
+              "description": "",
+              "xPos": "",
+              "yPos": "",
+              "height": "",
+              "width": "",
+              "background": "",
+              "order": "",
+              "isMainZone": ""
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

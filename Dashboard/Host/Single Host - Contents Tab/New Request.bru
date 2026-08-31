@@ -1,0 +1,21 @@
+meta {
+  name: New Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/Host/GetHostStates?dealerId=dcb88788-22c8-48e3-ac3f-6be98c75ab35
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: dcb88788-22c8-48e3-ac3f-6be98c75ab35
+  ~page: 1
+  ~pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}

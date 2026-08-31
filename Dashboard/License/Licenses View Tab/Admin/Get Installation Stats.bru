@@ -1,0 +1,80 @@
+meta {
+  name: Get Installation Stats
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate=07-31-2025
+  body: none
+  auth: inherit
+}
+
+params:query {
+  installdate: 07-31-2025
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Endpoint: Get License Installation Statistics
+  
+  **Method:** GET
+  
+  **URL:** `https://dev-api.n-compass.online/api/license/getinstallationstats`
+  
+  ### Description
+  
+  This endpoint retrieves the installation statistics for licenses based on the specified installation date. It provides insights into the total number of installations and their distribution over various time frames.
+  
+  ### Query Parameters
+  
+  - **installdate** (string, required): The date for which the installation statistics are requested, formatted as MM-DD-YYYY.
+      
+  
+  ### Response Structure
+  
+  On a successful request, the API returns a JSON object with the following structure:
+  
+  ``` json
+  {
+    "licenseInstallationStats": {
+      "total": integer,                // Total number of installations
+      "currentMonth": integer,        // Installations for the current month
+      "nextMonth": integer,           // Expected installations for the next month
+      "previousMonth": integer,       // Installations for the previous month
+      "today": integer,               // Installations for today
+      "tomorrow": integer,            // Expected installations for tomorrow
+      "nextThreeDays": integer        // Expected installations for the next three days
+    }
+  }
+  
+   ```
+  
+  ### Example Response
+  
+  A successful response (HTTP Status 200) might look like this:
+  
+  ``` json
+  {
+    "licenseInstallationStats": {
+      "total": 0,
+      "currentMonth": 0,
+      "nextMonth": 0,
+      "previousMonth": 0,
+      "today": 0,
+      "tomorrow": 0,
+      "nextThreeDays": 0
+    }
+  }
+  
+   ```
+  
+  This response indicates that there are currently no installations recorded for the specified date.
+  
+  ### Related Data Models
+  
+  This endpoint is part of a broader API that may return similar data structures for other endpoints, which include pagination and entity counts. For example, other endpoints may return information about total entities, page navigation, and various license statuses.
+}

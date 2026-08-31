@@ -1,0 +1,28 @@
+meta {
+  name: Test
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/admin/create 
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "roleid": "bb7a061e-495c-11ea-b77f-2e728ce88125",
+      "firstname": "test2",
+      "lastname": "test2",
+      "contactnumber": "2222222222",
+      "email": "test1@admin.com",
+      "password": "password",
+      "re_password": "password",
+      "createdby": "dc0b5ca0-dd9a-4742-9b9a-0bb63eec5ece"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

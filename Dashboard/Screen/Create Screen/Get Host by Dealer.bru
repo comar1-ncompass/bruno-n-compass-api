@@ -1,0 +1,21 @@
+meta {
+  name: Get Host by Dealer
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/host/getbydealer?dealerid={{dealerId}}&page=1&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+  page: 1
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}

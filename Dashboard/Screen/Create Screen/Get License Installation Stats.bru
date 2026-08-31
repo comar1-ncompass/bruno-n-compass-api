@@ -1,0 +1,19 @@
+meta {
+  name: Get License Installation Stats
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate={{todayDate}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  installdate: {{todayDate}}
+}
+
+settings {
+  encodeUrl: true
+}

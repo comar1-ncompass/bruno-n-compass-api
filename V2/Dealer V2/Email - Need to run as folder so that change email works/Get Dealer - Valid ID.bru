@@ -1,0 +1,46 @@
+meta {
+  name: Get Dealer - Valid ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/eb664792-849a-4354-8847-2c23b96aefe3
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+script:post-response {
+  const data = res.getBody();
+  
+  const currentEmail = data.data.user.emailAddress;
+  
+  console.log("Current Email:", currentEmail);
+  
+  const emailMatch = currentEmail.match(/^(.*)\+(\d+)(@.*)$/);
+  
+  if (!emailMatch) {
+    throw new Error(`Email format is not supported: ${currentEmail}`);
+  }
+  
+  const username = emailMatch[1];
+  const currentNumber = parseInt(emailMatch[2], 10);
+  const domain = emailMatch[3];
+  
+  const newEmail = `${username}+${currentNumber + 1}${domain}`;
+  
+  bru.setVar("oldEmail", currentEmail);
+  bru.setVar("newEmail", newEmail);
+  
+  console.log("Old Email:", currentEmail);
+  console.log("New Email:", newEmail);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

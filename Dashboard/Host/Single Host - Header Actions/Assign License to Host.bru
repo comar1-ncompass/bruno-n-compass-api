@@ -1,0 +1,28 @@
+meta {
+  name: Assign License to Host
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/license/assignhost
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "host": {
+          "hostid": "ebede792-edbd-4b68-a840-c4d2d9d98488"
+      },
+      "licenses": [
+          {
+              "licenseid": "0d5d0a8a-cc27-4b3c-b519-6e18a153b5c1"
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

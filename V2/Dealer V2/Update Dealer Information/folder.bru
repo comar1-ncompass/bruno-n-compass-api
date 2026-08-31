@@ -1,0 +1,14 @@
+meta {
+  name: Update Dealer Information
+  seq: 2
+}
+
+auth {
+  mode: inherit
+}
+
+script:pre-request {
+  const uniqueId = Date.now();
+  
+  bru.setVar("uniqueId", uniqueId);
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Get Contents Old
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/pidownloader/GetContents?licenseKey={{licenseKey}}
+  body: none
+  auth: none
+}
+
+params:query {
+  licenseKey: {{licenseKey}}
+}
+
+script:post-response {
+  test("Response time is within acceptable limits", function () {
+      var responseTime = res.getResponseTime();
+      console.log("Response Time: " + responseTime + "ms");
+      
+      expect(responseTime).to.be.below(1000, "Response took too long!");
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+}

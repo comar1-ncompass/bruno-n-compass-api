@@ -1,0 +1,24 @@
+meta {
+  name: Get Content metrics by Dealer Export
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/api/contentplaysdaily/getcontentmetricsbydealerexport
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "dealerid": "136ce61b-8c69-4723-95f3-45600090cf8b",
+      "from": "2026-01-01",
+      "to": "2026-02-16",
+      "contenttitle": ""
+  }
+}
+
+settings {
+  encodeUrl: true
+}

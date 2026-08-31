@@ -1,0 +1,56 @@
+meta {
+  name: export Logs Per Hosts By Content
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://nctvapi.n-compass.online/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=e0b8ee1c-818e-425a-9177-6a9c9a6f3869&startDate=2025-12-01&endDate=2026-01-21
+  body: none
+  auth: inherit
+}
+
+params:query {
+  contentId: e0b8ee1c-818e-425a-9177-6a9c9a6f3869
+  startDate: 2025-12-01
+  endDate: 2026-01-21
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0
+  Accept: application/json
+  Accept-Language: en-US,en;q=0.9
+  Accept-Encoding: gzip, deflate, br, zstd
+  Content-Type: application/json
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVtcC11c2VyMUBlbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MzJjZGJiLTYzODItNDAxOS04YTZhLTAzMDQ0ZWFhYjFkNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyIEFkbWluIiwibmJmIjoxNzY4ODg2ODI3LCJleHAiOjE3Njg5MTU2MjcsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.5ceopQM4JmX87s1QFHjrsXhvFQOUP1qfaMgPV5E5r4w
+  Origin: https://portal.n-compass.online
+  Connection: keep-alive
+  Referer: https://portal.n-compass.online/
+  Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVtcC11c2VyMUBlbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MzJjZGJiLTYzODItNDAxOS04YTZhLTAzMDQ0ZWFhYjFkNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyIEFkbWluIiwibmJmIjoxNzY4ODg2ODI3LCJleHAiOjE3Njg5MTU2MjcsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.5ceopQM4JmX87s1QFHjrsXhvFQOUP1qfaMgPV5E5r4w; nctvRefToken=mw50gFaAHuJGxmZgA3xOg%2Bm2jPh%2B9XxrAUlLU8VuHnM%3D; nctvDealerId=; nctvRoleName=Super%20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; nctvUserId=8432cdbb-6382-4019-8a6a-03044eaab1d7
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-site
+  Priority: u=0
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl.exe ^"https://nctvapi.n-compass.online/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=e0b8ee1c-818e-425a-9177-6a9c9a6f3869^&startDate=2025-12-01^&endDate=2026-01-21^" ^
+    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+    -H ^"Accept: application/json^" ^
+    -H ^"Accept-Language: en-US,en;q=0.9^" ^
+    -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+    -H ^"Content-Type: application/json^" ^
+    -H ^"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVtcC11c2VyMUBlbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MzJjZGJiLTYzODItNDAxOS04YTZhLTAzMDQ0ZWFhYjFkNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyIEFkbWluIiwibmJmIjoxNzY4ODg2ODI3LCJleHAiOjE3Njg5MTU2MjcsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.5ceopQM4JmX87s1QFHjrsXhvFQOUP1qfaMgPV5E5r4w^" ^
+    -H ^"Origin: https://portal.n-compass.online^" ^
+    -H ^"Connection: keep-alive^" ^
+    -H ^"Referer: https://portal.n-compass.online/^" ^
+    -H ^"Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVtcC11c2VyMUBlbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MzJjZGJiLTYzODItNDAxOS04YTZhLTAzMDQ0ZWFhYjFkNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyIEFkbWluIiwibmJmIjoxNzY4ODg2ODI3LCJleHAiOjE3Njg5MTU2MjcsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.5ceopQM4JmX87s1QFHjrsXhvFQOUP1qfaMgPV5E5r4w; nctvRefToken=mw50gFaAHuJGxmZgA3xOg^%^2Bm2jPh^%^2B9XxrAUlLU8VuHnM^%^3D; nctvDealerId=; nctvRoleName=Super^%^20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; nctvUserId=8432cdbb-6382-4019-8a6a-03044eaab1d7^" ^
+    -H ^"Sec-Fetch-Dest: empty^" ^
+    -H ^"Sec-Fetch-Mode: cors^" ^
+    -H ^"Sec-Fetch-Site: same-site^" ^
+    -H ^"Priority: u=0^"
+}

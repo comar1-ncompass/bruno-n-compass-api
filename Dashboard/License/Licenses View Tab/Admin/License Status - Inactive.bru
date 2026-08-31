@@ -1,0 +1,146 @@
+meta {
+  name: License Status > Inactive
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=true&pending=&online=&isActivated=0&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: true
+  pending: 
+  online: 
+  isActivated: 0
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Request: Get All Licenses in License Status > Inactive
+  
+  This endpoint retrieves a list of licenses based on their status, specifically filtering for licenses that are currently inactive.
+  
+  ### Request Method
+  
+  `GET`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  - `page` (integer): The page number for pagination. Default is `1`.
+      
+  - `search` (string): A search term to filter licenses. Default is an empty string.
+      
+  - `sortColumn` (string): The column by which to sort the results. In this case, it is set to `PiStatus`.
+      
+  - `sortOrder` (string): The order of sorting. Use `desc` for descending order.
+      
+  - `pageSize` (integer): The number of results per page. Default is `15`.
+      
+  - `includeAdmin` (boolean): Whether to include admin licenses. Default is `false`.
+      
+  - `piStatus` (string): Filter licenses by their status. Set to filter inactive licenses.
+      
+  - `daysOfflineFrom` (integer): Filter licenses based on days offline from a specific date.
+      
+  - `daysOfflineTo` (integer): Filter licenses based on days offline to a specific date.
+      
+  - `active` (boolean): Specify if only active licenses should be included. Set to `false` to filter inactive licenses.
+      
+  - `daysInstalled` (integer): Filter licenses based on the number of days installed.
+      
+  - `timezone` (string): The timezone to consider for the results.
+      
+  - `dealerId` (string): Filter by dealer ID.
+      
+  - `hostId` (string): Filter by host ID.
+      
+  - `assigned` (boolean): Specify if only assigned licenses should be included. Set to `true`.
+      
+  - `pending` (boolean): Filter pending licenses.
+      
+  - `online` (boolean): Filter online licenses.
+      
+  - `isActivated` (integer): Filter based on activation status. Set to `0` for inactive licenses.
+      
+  - `isFavorite` (boolean): Filter favorite licenses.
+      
+  - `serverVersion` (string): Specify the server version.
+      
+  - `uiVersion` (string): Specify the UI version.
+      
+  - `piOrder` (string): Additional ordering parameter.
+      
+  
+  ### Expected Response Format
+  
+  The response will be in JSON format and will include the following structure:
+  
+  - `licenses` (array): A list of license objects, each containing:
+      
+      - `licenseId`: Unique identifier for the license.
+          
+      - `licenseKey`: The key associated with the license.
+          
+      - `macAddress`: The MAC address linked to the license.
+          
+      - `isRegistered`: Registration status (0 for unregistered).
+          
+      - `isActivated`: Activation status (0 for inactive).
+          
+      - Other relevant license details.
+          
+  - `paging` (object): Information about pagination, including:
+      
+      - `hasPreviousPage`: Boolean indicating if there is a previous page.
+          
+      - `hasNextPage`: Boolean indicating if there is a next page.
+          
+      - `page`: Current page number.
+          
+      - `pageSize`: Number of results per page.
+          
+      - `totalEntities`: Total number of entities available.
+          
+  - `totalCounts` (object): Summary counts of licenses, including:
+      
+      - `total`: Total number of licenses.
+          
+      - `totalOnline`: Total online licenses.
+          
+      - `totalOffline`: Total offline licenses.
+          
+      - `totalInActive`: Total inactive licenses.
+          
+      - `totalUnAssigned`: Total unassigned licenses.
+          
+  
+  This API is essential for retrieving a comprehensive list of licenses that are currently inactive, allowing for effective management and oversight.
+}

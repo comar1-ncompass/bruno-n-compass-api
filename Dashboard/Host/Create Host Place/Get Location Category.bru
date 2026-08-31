@@ -1,0 +1,19 @@
+meta {
+  name: Get Location Category
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/category/getbycategory?category=Warehouse%20club
+  body: none
+  auth: inherit
+}
+
+params:query {
+  category: Warehouse%20club
+}
+
+settings {
+  encodeUrl: true
+}

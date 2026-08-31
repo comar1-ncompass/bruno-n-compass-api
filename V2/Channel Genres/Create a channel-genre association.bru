@@ -1,0 +1,104 @@
+meta {
+  name: Create a channel-genre association
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/channel-genres
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{bearer_token}}
+}
+
+body:json {
+  {
+    "channelId": "{{standalone_channel_ForGenre}}",
+    "genreId": "4098c48e-0724-48e6-92d0-02940f5ad58c",
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936"
+  }
+}
+
+script:pre-request {
+  const timestamp = new Date().getTime();
+  const ownerId = "a06d4cba-01ad-4792-a3eb-3c112fe62936";
+  const baseUrl = bru.getEnvVar("baseUrl");
+  const token = bru.getEnvVar("bearer_token");
+  
+  // STEP 1: Create Content (Watermelon)
+  await bru.sendRequest({
+      url: `${baseUrl}/api/contents`,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      data: JSON.stringify({
+          "title": `Genre_Prep_Content_${timestamp}`,
+          "ownerId": ownerId,
+          "description": "Landscape banner used for the lobby LED wall.",
+          "fileName": "summer-banner-final.png",
+          "fileType": "image/png",
+          "fileSize": 1048576,
+          "url": "https://elmarwa.com/app/uploads/2017/01/peach-fruit-wallpaper-3.jpg",
+          "thumbnail": "https://elmarwa.com/app/uploads/2017/01/peach-fruit-wallpaper-3.jpg",
+          "duration": 30.5,
+          "isProtected": false,
+          "isConverted": true,
+          "isChannel": false,
+          "metadata": "{ \"upload\": { \"provider\": \"filestack\", \"handleId\": \"file-xyz123\" } }",
+          "createdBy": ownerId,
+          "nameConflict": "auto"
+      })
+  }, async function(err, res) {
+      if (!err && res.status === 201) {
+          const contentId = res.data.data.contentId;
+  
+          // STEP 2: Create Channel
+          await bru.sendRequest({
+              url: `${baseUrl}/api/channels`,
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+              data: JSON.stringify({
+                  "channelName": `Genre_Test_Channel_${timestamp}`,
+                  "description": "A channel focused on science and nature documentaries.",
+                  "genreIds": ["c4a2485f-60b0-4f42-bdf3-c03bcd68434f"],
+                  "thumbnailUrl": "https://t3.ftcdn.net/jpg/01/94/58/96/360_F_194589639_QrC7pzqnyPtzlSNydJT7QDrWWO0kd1dt.jpg",
+                  "isHero": false,
+                  "metadata": "",
+                  "createdBy": ownerId,
+                  "contents": [{ "contentId": contentId, "sequenceOrder": 1, "duration": 30 }]
+              })
+          }, async function(errCh, resCh) {
+              if (!errCh && resCh.status === 201) {
+                  const channelId = resCh.data.data.channelId;
+                  bru.setEnvVar("standalone_channel_ForGenre", channelId);
+                  console.log("Prep finished: Channel created and ready for genre mapping.");
+              }
+          });
+      }
+  });
+}
+
+script:post-response {
+  // 1. Status code is 201
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  // 2. Response time check
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

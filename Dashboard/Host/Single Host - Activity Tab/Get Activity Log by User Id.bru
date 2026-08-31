@@ -1,0 +1,19 @@
+meta {
+  name: Get Activity Log by User Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/user/getbyid?user_id=dc0b5ca0-dd9a-4742-9b9a-0bb63eec5ece
+  body: none
+  auth: inherit
+}
+
+params:query {
+  user_id: dc0b5ca0-dd9a-4742-9b9a-0bb63eec5ece
+}
+
+settings {
+  encodeUrl: true
+}

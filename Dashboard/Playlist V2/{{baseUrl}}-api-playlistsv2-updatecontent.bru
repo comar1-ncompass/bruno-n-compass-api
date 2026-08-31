@@ -1,0 +1,37 @@
+meta {
+  name: {{baseUrl}}/api/playlistsv2/updatecontent
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/playlistsv2/updatecontent
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Accept-Language: en-US,en;q=0.9
+  Connection: keep-alive
+  Content-Type: application/json
+  Origin: http://local-dev.n-compass.online:64661
+  Referer: http://local-dev.n-compass.online:64661/
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: cross-site
+  Sec-Fetch-Storage-Access: active
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36
+  credentials: include
+  sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"
+  sec-ch-ua-mobile: ?0
+  sec-ch-ua-platform: "Windows"
+}
+
+body:json {
+  {"playlistId":"539f4a45-85f9-46c0-98fb-06ffc8d21411","playlistContentsLicenses":[{"duration":20,"isFullScreen":0,"frequency":0,"playlistContentId":"7af4161b-4e58-4616-8770-61e9456f1947","licenseIds":["2620854e-8731-4373-ac9c-0bf90504cf95","dbb813a1-2df8-464a-af01-38ff0db21efa","de5796ea-b0ea-405d-95ab-3bccde81f19c","f77f0fcd-ce0f-48f1-bbf1-cc9f48f9f67a"]}]}
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get License By Private UID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/licenses/123e4567-e89b-12d3-a456-426614174001
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

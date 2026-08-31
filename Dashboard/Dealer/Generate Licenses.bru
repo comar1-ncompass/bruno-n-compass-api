@@ -1,0 +1,70 @@
+meta {
+  name: Generate Licenses
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/license/create?dealerid={{dealerId}}&licensecount=5
+  body: json
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+  licensecount: 5
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Create License
+  
+  This endpoint allows you to create a new license for a specified dealer.
+  
+  ### HTTP Method
+  
+  `POST`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/license/create`
+  
+  ### Query Parameters
+  
+  - `dealerid` (required): The unique identifier for the dealer for whom the license is being created.
+      
+  - `licensecount` (required): The number of licenses to create.
+      
+  
+  ### Request Example
+  
+  ``` http
+  POST {{baseUrl}}/api/license/create?dealerid={{dealerId}}&licensecount=5
+  
+   ```
+  
+  ### Expected Response
+  
+  - **Status Code**: `200 OK`
+      
+  - **Content-Type**: `text/xml`
+      
+  
+  The response will typically confirm the successful creation of the license. The structure of the response may vary, but it generally includes relevant information about the created license.
+  
+  ### Related Response Structures
+  
+  Responses from related endpoints typically include user and license details, such as:
+  
+  - User information (e.g., userId, firstName, lastName, email, role details)
+      
+  - License details (e.g., advertiserId, dealerName, status, address, dateCreated)
+      
+  
+  These structures provide context on how the API manages user roles and license assignments.
+  
+  Ensure to handle the response appropriately based on the expected format.
+}

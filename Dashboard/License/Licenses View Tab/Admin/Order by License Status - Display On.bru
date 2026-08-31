@@ -1,0 +1,149 @@
+meta {
+  name: Order by License Status > Display On
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=DisplayStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: DisplayStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # API Endpoint: Get All Licenses in Order by License Status > Display On
+  
+  This endpoint retrieves a paginated list of all licenses, specifically ordered to prioritize those that are currently displaying content. By sorting the results in descending order by `DisplayStatus`, licenses with an active display will be listed first, providing an efficient way to monitor the live content status of devices in the system.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and sort the licenses.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  - **search** (string, optional): A search term to filter licenses.
+      
+  - **sortColumn** (string, required): The column to sort the results by. For this request, the value is `DisplayStatus`.
+      
+  - **sortOrder** (string, required): The order of sorting. For this request, the value is `desc` (descending).
+      
+  - **pageSize** (integer, required): The number of records per page (e.g., `15`).
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **... (other optional parameters)**: Other optional parameters are left blank to broaden the search within the specified filters.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  The response returns a list of license objects that meet the filter criteria, with an emphasis on `DisplayStatus`. It also includes pagination information and summary counts.
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "5fe3beb9-ba4f-4cb2-9e6d-cc3f95013c19",
+              "licenseKey": "6f191347-6dd8-4867-a379-c920d54c08c6",
+              "macAddress": "d8:3a:dd:86:57:1f",
+              "isRegistered": 1,
+              "isActivated": 1,
+              "dealerId": "c72fec45-12ee-4cf9-9620-8d2dd9a5cb14",
+              "hostId": "ffa21a9f-c3d7-4fa7-afaf-7d8879664358",
+              "dateCreated": "2024-08-08T17:04:01+00:00",
+              "internetType": "wlan0",
+              "internetSpeed": "Slow",
+              "memory": "2 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "85 %",
+              "dateUpdated": "2024-11-06T06:42:44+00:00",
+              "contentsUpdated": "2024-11-06T00:05:29+00:00",
+              "playerSocketId": null,
+              "piSocketId": "9MHT3ucxzJTEfoKkACAw",
+              "playerStatus": 0,
+              "piStatus": 1,
+              "sequence": null,
+              "alias": "License # 20",
+              "timeIn": "November 06, 2024, 12:05:36 AM",
+              "timeOut": "November 06, 2024, 12:02:29 AM",
+              "anydeskId": "1804676417",
+              "appVersion":"{\"chromium\":\"92.0.4515.98\",\"electron\":\"N/A\",\"puppeteer\":\"N/A\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.5\"}"
+              // ... (additional license fields)
+          },
+          // ... (more license objects)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 1,
+          "totalEntities": 1,
+          "pageStart": 1,
+          "entities": [
+              // ... (duplicate of licenses array)
+          ]
+      },
+      "totalCounts": {
+          "total": 1,
+          "totalOnline": 1,
+          "totalOffline": 0,
+          "totalInActive": 0,
+          "totalUnAssigned": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

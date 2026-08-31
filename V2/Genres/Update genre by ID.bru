@@ -1,0 +1,40 @@
+meta {
+  name: Update genre by ID
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/genres/{{genreId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "genreName": "API Test Iced Sports",
+      "genreCode": "iSports",
+      "textColor": "#FF5733",
+      "bgColor": "#FFE5E5"
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

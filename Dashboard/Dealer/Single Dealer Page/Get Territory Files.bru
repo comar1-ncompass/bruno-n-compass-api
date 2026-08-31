@@ -1,0 +1,45 @@
+meta {
+  name: Get Territory Files
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getterritoryfiles?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Territory Files
+  
+  This endpoint retrieves territory files associated with a specific dealer.
+  
+  ### Request Parameters
+  
+  - **dealerid** (query parameter): The unique identifier for the dealer whose territory files are being requested. This parameter is required.
+      
+  
+  ### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  - **Response Body**: The response will return an array of territory files related to the specified dealer. In this case, an empty array indicates that no territory files are currently available for the provided dealer ID.
+      
+  
+  ### Notes
+  
+  - Ensure that the `dealerid` provided is valid to receive the correct territory files.
+      
+  - An empty response may indicate that there are no files available for the specified dealer.
+}

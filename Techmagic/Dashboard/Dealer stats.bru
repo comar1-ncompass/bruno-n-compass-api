@@ -1,0 +1,16 @@
+meta {
+  name: Dealer stats
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/dealers
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

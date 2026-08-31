@@ -1,0 +1,35 @@
+meta {
+  name: Update Business Name
+  type: http
+  seq: 1
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/eb664792-849a-4354-8847-2c23b96aefe3
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "clientInformation": {
+      "businessName": "{{businessName}}"
+    }
+  }
+}
+
+script:pre-request {
+  const timestamp = Date.now();
+  
+  bru.setVar("businessName", `API Business ${timestamp}`);
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

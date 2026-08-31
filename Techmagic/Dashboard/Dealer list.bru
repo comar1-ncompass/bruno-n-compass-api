@@ -1,0 +1,21 @@
+meta {
+  name: Dealer list
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/dealers?page=2&limit=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 2
+  limit: 10
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

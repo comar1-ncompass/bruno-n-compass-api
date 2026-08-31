@@ -1,0 +1,23 @@
+meta {
+  name: Search Dealer Pagination & Limit
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=6&limit=23&sortBy=createdAt&sortOrder=desc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 6
+  limit: 23
+  sortBy: createdAt
+  sortOrder: desc
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

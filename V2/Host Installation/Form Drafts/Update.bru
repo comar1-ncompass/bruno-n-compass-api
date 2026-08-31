@@ -1,0 +1,86 @@
+meta {
+  name: Update
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/api/v2/form-drafts/34c6c9b3-fbee-4f0b-a17e-ad252aff6ba6
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "34c6c9b3-fbee-4f0b-a17e-ad252aff6ba6",
+    "formDraftTypeId": 1,
+    "formDraftContentRaw": {
+      "createHost": {
+        "searchHostPlace": {
+          "name": "Jollywood Studios and Adventures, industrial area, Bidadi, Karnataka, India",
+          "value": "ChIJqfDSFDJHrjsRF561ZWptw_k",
+          "id": 1
+        },
+        "hostDetails": {
+          "dealerName": {
+            "name": "Dealer One",
+            "value": "dealer1",
+            "id": 1
+          },
+          "businessName": "Jollywood Studios and Adventures",
+          "generalCategory": "amusement_park, point_of_interest, establishment",
+          "category": "amusement_park",
+          "contactPerson": "Jeremicah Licup",
+          "contactNumber": "5355353535",
+          "latitude": 12.7789054,
+          "longitude": 77.4149306,
+          "address": "24 and 26, industrial area, Bidadi, Karnataka 562109, India",
+          "city": "industrial area",
+          "state": "Karnataka",
+          "region": "Ramanagara",
+          "zipCode": "562109",
+          "timezone": "Asia/Calcutta",
+          "numberOfLicense": "5"
+        }
+      },
+      "createScreen": {
+        "screenName": "Sample Screen",
+        "description": "Description",
+        "screenTypeId": "screen-type-id-1",
+        "templateId": "template-id",
+        "templateZones": [
+          {
+            "templateZoneId": "template-zone-id-1",
+            "playlist": {
+              "playlistId": null,
+              "playlistName": "Main Display Loop",
+              "contents": [
+                { "playlistContentId": "playlist-content-id-1" },
+                { "playlistContentId": "playlist-content-id-2" }
+              ]
+            }
+          },
+          {
+            "templateZoneId": "template-zone-id-2",
+            "playlist": {
+              "playlistId": "existing-playlist-id",
+              "playlistName": null,
+              "contents": [
+                { "playlistContentId": "playlist-content-id-3" },
+                { "playlistContentId": "playlist-content-id-4" }
+              ]
+            }
+          }
+        ]
+      },
+      "setInstallationDate": {
+        "installationDate": "2025-07-25T10:00:00.000Z"
+      }
+    }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

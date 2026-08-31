@@ -1,0 +1,19 @@
+meta {
+  name: Get Playing Where by Filler Group ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/filler/playlistgroup/getplayingwherebyfillergroupid?id={{filler_group_id}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  id: {{filler_group_id}}
+}
+
+settings {
+  encodeUrl: true
+}

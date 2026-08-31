@@ -1,0 +1,23 @@
+meta {
+  name: Update Reboot Schedu
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{baseUrl}}/api/licenses/123e4567-e89b-12d3-a456-426614174001/reboot-schedules/4
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "rebootTime": "19:30",
+      "status": true
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+}

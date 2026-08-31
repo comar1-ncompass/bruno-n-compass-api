@@ -1,0 +1,70 @@
+meta {
+  name: Get Dealer Summary Totals
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/gettotal
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Total Dealers
+  
+  ### Method
+  
+  `GET`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/dealer/gettotal`
+  
+  ### Description
+  
+  This endpoint retrieves the total number of dealers and their statuses within the system. It provides a summary of the total dealers, including counts of active and inactive dealers, as well as new dealers added in the current and previous weeks.
+  
+  ### Request Parameters
+  
+  This endpoint does not require any request parameters.
+  
+  ### Expected Response
+  
+  On a successful request, the API returns a JSON object with the following fields:
+  
+  - `total` (integer): The total number of dealers.
+      
+  - `totalActive` (integer): The total number of active dealers.
+      
+  - `totalInActive` (integer): The total number of inactive dealers.
+      
+  - `newDealersThisWeek` (integer): The number of new dealers added this week.
+      
+  - `newDealersLastWeek` (integer): The number of new dealers added last week.
+      
+  
+  #### Example Response
+  
+  ``` json
+  {
+    "total": 0,
+    "totalActive": 0,
+    "totalInActive": 0,
+    "newDealersThisWeek": 0,
+    "newDealersLastWeek": 0
+  }
+  
+   ```
+  
+  ### Status Codes
+  
+  - **200 OK**: The request was successful, and the response contains the requested data.
+      
+  
+  This endpoint is useful for monitoring dealer statistics and understanding the growth and status of dealers in the system.
+}

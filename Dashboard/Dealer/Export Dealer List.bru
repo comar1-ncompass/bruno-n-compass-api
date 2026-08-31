@@ -1,0 +1,122 @@
+meta {
+  name: Export Dealer List
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/exportdealer
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Export Dealer Data
+  
+  This endpoint retrieves a list of dealers from the system. It is useful for exporting dealer information in a structured format.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **Endpoint**: `{{baseUrl}}/api/dealer/exportdealer`
+      
+  
+  ### Response
+  
+  - **Status Code**: 200
+      
+  - **Content-Type**: application/json
+      
+  
+  #### Response Body
+  
+  The response will contain a JSON object with the following structure:
+  
+  ``` json
+  {
+    "dealers": [
+      {
+        "dealerId": "string",
+        "dealerIdAlias": "string",
+        "businessName": "string",
+        "contactPerson": "string",
+        "dateCreated": "string",
+        "startDate": "string",
+        "playerCount": "integer",
+        "status": "string",
+        "tags": ["string"],
+        "monthAsDealer": "integer",
+        "totalHosts": "integer",
+        "totalHostsActive": "integer",
+        "totalLicenses": "integer",
+        "totalLicensesUnassigned": "integer",
+        "totalLicensesInactive": "integer",
+        "totalLicensesOnline": "integer",
+        "totalLicensesOffline": "integer",
+        "totalAdvertisers": "integer",
+        "totalAdvertisersActive": "integer",
+        "totalScheduled": "integer",
+        "forInstallationHost": "integer",
+        "totalLicensesDisabled": "integer",
+        "totalLicensesPending": "integer"
+      }
+    ]
+  }
+  
+   ```
+  
+  ### Fields Description
+  
+  - **dealers**: An array of dealer objects.
+      
+      - **dealerId**: Unique identifier for the dealer.
+          
+      - **dealerIdAlias**: Alternate identifier for the dealer.
+          
+      - **businessName**: Name of the dealer's business.
+          
+      - **contactPerson**: Name of the contact person at the dealership.
+          
+      - **dateCreated**: Date when the dealer was created.
+          
+      - **startDate**: Date when the dealer started operations.
+          
+      - **playerCount**: Number of players associated with the dealer.
+          
+      - **status**: Current status of the dealer.
+          
+      - **tags**: Array of tags associated with the dealer.
+          
+      - **monthAsDealer**: Number of months the entity has been a dealer.
+          
+      - **totalHosts**: Total number of hosts associated with the dealer.
+          
+      - **totalHostsActive**: Number of active hosts.
+          
+      - **totalLicenses**: Total licenses held by the dealer.
+          
+      - **totalLicensesUnassigned**: Number of unassigned licenses.
+          
+      - **totalLicensesInactive**: Number of inactive licenses.
+          
+      - **totalLicensesOnline**: Number of licenses currently online.
+          
+      - **totalLicensesOffline**: Number of licenses currently offline.
+          
+      - **totalAdvertisers**: Total number of advertisers associated with the dealer.
+          
+      - **totalAdvertisersActive**: Number of active advertisers.
+          
+      - **totalScheduled**: Number of scheduled events.
+          
+      - **forInstallationHost**: Number of licenses for installation hosts.
+          
+      - **totalLicensesDisabled**: Number of disabled licenses.
+          
+      - **totalLicensesPending**: Number of licenses pending approval.
+}

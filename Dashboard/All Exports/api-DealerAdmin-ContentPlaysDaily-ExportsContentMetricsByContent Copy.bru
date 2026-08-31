@@ -1,0 +1,29 @@
+meta {
+  name: /api/DealerAdmin/ContentPlaysDaily/ExportsContentMetricsByContent Copy
+  type: http
+  seq: 28
+}
+
+get {
+  url: {{baseUrl}}/api/DealerAdmin/ContentPlaysDaily/ExportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a&startDate=2026-01-01&endDate=2026-02-16
+  body: json
+  auth: inherit
+}
+
+params:query {
+  contentId: 74986eb0-c728-499a-8012-55ddebf4684a
+  startDate: 2026-01-01
+  endDate: 2026-02-16
+}
+
+body:json {
+  {
+      "contentid": "74986eb0-c728-499a-8012-55ddebf4684a",
+      "from": "2026-01-01",
+      "to": "2026-02-16"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

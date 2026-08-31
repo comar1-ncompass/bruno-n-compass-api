@@ -1,0 +1,32 @@
+meta {
+  name: /api/Dma/Export
+  type: http
+  seq: 35
+}
+
+get {
+  url: {{baseUrl}}/api/DealerAdmin/Host/Export?dmaRank&dmaCode&dmaName
+  body: json
+  auth: inherit
+}
+
+params:query {
+  dmaRank: 
+  dmaCode: 
+  dmaName: 
+}
+
+body:json {
+  {
+      "dealerid": "136ce61b-8c69-4723-95f3-45600090cf8b",
+      "from": "2026-01-01",
+      "to": "2026-02-16",
+      "pageSize": 10,
+      "page": 1,
+      "contenttitle": ""
+  }
+}
+
+settings {
+  encodeUrl: true
+}

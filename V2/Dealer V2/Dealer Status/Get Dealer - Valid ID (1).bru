@@ -1,0 +1,44 @@
+meta {
+  name: Get Dealer - Valid ID (1)
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/eb664792-849a-4354-8847-2c23b96aefe3
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+script:post-response {
+  const data = res.getBody();
+  
+  const currentStatusId = Number(data.data.user.statusId);
+  const currentStatusLabel = data.data.status.statusLabel;
+  
+  let newStatus;
+  
+  if (currentStatusId === 1) {
+    newStatus = false; // Active → Inactive
+  } else if (currentStatusId === 2) {
+    newStatus = true; // Inactive → Active
+  } else {
+    throw new Error(`Unexpected statusId: ${currentStatusId}`);
+  }
+  
+  bru.setVar("currentStatusId", currentStatusId);
+  bru.setVar("currentStatusLabel", currentStatusLabel);
+  bru.setVar("newStatus", newStatus);
+  
+  console.log(`Current: ${currentStatusLabel} (${currentStatusId})`);
+  console.log(`New status: ${newStatus ? "Active" : "Inactive"}`);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

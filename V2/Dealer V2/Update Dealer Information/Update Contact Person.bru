@@ -1,0 +1,31 @@
+meta {
+  name: Update Contact Person
+  type: http
+  seq: 5
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/eb664792-849a-4354-8847-2c23b96aefe3
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "clientInformation": {
+      "metadata": {
+        "contactPerson": "API Contact {{uniqueId}}"
+      }
+    }
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

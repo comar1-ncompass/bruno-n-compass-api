@@ -1,0 +1,64 @@
+meta {
+  name: Create Dealer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/dealer/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "roleid": "bb7a0ca4-495c-11ea-b77f-2e728ce88125",
+    "firstname": "API ",
+    "lastname": "Automation",
+    "email": "apiautomation@dealer.com",
+    "password": "password",
+    "re_password": "password",
+    "contactNumber": "0110110110",
+    "generatedid": "APIDealer",
+    "dealerIdAlias": "APIDealerAlias",
+    "businessName": "APIDealerBusiness",
+    "contactPerson": "APIPerson",
+    "city": "Aaronsburg",
+    "state": "PA",
+    "region": "NE",
+    "createdby": "6ae871b4-70e6-4057-9e9e-6e1172c631d9"
+  }
+}
+
+script:post-response {
+  // Parse response JSON
+  let response = res.getBody();
+  
+  // Extract dealerId
+  let dealerId = response.dealerId;
+  
+  // Save to environment variable
+  bru.setEnvVar("dealerId", dealerId);
+  
+  // Optional: log to console
+  console.log("Saved dealerId:", dealerId);
+  
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

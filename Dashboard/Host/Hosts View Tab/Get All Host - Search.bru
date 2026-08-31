@@ -1,0 +1,98 @@
+meta {
+  name: Get All Host - Search
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/host/getall?page=1&search={{search}}&sortColumn=&sortOrder=&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: {{search}}
+  sortColumn: 
+  sortOrder: 
+  pageSize: 15
+}
+
+script:pre-request {
+  const testTypes = ["happy", "sad"];
+  const testType = testTypes[Math.floor(Math.random() * testTypes.length)];
+  
+  let search;
+  if (testType === "happy") {
+      const validSearchTerms = ["Brian's Office", "406 Fremont St", "66090"];
+      search = validSearchTerms[Math.floor(Math.random() * validSearchTerms.length)];
+  } else {
+      const invalidSearchTerms = ["!!!", "no-such-host", "___xyz"];
+      search = invalidSearchTerms[Math.floor(Math.random() * invalidSearchTerms.length)];
+  }
+  
+  bru.setEnvVar("testType", testType);
+  bru.setEnvVar("search", search);
+  
+  console.log("🧪 Random test type:", testType);
+  console.log("🔍 Search term:", search);
+  
+}
+
+script:post-response {
+  test("Response status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  
+  test("Response time is less than 200ms", function () {
+      expect(res.getResponseTime()).to.be.below(200);
+  });
+  
+  test("Response schema is valid and contains required fields in the host object", function () {
+      const responseData = res.getBody();
+  
+      expect(responseData).to.be.an('object');
+      expect(responseData).to.have.property('host').that.is.an('array');
+  
+      responseData.host.forEach(function(host) {
+          expect(host).to.be.an('object');
+          expect(host).to.have.all.keys(
+              'hostId', 'dealerId', 'userId', 'hostName', 'address', 
+              'street', 'city', 'postalCode', 'region', 'state', 
+              'country', 'groupId', 'latitude', 'longitude', 
+              'timeZone', 'storeHours', 'venueType', 'monthlyTraffic', 
+              'avgDwellTime', 'avgTicket', 'demographics', 'internet', 
+              'notes', 'installDate', 'dateCreated', 'dateUpdated', 
+              'createdBy', 'updatedBy', 'status', 'category', 
+              'vistarVenueId', 'others', 'timezoneName', 'businessName', 
+              'logo', 'dmaName', 'totalLicenses', 'totalLicensesPending', 
+              'programmaticId'
+          );
+      });
+  });
+  
+  
+  test("Total entities must be a non-negative integer", function () {
+      const responseData = res.getBody();
+      
+      expect(responseData).to.be.an('object');
+      expect(responseData.paging).to.exist;
+      expect(responseData.paging.totalEntities).to.be.a('number').and.to.be.at.least(0);
+  });
+  
+  
+  test("HostName must be a non-empty string in the host object", function () {
+      const responseData = res.getBody();
+      
+      expect(responseData).to.have.property('host').that.is.an('array').and.is.not.empty;
+      responseData.host.forEach(function(host) {
+          expect(host).to.have.property('hostName').that.is.a('string').and.has.lengthOf.at.least(1, "Host name should not be empty");
+      });
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+}

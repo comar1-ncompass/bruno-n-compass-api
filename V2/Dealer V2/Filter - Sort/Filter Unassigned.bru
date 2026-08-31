@@ -1,0 +1,141 @@
+meta {
+  name: Filter Unassigned
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=50&sortBy=licenses.unassigned&sortOrder=desc&unassigned=gt_20_percent
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 50
+  sortBy: licenses.unassigned
+  sortOrder: desc
+  @description('''
+    Change the param for more filter:
+    gt_10_percent
+    gt_20_percent
+    lt_20_percent
+  ''')
+  unassigned: gt_20_percent
+}
+
+tests {
+  const response = res.getBody();
+  const dealers = response.data;
+  
+  // Get filter from request URL
+  const filter = req.getUrl().match(/unassigned=([^&]+)/)?.[1];
+  
+  let filterName;
+  
+  if (filter === "gt_10_percent") {
+    filterName = "greater than 10%";
+  } else if (filter === "gt_20_percent") {
+    filterName = "greater than 20%";
+  } else if (filter === "lt_20_percent") {
+    filterName = "less than 20%";
+  } else {
+    filterName = filter;
+  }
+  
+  
+  // 1. Response status
+  test("Response status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  
+  // 2. Response contains dealer data
+  test("Response contains dealer data", function() {
+    expect(response).to.have.property("data");
+    expect(dealers).to.be.an("array");
+  });
+  
+  
+  // 3. Validate Unassigned percentage
+  test(`Unassigned filter ${filterName} is correct`, function() {
+  
+    dealers.forEach((dealer, index) => {
+  
+      const totalLicenses = dealer.licenses?.total;
+      const unassigned = dealer.licenses?.unassigned;
+  
+      // Make sure required values exist
+      expect(
+        totalLicenses,
+        `Dealer ${index} total licenses is missing`
+      ).to.be.a("number");
+  
+      expect(
+        unassigned,
+        `Dealer ${index} unassigned licenses is missing`
+      ).to.be.a("number");
+  
+  
+      // Avoid division by zero
+      if (totalLicenses === 0) {
+        return;
+      }
+  
+  
+      // Calculate percentage
+      const unassignedPercentage =
+        (unassigned / totalLicenses) * 100;
+  
+  
+      console.log(
+        `Dealer ${index}: ${unassigned}/${totalLicenses} = ${unassignedPercentage.toFixed(2)}%`
+      );
+  
+  
+      // gt 10%
+      if (filter === "gt_10_percent") {
+  
+        expect(
+          unassignedPercentage,
+          `Dealer ${index} has ${unassignedPercentage.toFixed(2)}% unassigned`
+        ).to.be.greaterThan(10);
+  
+      }
+  
+  
+      // gt 20%
+      else if (filter === "gt_20_percent") {
+  
+        expect(
+          unassignedPercentage,
+          `Dealer ${index} has ${unassignedPercentage.toFixed(2)}% unassigned`
+        ).to.be.greaterThan(20);
+  
+      }
+  
+  
+      // lt 20%
+      else if (filter === "lt_20_percent") {
+  
+        expect(
+          unassignedPercentage,
+          `Dealer ${index} has ${unassignedPercentage.toFixed(2)}% unassigned`
+        ).to.be.lessThan(20);
+  
+      }
+  
+  
+      else {
+        throw new Error(`Unknown unassigned filter: ${filter}`);
+      }
+  
+    });
+  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

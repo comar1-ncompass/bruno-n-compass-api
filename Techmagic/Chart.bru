@@ -1,0 +1,20 @@
+meta {
+  name: Chart
+  type: http
+  seq: 6
+}
+
+get {
+  url: https://dashboard-v2-dev.n-compass.online/api/dashboard/graph?type=hosts&year=2026
+  body: none
+  auth: inherit
+}
+
+params:query {
+  type: hosts
+  year: 2026
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,66 @@
+meta {
+  name: Filter Status
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=15&sortBy=createdAt&sortOrder=desc&riskStatus=highRisk
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  sortBy: createdAt
+  sortOrder: desc
+  @description('''
+    Change the param for more filter
+    onTrack
+    atRisk
+    highRisk
+  ''')
+  riskStatus: highRisk
+}
+
+tests {
+  const response = res.getBody();
+  const dealers = response.data;
+  
+  // Get riskStatus from request URL
+  const riskStatus = req.getUrl().match(/riskStatus=([^&]+)/)?.[1];
+  
+  test("Response status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains dealer data", function() {
+    expect(response).to.have.property("data");
+    expect(dealers).to.be.an("array");
+  });
+  
+  test(`Risk status filter '${riskStatus}' is correct`, function() {
+  
+    dealers.forEach((dealer, index) => {
+  
+      const dealerRiskStatus = dealer.riskStatus;
+  
+      console.log(
+        `Dealer ${index}: riskStatus = ${dealerRiskStatus}`
+      );
+  
+      expect(
+        dealerRiskStatus,
+        `Dealer ${index} has riskStatus '${dealerRiskStatus}', expected '${riskStatus}'`
+      ).to.equal(riskStatus);
+  
+    });
+  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

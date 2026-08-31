@@ -1,0 +1,21 @@
+meta {
+  name: Get City State Data
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://dev-api.n-compass.online/api/citiesStateData/getall?pageSize=31515&search=&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageSize: 31515
+  search: 
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}

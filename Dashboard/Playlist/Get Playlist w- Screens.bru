@@ -1,0 +1,23 @@
+meta {
+  name: Get Playlist w/ Screens
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/playlists/GetPlaylistsWithScreens?search&sortColumn&sortOrder&page=1&pageSize=15
+  body: json
+  auth: inherit
+}
+
+params:query {
+  search: 
+  sortColumn: 
+  sortOrder: 
+  page: 1
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}

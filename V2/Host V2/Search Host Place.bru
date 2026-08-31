@@ -1,0 +1,22 @@
+meta {
+  name: Search Host Place
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/serpapi/searchbusiness?business=Jollibee&location=FakeRandomVeryLocationZXCCSDA123&excludeHostsFromDealer=f7da3a01-9636-420a-9a53-14b23de0084a
+  body: none
+  auth: inherit
+}
+
+params:query {
+  business: Jollibee
+  location: FakeRandomVeryLocationZXCCSDA123
+  excludeHostsFromDealer: f7da3a01-9636-420a-9a53-14b23de0084a
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

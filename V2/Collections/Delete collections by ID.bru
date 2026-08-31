@@ -1,0 +1,35 @@
+meta {
+  name: Delete collections by ID
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/api/collections/{{collectionId}}
+  body: text
+  auth: inherit
+}
+
+body:text {
+  //optionally remove when running as it collides with collections
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

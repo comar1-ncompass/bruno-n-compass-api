@@ -1,0 +1,30 @@
+meta {
+  name: Update Content
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/playlistsv2/updatecontent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlistId": "361fe48e-d682-423f-a6fb-c7d895e4e6a3",
+      "playlistContentsLicenses": [
+          {
+              "duration": 5,
+              "frequency": 0,
+              "isFullScreen": 0,
+              "playlistContentId": "8f05df17-d0ee-4f12-b54d-5304afbd4ff3",
+              "filetype": "jpg"
+          }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}
