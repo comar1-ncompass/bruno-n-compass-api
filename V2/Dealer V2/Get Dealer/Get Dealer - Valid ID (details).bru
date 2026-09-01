@@ -1,0 +1,307 @@
+meta {
+  name: Get Dealer - Valid ID (details)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/dealers/1623e79e-b2b6-4247-b6d2-9a87808b60e3
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+tests {
+  // ============================================================
+  // GET SINGLE DEALER - RESPONSE STATUS
+  // ============================================================
+  
+  test("GET Single Dealer - returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  
+  // ============================================================
+  // RESPONSE STRUCTURE
+  // ============================================================
+  
+  test("GET Single Dealer - response structure is valid", function () {
+    const body = res.getBody();
+  
+    expect(body).to.have.property("data");
+    expect(body).to.have.property("meta");
+  
+    expect(body.data).to.have.property("user");
+    expect(body.data).to.have.property("clientInformation");
+    expect(body.data).to.have.property("status");
+  
+    // KPI objects required by the Single Dealer Page
+    expect(body.data).to.have.property("licenses");
+    expect(body.data).to.have.property("hosts");
+    expect(body.data).to.have.property("advertisers");
+  });
+  
+  
+  // ============================================================
+  // DEALER ID VALIDATION
+  // ============================================================
+  
+  test("GET Single Dealer - returned dealer matches requested ID", function () {
+    const body = res.getBody();
+  
+    const url = req.getUrl();
+  
+    // Get the dealer ID from the request URL
+    const requestedId = url.split("/").pop().split("?")[0];
+  
+    const returnedId = body.data.user.userId;
+  
+    expect(returnedId).to.equal(requestedId);
+  });
+  
+  
+  // ============================================================
+  // DEALER PROFILE INFORMATION
+  // ============================================================
+  
+  test("GET Single Dealer - dealer profile information is valid", function () {
+    const body = res.getBody();
+  
+    const user = body.data.user;
+    const client = body.data.clientInformation;
+  
+    // -----------------------------
+    // User information
+    // -----------------------------
+  
+    expect(user.userId).to.be.a("string");
+    expect(user.username).to.be.a("string");
+    expect(user.firstName).to.be.a("string");
+    expect(user.lastName).to.be.a("string");
+    expect(user.createdAt).to.be.a("string");
+  
+    // Profile picture is optional.
+    // null is valid according to the API.
+    if (user.profilePicture !== null) {
+      expect(user.profilePicture).to.be.a("string");
+      expect(user.profilePicture).to.not.equal("");
+    }
+  
+    // -----------------------------
+    // Client information
+    // -----------------------------
+  
+    expect(client.clientInformationId).to.be.a("string");
+    expect(client.clientTypeId).to.be.a("string");
+  
+    // These fields may be null according to the API schema.
+    expect(
+      client.businessName === null ||
+      typeof client.businessName === "string"
+    ).to.be.true;
+  
+    expect(
+      client.alias === null ||
+      typeof client.alias === "string"
+    ).to.be.true;
+  
+    expect(
+      client.address === null ||
+      typeof client.address === "string"
+    ).to.be.true;
+  
+    expect(
+      client.city === null ||
+      typeof client.city === "string"
+    ).to.be.true;
+  
+    expect(
+      client.state === null ||
+      typeof client.state === "string"
+    ).to.be.true;
+  
+    expect(
+      client.zip === null ||
+      typeof client.zip === "string"
+    ).to.be.true;
+  
+    expect(
+      client.region === null ||
+      typeof client.region === "string"
+    ).to.be.true;
+  });
+  
+  
+  // ============================================================
+  // STATUS
+  // ============================================================
+  
+  test("GET Single Dealer - status information is valid", function () {
+    const body = res.getBody();
+  
+    const status = body.data.status;
+  
+    expect(status).to.exist;
+  
+    expect(status.statusId).to.be.a("number");
+    expect(status.statusLabel).to.be.a("string");
+  
+    // UAC only allows Active or Inactive
+    expect(["Active", "Inactive"]).to.include(status.statusLabel);
+  
+    console.log("DEALER STATUS PASSED");
+    console.log("Status ID:", status.statusId);
+    console.log("Status Label:", status.statusLabel);
+  });
+  
+  
+  // ============================================================
+  // LICENSES KPI
+  // ============================================================
+  
+  test("GET Single Dealer - Licenses KPI data is valid", function () {
+    const body = res.getBody();
+  
+    const licenses = body.data.licenses;
+  
+    expect(licenses).to.exist;
+  
+    expect(licenses).to.have.property("total");
+    expect(licenses.total).to.be.a("number");
+  
+    expect(licenses).to.have.property("active");
+    expect(licenses.active).to.be.a("number");
+  
+    expect(licenses).to.have.property("inactive");
+    expect(licenses.inactive).to.be.a("number");
+  
+    // These are returned by the API and are part of the
+    // license summary data.
+    expect(licenses).to.have.property("lan");
+    expect(licenses.lan).to.be.a("number");
+  
+    expect(licenses).to.have.property("wifi");
+    expect(licenses.wifi).to.be.a("number");
+  
+    console.log("LICENSES KPI PASSED");
+    console.log("Total:", licenses.total);
+    console.log("Active:", licenses.active);
+    console.log("Inactive:", licenses.inactive);
+    console.log("LAN:", licenses.lan);
+    console.log("WiFi:", licenses.wifi);
+  });
+  
+  
+  // ============================================================
+  // LICENSES KPI - NON NEGATIVE
+  // ============================================================
+  
+  test("GET Single Dealer - Licenses KPI values are not negative", function () {
+    const licenses = res.getBody().data.licenses;
+  
+    expect(licenses.total).to.be.at.least(0);
+    expect(licenses.active).to.be.at.least(0);
+    expect(licenses.inactive).to.be.at.least(0);
+    expect(licenses.lan).to.be.at.least(0);
+    expect(licenses.wifi).to.be.at.least(0);
+  
+    console.log("LICENSES KPI NON-NEGATIVE PASSED");
+  });
+  
+  
+  // ============================================================
+  // HOSTS KPI
+  // ============================================================
+  
+  test("GET Single Dealer - Hosts KPI data is valid", function () {
+    const body = res.getBody();
+  
+    const hosts = body.data.hosts;
+  
+    expect(hosts).to.exist;
+  
+    expect(hosts).to.have.property("total");
+    expect(hosts.total).to.be.a("number");
+  
+    expect(hosts).to.have.property("schedule");
+    expect(hosts.schedule).to.be.a("number");
+  
+    expect(hosts).to.have.property("active");
+    expect(hosts.active).to.be.a("number");
+  
+    expect(hosts).to.have.property("inactive");
+    expect(hosts.inactive).to.be.a("number");
+  
+    console.log("HOSTS KPI PASSED");
+    console.log("Total:", hosts.total);
+    console.log("Scheduled:", hosts.schedule);
+    console.log("Active:", hosts.active);
+    console.log("Inactive:", hosts.inactive);
+  });
+  
+  
+  // ============================================================
+  // HOSTS KPI - NON NEGATIVE
+  // ============================================================
+  
+  test("GET Single Dealer - Hosts KPI values are not negative", function () {
+    const hosts = res.getBody().data.hosts;
+  
+    expect(hosts.total).to.be.at.least(0);
+    expect(hosts.schedule).to.be.at.least(0);
+    expect(hosts.active).to.be.at.least(0);
+    expect(hosts.inactive).to.be.at.least(0);
+  
+    console.log("HOSTS KPI NON-NEGATIVE PASSED");
+  });
+  
+  
+  // ============================================================
+  // ADVERTISERS KPI
+  // ============================================================
+  
+  test("GET Single Dealer - Advertisers KPI data is valid", function () {
+    const body = res.getBody();
+  
+    const advertisers = body.data.advertisers;
+  
+    expect(advertisers).to.exist;
+  
+    expect(advertisers).to.have.property("total");
+    expect(advertisers.total).to.be.a("number");
+  
+    expect(advertisers).to.have.property("active");
+    expect(advertisers.active).to.be.a("number");
+  
+    expect(advertisers).to.have.property("inactive");
+    expect(advertisers.inactive).to.be.a("number");
+  
+    console.log("ADVERTISERS KPI PASSED");
+    console.log("Total:", advertisers.total);
+    console.log("Active:", advertisers.active);
+    console.log("Inactive:", advertisers.inactive);
+  });
+  
+  
+  // ============================================================
+  // ADVERTISERS KPI - NON NEGATIVE
+  // ============================================================
+  
+  test("GET Single Dealer - Advertisers KPI values are not negative", function () {
+    const advertisers = res.getBody().data.advertisers;
+  
+    expect(advertisers.total).to.be.at.least(0);
+    expect(advertisers.active).to.be.at.least(0);
+    expect(advertisers.inactive).to.be.at.least(0);
+  
+    console.log("ADVERTISERS KPI NON-NEGATIVE PASSED");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
