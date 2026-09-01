@@ -1,0 +1,425 @@
+meta {
+  name: Get All Licenses
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get All Licenses
+  
+  This endpoint retrieves a paginated list of licenses from the system. The response includes detailed information about each license, such as its status, registration details, and associated metadata.
+  
+  ### Request Parameters
+  
+  - **page** (integer): The page number for pagination (default is 1).
+      
+  - **search** (string): A search term to filter licenses (optional).
+      
+  - **sortColumn** (string): The column by which to sort the results (default is `PiStatus`).
+      
+  - **sortOrder** (string): The order of sorting (either `asc` or `desc`, default is `desc`).
+      
+  - **pageSize** (integer): The number of records per page (default is 15).
+      
+  - **includeAdmin** (boolean): Whether to include admin licenses in the results (default is `false`).
+      
+  - **piStatus** (string): Filter licenses by their PI status (optional).
+      
+  - **daysOfflineFrom** (integer): Filter licenses based on the number of offline days (optional).
+      
+  - **daysOfflineTo** (integer): Filter licenses based on the number of offline days (optional).
+      
+  - **active** (boolean): Filter licenses based on their active status (optional).
+      
+  - **daysInstalled** (integer): Filter licenses based on the number of installed days (optional).
+      
+  - **timezone** (string): Specify the timezone for the results (optional).
+      
+  - **dealerId** (string): Filter licenses by dealer ID (optional).
+      
+  - **hostId** (string): Filter licenses by host ID (optional).
+      
+  - **assigned** (boolean): Filter licenses based on their assigned status (optional).
+      
+  - **pending** (boolean): Filter licenses based on their pending status (optional).
+      
+  - **online** (boolean): Filter licenses based on their online status (optional).
+      
+  - **isActivated** (boolean): Filter licenses based on their activation status (optional).
+      
+  - **isFavorite** (boolean): Filter licenses based on their favorite status (optional).
+      
+  - **serverVersion** (string): Specify the server version for filtering (optional).
+      
+  - **uiVersion** (string): Specify the UI version for filtering (optional).
+      
+  - **piOrder** (string): Additional ordering criteria (optional).
+      
+  
+  ### Response Structure
+  
+  The response includes:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - `licenseId`
+          
+      - `licenseKey`
+          
+      - `macAddress`
+          
+      - `isRegistered`
+          
+      - `isActivated`
+          
+      - `dealerId`
+          
+      - `hostId`
+          
+      - `dateCreated`
+          
+      - `internetType`
+          
+      - `internetSpeed`
+          
+      - `memory`
+          
+      - `totalStorage`
+          
+      - `freeStorage`
+          
+      - `dateUpdated`
+          
+      - `contentsUpdated`
+          
+      - `playerSocketId`
+          
+      - `piSocketId`
+          
+      - `playerStatus`
+          
+      - `piStatus`
+          
+      - `sequence`
+          
+      - `alias`
+          
+      - `timeIn`
+          
+      - `timeOut`
+          
+      - `anydeskId`
+          
+      - `appVersion`
+          
+      - `playerUiKey`
+          
+      - `playerAssetServerKey`
+          
+      - `installDate`
+          
+      - `internetInfo`
+          
+      - `screenshot`
+          
+      - `displayStatus`
+          
+      - `serverVersion`
+          
+      - `uiVersion`
+          
+      - `screenshotSettings`
+          
+      - `speedtestSettings`
+          
+      - `displayControlSettings`
+          
+      - `resourceSettings`
+          
+      - `bootDelay`
+          
+      - `emailSettings`
+          
+      - `notificationSettings`
+          
+      - `tvDisplaySettings`
+          
+      - `rebootTime`
+          
+      - `isCecEnabled`
+          
+      - `isCecCtlEnabled`
+          
+      - `fastEdgeMonitoringTool`
+          
+      - `tvBrand`
+          
+      - `publicIP`
+          
+      - `prevPublicIP`
+          
+      - `installRequestDate`
+          
+      - `backgroundImageUrl`
+          
+      - `enableUpdates`
+          
+      - `piLocalDateTime`
+          
+      - `businessName`
+          
+      - `hostName`
+          
+      - `templateName`
+          
+      - `screenName`
+          
+      - `screenType`
+          
+      - `hostAddress`
+          
+      - `category`
+          
+      - `storeHours`
+          
+      - `screenId`
+          
+      - `templateId`
+          
+      - `timezoneName`
+          
+      - `startDate`
+          
+      - `dealerStatus`
+          
+      - `offlineDays`
+          
+      - `installedDays`
+          
+      - `isFavorite`
+          
+      - `licenseFavoriteId`
+          
+      - `screenshotUrl`
+          
+      - `uploadSpeed`
+          
+      - `downloadSpeed`
+          
+      - `tags`
+          
+  - **paging** (object): Information about pagination, including:
+      
+      - `hasPreviousPage`
+          
+      - `hasNextPage`
+          
+      - `page`
+          
+      - `pageSize`
+          
+      - `pages`
+          
+      - `totalEntities`
+          
+      - `pageStart`
+          
+      - `entities` (array of license objects)
+          
+  - **totalCounts** (object): Summary counts of licenses, including:
+      
+      - `total`
+          
+      - `totalOnline`
+          
+      - `totalOffline`
+          
+      - `totalInActive`
+          
+      - `totalUnAssigned`
+          
+  
+  ### Authentication and Headers
+  
+  Ensure that you include the necessary authentication headers in your request to access this endpoint. The specific authentication method will depend on the API's security requirements.
+  
+  This endpoint retrieves a paginated list of licenses from the system. It allows filtering and sorting based on various parameters, enabling users to efficiently manage and view license information.
+  
+  ### HTTP Method
+  
+  `GET`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  - **page** (integer, required): The page number to retrieve (starting from 1).
+      
+  - **search** (string, optional): A search term to filter the licenses.
+      
+  - **sortColumn** (string, required): The column by which to sort the results (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, required): The order of sorting (e.g., `asc` or `desc`).
+      
+  - **pageSize** (integer, required): The number of results to return per page (e.g., 15).
+      
+  - **includeAdmin** (boolean, optional): Indicates whether to include admin licenses in the results.
+      
+  - **piStatus** (string, optional): Filter licenses by their PI status.
+      
+  - **daysOfflineFrom** (integer, optional): Filter licenses based on days offline from this value.
+      
+  - **daysOfflineTo** (integer, optional): Filter licenses based on days offline to this value.
+      
+  - **active** (boolean, optional): Filter by active status of licenses.
+      
+  - **daysInstalled** (integer, optional): Filter licenses based on days installed.
+      
+  - **timezone** (string, optional): Specify the timezone for the license data.
+      
+  - **dealerId** (string, optional): Filter by dealer ID associated with the licenses.
+      
+  - **hostId** (string, optional): Filter by host ID associated with the licenses.
+      
+  - **assigned** (boolean, optional): Filter by assigned status of licenses.
+      
+  - **pending** (boolean, optional): Filter by pending status of licenses.
+      
+  - **online** (boolean, optional): Filter by online status of licenses.
+      
+  - **isActivated** (boolean, optional): Filter by activation status of licenses.
+      
+  - **isFavorite** (boolean, optional): Filter by favorite status of licenses.
+      
+  - **serverVersion** (string, optional): Filter by server version.
+      
+  - **uiVersion** (string, optional): Filter by UI version.
+      
+  - **piOrder** (string, optional): Specify the order for PI-related data.
+      
+  
+  ### Expected Response Format
+  
+  On a successful request, the response will be in JSON format with the following structure:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - **licenseId** (string): Unique identifier for the license.
+          
+      - **licenseKey** (string): The key associated with the license.
+          
+      - **macAddress** (string): MAC address of the device associated with the license.
+          
+      - **isRegistered** (integer): Registration status (0 or 1).
+          
+      - **isActivated** (integer): Activation status (0 or 1).
+          
+      - **dealerId** (string): ID of the dealer associated with the license.
+          
+      - **hostId** (string): ID of the host associated with the license.
+          
+      - **dateCreated** (string): Date when the license was created.
+          
+      - **internetType** (string): Type of internet connection.
+          
+      - **internetSpeed** (string): Speed of the internet connection.
+          
+      - **memory** (string): Memory information.
+          
+      - **totalStorage** (string): Total storage capacity.
+          
+      - **freeStorage** (string): Available storage space.
+          
+      - **dateUpdated** (string): Date when the license was last updated.
+          
+      - **playerStatus** (integer): Status of the player.
+          
+      - **piStatus** (integer): Status of the PI.
+          
+      - **isFavorite** (boolean): Indicates if the license is marked as favorite.
+          
+      - **enableUpdates** (boolean): Indicates if updates are enabled for the license.
+          
+      - Additional fields as needed.
+          
+  - **paging** (object): Contains pagination information:
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): Current page number.
+          
+      - **pageSize** (integer): Size of the page.
+          
+      - **totalEntities** (integer): Total number of entities available.
+          
+  - **totalCounts** (object): Summary of total counts related to licenses:
+      
+      - **total** (integer): Total number of licenses.
+          
+      - **totalOnline** (integer): Total number of online licenses.
+          
+      - **totalOffline** (integer): Total number of offline licenses.
+          
+      - **totalInActive** (integer): Total number of inactive licenses.
+          
+      - **totalUnAssigned** (integer): Total number of unassigned licenses.
+          
+  
+  This detailed response structure allows users to understand the status and details of each license efficiently.
+}

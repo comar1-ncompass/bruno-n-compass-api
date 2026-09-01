@@ -1,0 +1,97 @@
+meta {
+  name: Get Host Files by Type
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/host/GetHostFilesByType?hostId=936ef7b7-469b-47dd-b3b2-373813b6d9a5&type=1&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  hostId: 936ef7b7-469b-47dd-b3b2-373813b6d9a5
+  type: 1
+  page: 1
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get Host Files by Type
+  
+  This endpoint retrieves a paginated list of files associated with a specific host, filtered by a designated file type. This functionality is typically used within the Host's detailed view to display content assets, installation files, or other relevant documents.
+  
+  ---
+  
+  ### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/host/GetHostFilesByType`
+  
+  ---
+  
+  ### Query Parameters
+  
+  The following query parameters are required to identify the host and the type of files to retrieve.
+  
+  - **hostId** (string, required): The unique identifier of the host. For this request, the value is `936ef7b7-469b-47dd-b3b2-373813b6d9a5`.
+      
+  - **type** (integer, required): The type of file to retrieve. The value `1` is used in this example.
+      
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  
+  ---
+  
+  ### Expected Response Format
+  
+  The response returns an object containing pagination information and an array of files. In this particular example, the search for files of `type=1` for the specified host did not yield any results, resulting in an empty `entities` array.
+  
+  JSON
+  
+  ```
+  {
+      "hasPreviousPage": false,
+      "hasNextPage": false,
+      "page": 1,
+      "pageSize": 15,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 1,
+      "entities": []
+  }
+  
+   ```
+  
+  ---
+  
+  ### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

@@ -1,0 +1,118 @@
+meta {
+  name: Export Hosts
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/host/export?page=1&search=&sortColumn=&sortOrder=&pageSize=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+  pageSize: 0
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Export Hosts
+  
+  ### Request Method
+  
+  `GET`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/host/export`
+  
+  ### Query Parameters
+  
+  - **page** (integer): The page number to retrieve. Default is `1`.
+      
+  - **search** (string): A search term to filter results. Default is an empty string.
+      
+  - **sortColumn** (string): The column name to sort the results by. Default is an empty string.
+      
+  - **sortOrder** (string): The order to sort the results, either ascending or descending. Default is an empty string.
+      
+  - **pageSize** (integer): The number of records to return per page. Default is `0`, which may indicate no limit.
+      
+  
+  ### Expected Response
+  
+  On successful execution, the API will return a `200 OK` status with a response in JSON format containing two main components:
+  
+  1. **host** (array): An array of host objects, each containing the following fields:
+      
+      - `hostId`: Unique identifier for the host.
+          
+      - `dealerId`: Identifier for the dealer associated with the host.
+          
+      - `userId`: Identifier for the user associated with the host (nullable).
+          
+      - `hostName`: Name of the host.
+          
+      - `address`: Address of the host.
+          
+      - `city`, `postalCode`, `state`, `country`: Location details.
+          
+      - `latitude`, `longitude`: Geographical coordinates.
+          
+      - `storeHours`: Operating hours of the host.
+          
+      - `monthlyTraffic`, `avgDwellTime`, `avgTicket`: Traffic and sales metrics (nullable).
+          
+      - `notes`: Additional notes regarding the host.
+          
+      - `dateCreated`, `dateUpdated`: Timestamps for creation and last update.
+          
+      - `status`: Current status of the host.
+          
+      - `licenses`: An array of licenses associated with the host.
+          
+      - `totalLicenses`: Total number of licenses.
+          
+      - `tags`: Array of tags associated with the host.
+          
+  2. **paging** (object): Metadata about the pagination of results, including:
+      
+      - `hasPreviousPage`: Boolean indicating if there is a previous page.
+          
+      - `hasNextPage`: Boolean indicating if there is a next page.
+          
+      - `page`: Current page number.
+          
+      - `pageSize`: Number of records per page.
+          
+      - `totalEntities`: Total number of entities available.
+          
+      - `entities`: Array of entities for the current page.
+          
+  
+  This endpoint is useful for retrieving a list of hosts with optional filtering, sorting, and pagination capabilities.
+}

@@ -1,0 +1,274 @@
+meta {
+  name: License Status > Assigned > Offline > 6 - 30 Days
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=TimeIn&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=0&daysOfflineFrom=6&daysOfflineTo=30&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=1&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: TimeIn
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 0
+  daysOfflineFrom: 6
+  daysOfflineTo: 30
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 1
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get All Licenses > License Status > Assigned > Offline > 6 - 30 Days
+  
+  This endpoint retrieves a list of licenses filtered based on specific criteria, including license status (assigned), duration offline (between 6 to 30 days), and various other parameters.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  - `page` (integer): The page number for pagination. Default is 1.
+      
+  - `search` (string): A search term to filter licenses. Default is empty.
+      
+  - `sortColumn` (string): The column by which to sort the results. Default is `TimeIn`.
+      
+  - `sortOrder` (string): The order of sorting, either `asc` or `desc`. Default is `desc`.
+      
+  - `pageSize` (integer): The number of results per page. Default is 15.
+      
+  - `includeAdmin` (boolean): Indicates whether to include admin licenses. Default is `false`.
+      
+  - `piStatus` (integer): The status of the license, where `0` indicates offline.
+      
+  - `daysOfflineFrom` (integer): The minimum number of days a license has been offline. In this case, it is set to `6`.
+      
+  - `daysOfflineTo` (integer): The maximum number of days a license has been offline. In this case, it is set to `30`.
+      
+  - `active` (boolean): Indicates whether to filter for active licenses. Default is empty.
+      
+  - `daysInstalled` (integer): The number of days a license has been installed. Default is empty.
+      
+  - `timezone` (string): The timezone for the license information. Default is empty.
+      
+  - `dealerId` (string): The ID of the dealer associated with the licenses. Default is empty.
+      
+  - `hostId` (string): The ID of the host associated with the licenses. Default is empty.
+      
+  - `assigned` (boolean): Indicates whether to filter for assigned licenses. Default is empty.
+      
+  - `pending` (boolean): Indicates whether to filter for pending licenses. Default is empty.
+      
+  - `online` (boolean): Indicates whether to filter for online licenses. Default is empty.
+      
+  - `isActivated` (boolean): Indicates whether to filter for activated licenses. Default is `1` (true).
+      
+  - `isFavorite` (boolean): Indicates whether to filter for favorite licenses. Default is empty.
+      
+  - `serverVersion` (string): The version of the server. Default is empty.
+      
+  - `uiVersion` (string): The version of the user interface. Default is empty.
+      
+  - `piOrder` (string): The order of the licenses. Default is empty.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  The response includes a list of licenses that match the filtering criteria. Each license object contains the following fields:
+  
+  - `licenseId`: Unique identifier for the license.
+      
+  - `licenseKey`: The key associated with the license.
+      
+  - `macAddress`: The MAC address of the device.
+      
+  - `isRegistered`: Indicates if the license is registered.
+      
+  - `isActivated`: Indicates if the license is activated.
+      
+  - `dealerId`: The ID of the dealer associated with the license.
+      
+  - `hostId`: The ID of the host associated with the license.
+      
+  - `dateCreated`: The date the license was created.
+      
+  - `internetType`: The type of internet connection.
+      
+  - `internetSpeed`: The speed of the internet connection.
+      
+  - `memory`: The memory details of the device.
+      
+  - `totalStorage`: Total storage available.
+      
+  - `freeStorage`: Free storage available.
+      
+  - `dateUpdated`: The last updated date of the license.
+      
+  - `playerStatus`: The current status of the player.
+      
+  - `piStatus`: The status of the license.
+      
+  - `isFavorite`: Indicates if the license is marked as favorite.
+      
+  - `enableUpdates`: Indicates if updates are enabled for the license.
+      
+  
+  Additionally, the response includes pagination details and total counts of licenses based on their status.
+  
+  ### Notes
+  
+  - This request is particularly useful for filtering licenses that have been assigned and offline for a duration between 6 to 30 days, allowing for effective management and monitoring of license statuses.
+      
+  - Ensure that the appropriate parameters are set to retrieve the desired data effectively.
+      
+  
+  This endpoint retrieves a list of licenses, filtered based on specific criteria including license status, duration offline, and various other parameters.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  - `page` (integer): The page number for pagination. Default is 1.
+      
+  - `search` (string): A search term to filter licenses. Default is empty.
+      
+  - `sortColumn` (string): The column by which to sort the results. Default is `TimeIn`.
+      
+  - `sortOrder` (string): The order of sorting, either `asc` or `desc`. Default is `desc`.
+      
+  - `pageSize` (integer): The number of results per page. Default is 15.
+      
+  - `includeAdmin` (boolean): Indicates whether to include admin licenses. Default is `false`.
+      
+  - `piStatus` (integer): The status of the license, where `0` indicates offline.
+      
+  - `daysOfflineFrom` (integer): The minimum number of days a license has been offline. In this case, it is set to `6`.
+      
+  - `daysOfflineTo` (integer): The maximum number of days a license has been offline. In this case, it is set to `30`.
+      
+  - `active` (boolean): Indicates whether to filter for active licenses. Default is empty.
+      
+  - `daysInstalled` (integer): The number of days a license has been installed. Default is empty.
+      
+  - `timezone` (string): The timezone for the license information. Default is empty.
+      
+  - `dealerId` (string): The ID of the dealer associated with the licenses. Default is empty.
+      
+  - `hostId` (string): The ID of the host associated with the licenses. Default is empty.
+      
+  - `assigned` (boolean): Indicates whether to filter for assigned licenses. Default is empty.
+      
+  - `pending` (boolean): Indicates whether to filter for pending licenses. Default is empty.
+      
+  - `online` (boolean): Indicates whether to filter for online licenses. Default is empty.
+      
+  - `isActivated` (boolean): Indicates whether to filter for activated licenses. Default is `1` (true).
+      
+  - `isFavorite` (boolean): Indicates whether to filter for favorite licenses. Default is empty.
+      
+  - `serverVersion` (string): The version of the server. Default is empty.
+      
+  - `uiVersion` (string): The version of the user interface. Default is empty.
+      
+  - `piOrder` (string): The order of the licenses. Default is empty.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  The response includes a list of licenses that match the filtering criteria. Each license object contains the following fields:
+  
+  - `licenseId`: Unique identifier for the license.
+      
+  - `licenseKey`: The key associated with the license.
+      
+  - `macAddress`: The MAC address of the device.
+      
+  - `isRegistered`: Indicates if the license is registered.
+      
+  - `isActivated`: Indicates if the license is activated.
+      
+  - `dealerId`: The ID of the dealer associated with the license.
+      
+  - `hostId`: The ID of the host associated with the license.
+      
+  - `dateCreated`: The date the license was created.
+      
+  - `internetType`: The type of internet connection.
+      
+  - `internetSpeed`: The speed of the internet connection.
+      
+  - `memory`: The memory details of the device.
+      
+  - `totalStorage`: Total storage available.
+      
+  - `freeStorage`: Free storage available.
+      
+  - `dateUpdated`: The last updated date of the license.
+      
+  - `playerStatus`: The current status of the player.
+      
+  - `piStatus`: The status of the license.
+      
+  - `isFavorite`: Indicates if the license is marked as favorite.
+      
+  - `enableUpdates`: Indicates if updates are enabled for the license.
+      
+  
+  Additionally, the response includes pagination details and total counts of licenses based on their status.
+  
+  ### Notes
+  
+  - This request is particularly useful for filtering licenses that have been offline for a duration between 6 to 30 days, allowing for effective management and monitoring of license statuses.
+      
+  - Ensure that the appropriate parameters are set to retrieve the desired data effectively.
+}

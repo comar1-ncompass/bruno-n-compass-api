@@ -1,0 +1,181 @@
+meta {
+  name: Search for Dealers
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getdealerswithlicense?page=1&search=TechSupport
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: TechSupport
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Search for Dealers
+  
+  This endpoint retrieves a list of dealers based on a search query. The search term can match against a dealer's **business name**, **contact person**, **email**, or associated **tags**. This provides a convenient way to find specific dealer information and their related hosts and advertisers.
+  
+  ---
+  
+  ### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/dealer/getdealerswithlicense`
+  
+  ---
+  
+  ### Query Parameters
+  
+  The following query parameters are used to filter and paginate the results.
+  
+  - **page** (integer): The page number for pagination (e.g., `1`).
+      
+  - **search** (string): The search term to filter results. For this request, the value is `TechSupport`.
+      
+  - **sortColumn** (string, optional): The column to sort the results by (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, optional): The order of sorting (`asc` or `desc`).
+      
+  - **pageSize** (integer, optional): The number of records per page. For this request, the value is `15`.
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **... (other optional parameters)**: Other parameters are left blank in this request.
+      
+  
+  ---
+  
+  ### Expected Response Format
+  
+  The response returns a list of dealer objects that match the search criteria. Each dealer object contains nested lists of its associated hosts and advertisers. The example below shows the structure for a dealer matching the search term "TechSupport" in the `contactPerson` field.
+  
+  JSON
+  
+  ```
+  {
+      "dealers": [
+          {
+              "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+              "businessName": "Test Tech",
+              "contactPerson": "Tech Support",
+              "contactNumber": "09191234567",
+              "region": "W",
+              "state": "CA",
+              "city": "Los Angeles",
+              "userId": "fd9ea90c-5f25-4029-85d1-d48a46972309",
+              "dateCreated": "2020-08-13T21:26:11+00:00",
+              "dateUpdated": null,
+              "createdBy": null,
+              "updatedBy": null,
+              "status": "A",
+              "totalHost": "12",
+              "activeHost": "8",
+              "forInstallationHost": "11",
+              "email": "johnh@n-compass.biz",
+              "generatedId": "D1234",
+              "hosts": [
+                  {
+                      "hostId": "01a855ba-74b4-488d-890b-13b10639a413",
+                      "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                      "userId": null,
+                      "name": "Test Build Nov 2023",
+                      "address": "406 Fremont St",
+                      "city": "Wathena",
+                      "state": "KS",
+                      "status": "A",
+                      "category": "Building",
+                      "programmaticId": "nc-13b10639a413"
+                  },
+                  {
+                      "hostId": "82821aa0-0f97-4195-8f76-c7af2f20ab69",
+                      "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                      "userId": null,
+                      "name": "Sam's Club",
+                      "address": "9400 S Western Ave",
+                      "city": "Evergreen Park",
+                      "state": "IL",
+                      "status": "I",
+                      "category": "Warehouse Club",
+                      "programmaticId": "nc-c7af2f20ab69"
+                  },
+                  // ... (remaining host objects)
+              ],
+              "advertisers": [
+                  {
+                      "Id": "309585ec-0dca-4142-b703-a20f1976c899",
+                      "DealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                      "UserId": "",
+                      "Name": "Golfland Sunsplash",
+                      "State": "AZ",
+                      "Status": "A",
+                      "DateCreated": "2020-08-23T22:13:23Z",
+                      "FirstName": "Scripter AI",
+                      "LastName": "#4",
+                      "Email": "scripter4@exe.com"
+                  },
+                  {
+                      "Id": "309585ec-0dca-4142-b703-a20f1976c899",
+                      "DealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                      "UserId": "",
+                      "Name": "Golfland Sunsplash",
+                      "State": "AZ",
+                      "Status": "A",
+                      "DateCreated": "2020-08-23T22:13:23Z",
+                      "FirstName": "Space",
+                      "LastName": "Sub-Dealer",
+                      "Email": "space@sub-dealer.com"
+                  },
+                  // ... (remaining advertiser objects)
+              ]
+          }
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 1,
+          "totalEntities": 1,
+          "pageStart": 1
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

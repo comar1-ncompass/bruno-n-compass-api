@@ -1,0 +1,237 @@
+meta {
+  name: License Status > Assigned > Offline
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=TimeIn&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=0&daysOfflineFrom=&daysOfflineTo=&active=true&daysInstalled=&timezone=&dealerId=&hostId=&assigned=true&pending=&online=false&isActivated=1&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: TimeIn
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 0
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: true
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: true
+  pending: 
+  online: false
+  isActivated: 1
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Get All Licenses in License Status > Assigned > Offline
+  
+  This API endpoint retrieves a list of licenses with filtering options based on their status, specifically focusing on licenses that are in the 'Assigned' and 'Offline' statuses. It is particularly useful for fetching licenses that meet these criteria along with other filtering options.
+  
+  #### Request Parameters
+  
+  - **page** (integer): The page number for pagination. Default is `1`.
+      
+  - **search** (string): A search term to filter the licenses. Default is an empty string.
+      
+  - **sortColumn** (string): The column by which to sort the results. Default is `TimeIn`.
+      
+  - **sortOrder** (string): The order of sorting, can be `asc` or `desc`. Default is `desc`.
+      
+  - **pageSize** (integer): The number of results per page. Default is `15`.
+      
+  - **includeAdmin** (boolean): Whether to include admin licenses. Default is `false`.
+      
+  - **piStatus** (integer): Filter by the PI status. Default is `0`.
+      
+  - **daysOfflineFrom** (integer): Start range for filtering by offline days.
+      
+  - **daysOfflineTo** (integer): End range for filtering by offline days.
+      
+  - **active** (boolean): Filter for active licenses. Default is `true`.
+      
+  - **daysInstalled** (integer): Filter by the number of days installed.
+      
+  - **timezone** (string): The timezone to be considered in the response.
+      
+  - **dealerId** (string): Filter by dealer ID.
+      
+  - **hostId** (string): Filter by host ID.
+      
+  - **assigned** (boolean): Filter for assigned licenses. Default is `true`.
+      
+  - **pending** (boolean): Filter for pending licenses.
+      
+  - **online** (boolean): Filter for online licenses. Default is `false`.
+      
+  - **isActivated** (integer): Filter for activated licenses. Default is `1`.
+      
+  - **isFavorite** (boolean): Filter for favorite licenses.
+      
+  
+  #### Response Format
+  
+  The response will be in JSON format and includes the following key components:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - `licenseId`: Unique identifier for the license.
+          
+      - `licenseKey`: The key associated with the license.
+          
+      - `macAddress`: The MAC address related to the license.
+          
+      - `isRegistered`: Indicates if the license is registered.
+          
+      - `isActivated`: Indicates if the license is activated.
+          
+      - Additional fields related to the license's status, configuration, and performance metrics.
+          
+  - **paging** (object): Contains pagination information such as:
+      
+      - `hasPreviousPage`: Boolean indicating if there is a previous page.
+          
+      - `hasNextPage`: Boolean indicating if there is a next page.
+          
+      - `page`: Current page number.
+          
+      - `pageSize`: Number of items per page.
+          
+      - `totalEntities`: Total number of entities available.
+          
+  - **totalCounts** (object): Summary of total counts for various license statuses:
+      
+      - `total`: Total number of licenses.
+          
+      - `totalOnline`: Total number of online licenses.
+          
+      - `totalOffline`: Total number of offline licenses.
+          
+      - `totalInActive`: Total number of inactive licenses.
+          
+      - `totalUnAssigned`: Total number of unassigned licenses.
+          
+  
+  This endpoint is essential for managing and monitoring licenses effectively, particularly those that are assigned and offline.
+  
+  This API endpoint retrieves a list of licenses with filtering options based on their status. It is particularly useful for fetching licenses that are in the 'Offline' status, along with other filtering criteria.
+  
+  #### Request Parameters
+  
+  - **page** (integer): The page number for pagination. Default is `1`.
+      
+  - **search** (string): A search term to filter the licenses. Default is an empty string.
+      
+  - **sortColumn** (string): The column by which to sort the results. Default is `TimeIn`.
+      
+  - **sortOrder** (string): The order of sorting, can be `asc` or `desc`. Default is `desc`.
+      
+  - **pageSize** (integer): The number of results per page. Default is `15`.
+      
+  - **includeAdmin** (boolean): Whether to include admin licenses. Default is `false`.
+      
+  - **piStatus** (integer): Filter by the PI status. Default is `0`.
+      
+  - **daysOfflineFrom** (integer): Start range for filtering by offline days.
+      
+  - **daysOfflineTo** (integer): End range for filtering by offline days.
+      
+  - **active** (boolean): Filter for active licenses. Default is `true`.
+      
+  - **daysInstalled** (integer): Filter by the number of days installed.
+      
+  - **timezone** (string): The timezone to be considered in the response.
+      
+  - **dealerId** (string): Filter by dealer ID.
+      
+  - **hostId** (string): Filter by host ID.
+      
+  - **assigned** (boolean): Filter for assigned licenses. Default is `true`.
+      
+  - **pending** (boolean): Filter for pending licenses.
+      
+  - **online** (boolean): Filter for online licenses. Default is `false`.
+      
+  - **isActivated** (integer): Filter for activated licenses. Default is `1`.
+      
+  - **isFavorite** (boolean): Filter for favorite licenses.
+      
+  
+  #### Response Format
+  
+  The response will be in JSON format and includes the following key components:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - `licenseId`: Unique identifier for the license.
+          
+      - `licenseKey`: The key associated with the license.
+          
+      - `macAddress`: The MAC address related to the license.
+          
+      - `isRegistered`: Indicates if the license is registered.
+          
+      - `isActivated`: Indicates if the license is activated.
+          
+      - Additional fields related to the license's status, configuration, and performance metrics.
+          
+  - **paging** (object): Contains pagination information such as:
+      
+      - `hasPreviousPage`: Boolean indicating if there is a previous page.
+          
+      - `hasNextPage`: Boolean indicating if there is a next page.
+          
+      - `page`: Current page number.
+          
+      - `pageSize`: Number of items per page.
+          
+      - `totalEntities`: Total number of entities available.
+          
+  - **totalCounts** (object): Summary of total counts for various license statuses:
+      
+      - `total`: Total number of licenses.
+          
+      - `totalOnline`: Total number of online licenses.
+          
+      - `totalOffline`: Total number of offline licenses.
+          
+      - `totalInActive`: Total number of inactive licenses.
+          
+      - `totalUnAssigned`: Total number of unassigned licenses.
+          
+  
+  This endpoint is essential for managing and monitoring licenses effectively, particularly those that are offline.
+}

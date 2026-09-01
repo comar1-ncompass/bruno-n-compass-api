@@ -1,0 +1,90 @@
+meta {
+  name: Get Pi Screenshots by License ID
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/pi/getfiles?licenseid=de5796ea-b0ea-405d-95ab-3bccde81f19c
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseid: de5796ea-b0ea-405d-95ab-3bccde81f19c
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Get Pi Screenshots by License ID
+  
+  This endpoint retrieves a list of screenshot URLs for a specific license. These screenshots are captured from the player device and provide a visual history of the content that has been displayed.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/pi/getfiles`
+  
+  ---
+  
+  #### Query Parameters
+  
+  - **licenseid** (string, required): The unique identifier of the license to retrieve screenshots for.
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response returns a JSON object containing a single array, `files`, which holds the URLs of the screenshots. Each filename includes a timestamp indicating when the image was captured.
+  
+  JSON
+  
+  ```
+  {
+      "files": [
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804023649.jpg",
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804020654.jpg",
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804013657.jpg",
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804012500.jpg",
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804010226.jpg",
+          "https://nctv-images-dev.s3.amazonaws.com/screenshots/de5796ea-b0ea-405d-95ab-3bccde81f19c/20250804003209.jpg",
+          // ... (truncated for brevity)
+      ]
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

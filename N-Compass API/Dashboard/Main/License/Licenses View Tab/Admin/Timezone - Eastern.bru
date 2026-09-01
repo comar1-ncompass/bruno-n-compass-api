@@ -1,0 +1,193 @@
+meta {
+  name: Timezone > Eastern
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=Eastern&dealerId=&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: Eastern
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # API Endpoint: Get All Licenses in Timezone > Eastern
+  
+  This endpoint retrieves a paginated list of licenses from the system, specifically filtered for devices located in the **Eastern timezone**. The response includes detailed information about each license, such as its status, registration details, and associated metadata. It allows for further filtering and sorting based on various parameters to efficiently manage and view license information.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `https://dev-api.n-compass.online/api/license/getall`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and sort the results.
+  
+  - **page** (integer, required): The page number to retrieve (starting from 1).
+      
+  - **search** (string, optional): A search term to filter the licenses.
+      
+  - **sortColumn** (string, required): The column by which to sort the results (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, required): The order of sorting (e.g., `asc` or `desc`).
+      
+  - **pageSize** (integer, required): The number of results to return per page (e.g., 15).
+      
+  - **includeAdmin** (boolean, optional): Indicates whether to include admin licenses in the results.
+      
+  - **piStatus** (string, optional): Filter licenses by their PI status.
+      
+  - **daysOfflineFrom** (integer, optional): Filter licenses based on days offline from this value.
+      
+  - **daysOfflineTo** (integer, optional): Filter licenses based on days offline to this value.
+      
+  - **active** (boolean, optional): Filter by active status of licenses.
+      
+  - **daysInstalled** (integer, optional): Filter licenses based on days installed.
+      
+  - **timezone** (string, optional): Specify the timezone for the license data. For this request, the value is `Eastern`.
+      
+  - **dealerId** (string, optional): Filter by dealer ID associated with the licenses.
+      
+  - **hostId** (string, optional): Filter by host ID associated with the licenses.
+      
+  - **assigned** (boolean, optional): Filter by assigned status of licenses.
+      
+  - **pending** (boolean, optional): Filter by pending status of licenses.
+      
+  - **online** (boolean, optional): Filter by online status of licenses.
+      
+  - **isActivated** (boolean, optional): Filter by activation status of licenses.
+      
+  - **isFavorite** (boolean, optional): Filter by favorite status of licenses.
+      
+  - **serverVersion** (string, optional): Filter by server version.
+      
+  - **uiVersion** (string, optional): Filter by UI version.
+      
+  - **piOrder** (string, optional): Specify the order for PI-related data.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  On a successful request, the response will be in JSON format with the following structure:
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "839d792d-fe9e-41e3-b1ce-3609d0ffb2c5",
+              "licenseKey": "b3884ee7-00b7-4a8c-9684-e37e48a9745a",
+              "macAddress": "d8:3a:dd:86:7d:2f",
+              "isRegistered": 1,
+              "isActivated": 1,
+              "dealerId": "369dd817-0805-4298-abfc-53d5a1b574c3",
+              "hostId": "ffb218b8-adaf-4665-8621-0e85d20333f5",
+              "dateCreated": "2020-10-01T10:17:08+00:00",
+              "internetType": "eth0",
+              "internetSpeed": "Slow",
+              "memory": "2 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "73 %",
+              "dateUpdated": "2024-11-06T06:42:56+00:00",
+              "contentsUpdated": "2024-11-06T00:06:17+00:00",
+              "playerSocketId": null,
+              "piSocketId": "uXKKrIMV1ie3UjbCACBB",
+              "playerStatus": 0,
+              "piStatus": 1,
+              "sequence": null,
+              "alias": "License # 26",
+              "timeIn": "November 06, 2024, 12:07:18 AM",
+              "timeOut": "November 06, 2024, 12:01:44 AM",
+              "anydeskId": "1712104581",
+              "appVersion": "{\"chromium\":\"92.0.4515.98\",\"electron\":\"N/A\",\"puppeteer\":\"N/A\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.5\"}"
+              // ... (additional license fields)
+          }
+          // ... (more license objects)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": true,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 100,
+          "totalEntities": 1500,
+          "pageStart": 1
+      },
+      "totalCounts": {
+          "total": 1500,
+          "totalOnline": 1000,
+          "totalOffline": 250,
+          "totalInActive": 100,
+          "totalUnAssigned": 150
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

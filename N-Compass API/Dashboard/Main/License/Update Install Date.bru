@@ -1,0 +1,39 @@
+meta {
+  name: Update Install Date
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/license/updateinstalldate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "licenseId": "",
+      "installDate": ""
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

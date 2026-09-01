@@ -1,0 +1,20 @@
+meta {
+  name: Delete Host
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/hosts/c10bc9d4-5eb9-4de4-a91b-fa33205c99b3
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

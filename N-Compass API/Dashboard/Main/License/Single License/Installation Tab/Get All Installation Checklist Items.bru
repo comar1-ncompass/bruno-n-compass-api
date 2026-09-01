@@ -1,0 +1,111 @@
+meta {
+  name: Get All Installation Checklist Items
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/installationchecklists/getallitems
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Get All Installation Checklist Items
+  
+  This endpoint retrieves a list of all available installation checklists and their associated items. This is likely used to populate a list of tasks for the "Installation" tab on the Single License page.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/installationchecklists/getallitems`
+  
+  ---
+  
+  #### Query Parameters
+  
+  This endpoint does not require any query parameters.
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response returns a JSON object containing an array of `installationChecklistGroups`. Each group contains an `installationChecklist` object with its details and a `null` `installationChecklistItems` field in this specific response.
+  
+  JSON
+  
+  ```
+  {
+      "installationChecklistGroups": [
+          {
+              "installationChecklist": {
+                  "installationChecklistId": "62ebb021-058b-451f-9e77-47001576f7c8",
+                  "title": "Test Haze Software",
+                  "description": null,
+                  "seq": 1,
+                  "createdDate": "2025-01-10T02:57:17+00:00",
+                  "updatedDate": null
+              },
+              "installationChecklistItems": null
+          },
+          {
+              "installationChecklist": {
+                  "installationChecklistId": "e0107168-6a07-4642-bca1-861035786833",
+                  "title": "Software Update",
+                  "description": null,
+                  "seq": 2,
+                  "createdDate": "2025-01-10T02:57:31+00:00",
+                  "updatedDate": null
+              },
+              "installationChecklistItems": null
+          },
+          {
+              "installationChecklist": {
+                  "installationChecklistId": "51a3e65f-90fc-412a-913d-6dd4f319cb13",
+                  "title": "Set Installation Date",
+                  "description": null,
+                  "seq": 3,
+                  "createdDate": "2025-01-10T02:57:56+00:00",
+                  "updatedDate": null
+              },
+              "installationChecklistItems": null
+          }
+      ]
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

@@ -1,0 +1,38 @@
+meta {
+  name: Dealers
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://dashboard-v2-dev.n-compass.online/api/dealers?page=1&limit=15&sortBy=businessName&sortOrder=asc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  sortBy: businessName
+  sortOrder: asc
+}
+
+headers {
+  Accept: application/json, text/plain, */*
+  Accept-Language: en-US,en;q=0.9
+  Cache-Control: no-cache
+  Connection: keep-alive
+  Cookie: dev_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4NjMzNzQ0OCwiZXhwIjoxNzg2MzY2MjQ4LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.C4K7tUNrQmEPcHPO_H6Bds5KoUknxdWIip7qc_jX4vQ; dev_nctvRefToken=Bjjt66rEpb3z1YTfLyPj7L1GF5l4l0t3L4C33lRv0Pk%3D; dev_nctvUserId=32c3eec4-c6df-43be-9ba6-7347382fae43; dev_nctvRoleName=Super%20Admin; dev_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2YWU4NzFiNC03MGU2LTQwNTctOWU5ZS02ZTExNzJjNjMxZDkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc4NjMzNzQ4MCwiZXhwIjoxNzg2MzY2MjgwLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.CEJUmuJ1K7_xz-J701H1FlpYlnz-1WHnUv0x3YAoYjI; stg_nctvRefToken=KYlE5%2Bsb9accB3TapKzMXUO%2B%2B8PZoXwHDKdbU4MCAnI%3D; stg_nctvUserId=6ae871b4-70e6-4057-9e9e-6e1172c631d9; stg_nctvRoleName=Super%20Admin; stg_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; __Secure-remember_me=1; __Host-session_id=l6QGEnrL4jh7ESBMCUcHyS-3JTcPv-wCpMuv8d8ST5w
+  Pragma: no-cache
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-origin
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36
+  sec-ch-ua: "Not=A?Brand";v="99", "Google Chrome";v="151", "Chromium";v="151"
+  sec-ch-ua-mobile: ?0
+  sec-ch-ua-platform: "Windows"
+}
+
+settings {
+  encodeUrl: false
+}

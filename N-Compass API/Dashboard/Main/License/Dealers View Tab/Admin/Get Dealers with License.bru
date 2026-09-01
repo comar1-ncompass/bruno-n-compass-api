@@ -1,0 +1,109 @@
+meta {
+  name: Get Dealers with License
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getdealerswithlicense?page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## Get Dealers with License
+  
+  This endpoint retrieves a paginated list of dealers along with their associated licenses, hosts, and advertisers. It is useful for obtaining detailed information about dealers and their operational status.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `https://dev-api.n-compass.online/api/dealer/getdealerswithlicense?page={page}`
+      
+  
+  #### Query Parameters
+  
+  - `page` (integer): The page number to retrieve. This parameter is used for pagination.
+      
+  
+  ### Response
+  
+  The response will be in JSON format and will include the following structure:
+  
+  - **dealers** (array): A list of dealer objects, each containing:
+      
+      - `dealerId` (string): Unique identifier for the dealer.
+          
+      - `businessName` (string): Name of the dealer's business.
+          
+      - `contactPerson` (string): Name of the contact person.
+          
+      - `contactNumber` (string): Contact number for the dealer.
+          
+      - `region` (string): The region where the dealer operates.
+          
+      - `state` (string): The state of the dealer.
+          
+      - `city` (string): The city of the dealer.
+          
+      - `userId` (string): Identifier for the user associated with the dealer.
+          
+      - `dateCreated` (string): Date when the dealer was created.
+          
+      - `dateUpdated` (string|null): Date when the dealer was last updated.
+          
+      - `status` (string): Current status of the dealer.
+          
+      - `hosts` (array): List of hosts associated with the dealer.
+          
+      - `advertisers` (array): List of advertisers associated with the dealer.
+          
+      - `licenses` (array): List of licenses associated with the dealer.
+          
+      - Additional metadata about the dealer.
+          
+  - **paging** (object): Pagination information, including:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Size of the page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of entities available.
+          
+      - `pageStart` (integer): Starting index of the current page.
+          
+  
+  This endpoint is essential for applications that need to display or manage dealer information along with their licenses and associated resources.
+}

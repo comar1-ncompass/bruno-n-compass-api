@@ -1,0 +1,79 @@
+meta {
+  name: Get All Default Hosts
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/host/getalldefault?page=1&search=&sortColumn=&sortOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get All Default Hosts
+  
+  ### Purpose
+  
+  This endpoint retrieves a list of all default hosts from the server. It allows for pagination and sorting of the results based on the specified parameters.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/host/getalldefault`
+      
+  - **Query Parameters**:
+      
+      - `page` (integer, required): The page number to retrieve. Default is 1.
+          
+      - `search` (string, optional): A search term to filter the results.
+          
+      - `sortColumn` (string, optional): The column by which to sort the results.
+          
+      - `sortOrder` (string, optional): The order of sorting (ascending or descending).
+          
+  
+  ### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  - {"paging": { "page": integer, "pageSize": integer, "pages": integer, "totalEntities": integer, "hasNextPage": boolean, "pageStart": integer, "hasPreviousPage": boolean},"entities": \[ { "hostId": string, "programmaticId": string, "dealerId": string, "userId": string or null, "hostName": string, "address": string, "street": string or null, "city": string, "postalCode": string, "region": string, "state": string, "country": string or null, "groupId": string or null, "latitude": string, "longitude": string, "timeZone": string, "storeHours": string, "venueType": string or null, "monthlyTraffic": number or null, "avgDwellTime": number or null, "avgTicket": number or null, "demographics": string or null, "internet": string or null, "notes": string, "installDate": string or null, "dateCreated": string, "dateUpdated": string or null, "createdBy": string, "updatedBy": string or null, "status": string, "category": string, "vistarVenueId": string or null, "others": string or null, "logo": string, "contactNumber": string, "contactPerson": string, "dealerStatus": string, "businessName": string, "timezoneName": string, "county": string or null, "dmaCode": string or null, "dmaName": string or null, "dmaRank": string or null, "generalCategory": string, "totalLicenses": integer }\]}
+      
+  
+  ### Notes
+  
+  - The `paging` object provides information about the pagination of the results, including the current page, total number of pages, and whether there are more pages available.
+      
+  - The `entities` array contains the details of each host, with various attributes such as `hostId`, `hostName`, `address`, and more.
+}

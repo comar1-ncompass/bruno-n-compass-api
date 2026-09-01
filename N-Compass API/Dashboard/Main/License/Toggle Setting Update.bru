@@ -1,0 +1,29 @@
+meta {
+  name: Toggle Setting Update
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/license/setting/toggleupdate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "licenseIds": [
+          "0014e7a8-7f1d-416c-98d8-01f040c7bd52",
+          "0017826e-bdc9-4c23-90ed-3b30cc99a763",
+          "0023b215-f1ad-42e2-99e4-a8631c728ead",
+  //         "0050c9e2-40e0-4a8c-9dce-19e8db37ec93", //prod license
+      ],
+      "enableUpdates": 1 //1 for enable, 0 for disable
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

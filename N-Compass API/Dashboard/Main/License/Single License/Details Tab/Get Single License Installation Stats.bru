@@ -1,0 +1,92 @@
+meta {
+  name: Get Single License Installation Stats
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate=08-04-2025
+  body: none
+  auth: inherit
+}
+
+params:query {
+  installdate: 08-04-2025
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Get License Installation Stats
+  
+  This endpoint provides a summary of license installations categorized by various time periods. It is designed to give an overview of installation activity, including statistics for the current day, upcoming days, and historical monthly data.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/license/getinstallationstats`
+  
+  ---
+  
+  #### Query Parameters
+  
+  The following query parameter is used to determine the timeframe for the statistics.
+  
+  - **installdate** (string, required): The reference date to calculate the installation statistics from. The format is `MM-DD-YYYY` (e.g., `08-04-2025`).
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response returns a single JSON object with installation counts for different time periods relative to the `installdate`.
+  
+  JSON
+  
+  ```
+  {
+      "licenseInstallationStats": {
+          "total": 3,
+          "currentMonth": 3,
+          "nextMonth": 0,
+          "previousMonth": 55,
+          "today": 0,
+          "tomorrow": 0,
+          "nextThreeDays": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

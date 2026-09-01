@@ -1,0 +1,141 @@
+meta {
+  name: Get Template Details by ID
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/template/gettemplatebyid?templateId=051bf153-a760-4c32-a1ac-4ddf64cbd9ce
+  body: none
+  auth: inherit
+}
+
+params:query {
+  templateId: 051bf153-a760-4c32-a1ac-4ddf64cbd9ce
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Get Template Details by ID
+  
+  This endpoint retrieves the details of a specific screen template, including its name and the configuration of all its zones. This information is crucial for understanding the layout and structure of the content displayed on a device.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/template/gettemplatebyid`
+  
+  ---
+  
+  #### Query Parameters
+  
+  - **templateId** (string, required): The unique identifier of the screen template. In this case, `051bf153-a760-4c32-a1ac-4ddf64cbd9ce`.
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response returns a single-element array containing an object with the template's details and a nested array of its configured zones.
+  
+  JSON
+  
+  ```
+  [
+      {
+          "template": {
+              "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+              "name": "NCT Standard Template"
+          },
+          "templateZones": [
+              {
+                  "templateZoneId": "1a6ef200-fd02-43e1-b9e9-0cc59e0327f6",
+                  "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+                  "name": "Main",
+                  "description": "Main",
+                  "xPos": 0,
+                  "yPos": 21,
+                  "height": 828,
+                  "width": 1472,
+                  "background": "#1b4b60",
+                  "order": 1,
+                  "isMainZone": true
+              },
+              {
+                  "templateZoneId": "8b260604-a293-4f5c-b6f2-cabbf4602135",
+                  "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+                  "name": "Horizontal",
+                  "description": "Horizontal",
+                  "xPos": 0,
+                  "yPos": 870,
+                  "height": 189,
+                  "width": 1920,
+                  "background": "#2989b2",
+                  "order": 3,
+                  "isMainZone": false
+              },
+              {
+                  "templateZoneId": "c36a106f-2271-4709-88ae-a3bccdb1f81d",
+                  "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+                  "name": "Vertical",
+                  "description": "Vertical",
+                  "xPos": 1482,
+                  "yPos": 21,
+                  "height": 828,
+                  "width": 438,
+                  "background": "#14588f",
+                  "order": 2,
+                  "isMainZone": false
+              },
+              {
+                  "templateZoneId": "cd39dc92-8072-45a6-9a30-d9bd9a5e68e9",
+                  "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+                  "name": "Background",
+                  "description": "Background",
+                  "xPos": 0,
+                  "yPos": 0,
+                  "height": 1080,
+                  "width": 1920,
+                  "background": "#eb9222",
+                  "order": 0,
+                  "isMainZone": false
+              }
+          ]
+      }
+  ]
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

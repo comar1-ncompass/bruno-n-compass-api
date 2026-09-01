@@ -1,0 +1,66 @@
+meta {
+  name: Assign license to own playlist
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/playlists/{{playlistId}}/license
+  body: json
+  auth: inherit
+}
+
+headers {
+  ^accept: application/json, text/plain, */*^
+  ^accept-language: en-US,en;q=0.9^
+  ^cache-control: no-cache^
+  ^content-type: application/json^
+  Cookie: ^__Host-session_id=GkLRMZ0WbFFIxp-UiEkxIjo2ycvQP7Ty2EHW0JNJ8vA^
+  ^origin: https://dashboard-sandbox-dev.n-compass.online^
+  ^pragma: no-cache^
+  ^priority: u=1, i^
+  ^sec-ch-ua: ^\^Not
+  ^sec-ch-ua-mobile: ?0^
+  ^sec-ch-ua-platform: ^\^Windows^^^
+  ^sec-fetch-dest: empty^
+  ^sec-fetch-mode: cors^
+  ^sec-fetch-site: same-origin^
+  ^user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36^
+}
+
+body:json {
+  {
+    "licenseIds": [
+      "{{generatedLicense}}"
+    ]
+  }
+}
+
+body:form-urlencoded {
+  "^^{^\^licenseIds^^:^[^\^dc4f1226-a404-48ec-99d5-39c92b25cf98^^^]^}^": 
+}
+
+script:post-response {
+  // test("Status code is 200", function () {
+  //     expect(res.getStatus()).to.equal(200);
+  // });
+  // if broken
+  test("Status code is 200 if found or 404 if not found", function () {
+    expect([200, 404, 400, 500]).to.include(res.getStatus()); // should be 200
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

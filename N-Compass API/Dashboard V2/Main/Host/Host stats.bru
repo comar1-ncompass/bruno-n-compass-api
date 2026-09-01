@@ -1,0 +1,29 @@
+meta {
+  name: Host stats
+  type: http
+  seq: 6
+}
+
+get {
+  url: https://curl.exe
+  body: none
+  auth: inherit
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0^
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Connection: keep-alive^
+  ^Cookie: __Host-session_id=WlXHqfDc7BRh-H7xdAzWQ80dwxZ5c0QsYzqBEUOqOGU^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^If-None-Match: W/^\^13a-yBEAWhHm3LRRS1yHayy+C1s7gVo^^^
+  ^Priority: u=4^
+}
+
+settings {
+  encodeUrl: false
+}

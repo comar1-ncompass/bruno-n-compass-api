@@ -1,0 +1,316 @@
+meta {
+  name: License Status > Assigned > Offline > > 30 Days
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=TimeIn&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=0&daysOfflineFrom=31&daysOfflineTo=365&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=1&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: TimeIn
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 0
+  daysOfflineFrom: 31
+  daysOfflineTo: 365
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 1
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get All Licenses in License Status > Assigned > Offline > > 30 Days
+  
+  This endpoint retrieves a list of licenses based on various filtering criteria, including license status, online/offline status, and time filters. It allows users to filter licenses that are assigned and offline for more than 30 days.
+  
+  ### Request
+  
+  **Method:** `GET`  
+  **URL:** `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  | Parameter | Type | Description |
+  | --- | --- | --- |
+  | `page` | int | The page number for pagination (default is 1). |
+  | `search` | string | Optional search term to filter licenses. |
+  | `sortColumn` | string | Column name to sort the results (e.g., `TimeIn`). |
+  | `sortOrder` | string | Order of sorting (e.g., `asc` or `desc`). |
+  | `pageSize` | int | Number of results per page (default is 15). |
+  | `includeAdmin` | boolean | Whether to include admin licenses in the results. |
+  | `piStatus` | int | Status of the license (0 for offline). |
+  | `daysOfflineFrom` | int | Minimum number of days offline (set to 31 for filtering offline licenses). |
+  | `daysOfflineTo` | int | Maximum number of days offline (set to 365 for broader filtering). |
+  | `active` | boolean | Filter for active licenses. |
+  | `daysInstalled` | int | Filter based on days installed. |
+  | `timezone` | string | Timezone for the results. |
+  | `dealerId` | string | Filter by dealer ID. |
+  | `hostId` | string | Filter by host ID. |
+  | `assigned` | boolean | Filter for assigned licenses. |
+  | `pending` | boolean | Filter for pending licenses. |
+  | `online` | boolean | Filter for online licenses. |
+  | `isActivated` | int | Filter for activated licenses (1 for activated). |
+  | `isFavorite` | boolean | Filter for favorite licenses. |
+  | `serverVersion` | string | Filter by server version. |
+  | `uiVersion` | string | Filter by UI version. |
+  | `piOrder` | string | Additional ordering criteria. |
+  
+  ### Response
+  
+  **Status Code:** `200 OK`  
+  **Content-Type:** `application/json`
+  
+  The response will contain a JSON object with the following structure:
+  
+  ``` json
+  {
+    "licenses": [
+      {
+        "licenseId": "",
+        "licenseKey": "",
+        "macAddress": "",
+        "isRegistered": 0,
+        "isActivated": 0,
+        "dealerId": "",
+        "hostId": "",
+        "dateCreated": "",
+        "internetType": "",
+        "internetSpeed": "",
+        "memory": "",
+        "totalStorage": "",
+        "freeStorage": "",
+        "dateUpdated": "",
+        "contentsUpdated": "",
+        "playerSocketId": null,
+        "piSocketId": "",
+        "playerStatus": 0,
+        "piStatus": 0,
+        "sequence": null,
+        "alias": "",
+        "timeIn": "",
+        "timeOut": "",
+        "anydeskId": "",
+        "appVersion": "",
+        "playerUiKey": null,
+        "playerAssetServerKey": null,
+        "installDate": "",
+        "internetInfo": "",
+        "screenshot": "",
+        "displayStatus": 0,
+        "serverVersion": "",
+        "uiVersion": "",
+        "screenshotSettings": 0,
+        "speedtestSettings": 0,
+        "displayControlSettings": 0,
+        "resourceSettings": 0,
+        "bootDelay": 0,
+        "emailSettings": 0,
+        "notificationSettings": 0,
+        "tvDisplaySettings": null,
+        "rebootTime": null,
+        "isCecEnabled": 0,
+        "isCecCtlEnabled": null,
+        "fastEdgeMonitoringTool": 0,
+        "tvBrand": null,
+        "publicIP": "",
+        "prevPublicIP": "",
+        "installRequestDate": "",
+        "backgroundImageUrl": null,
+        "enableUpdates": true,
+        "piLocalDateTime": null,
+        "businessName": "",
+        "hostName": "",
+        "templateName": "",
+        "screenName": "",
+        "screenType": "",
+        "hostAddress": "",
+        "category": "",
+        "storeHours": "",
+        "screenId": "",
+        "templateId": "",
+        "timezoneName": "",
+        "startDate": "",
+        "dealerStatus": "",
+        "offlineDays": 0,
+        "installedDays": 0,
+        "isFavorite": true,
+        "licenseFavoriteId": null,
+        "screenshotUrl": "",
+        "uploadSpeed": 0,
+        "downloadSpeed": 0,
+        "tags": [
+          {
+            "tagId": "",
+            "name": "",
+            "description": "",
+            "tagColor": "",
+            "dateCreated": "",
+            "createdBy": "",
+            "role": 0,
+            "exclude": 0,
+            "dealerId": ""
+          }
+        ]
+      }
+    ],
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0,
+      "entities": []
+    },
+    "totalCounts": {
+      "total": 0,
+      "totalOnline": 0,
+      "totalOffline": 0,
+      "totalInActive": 0,
+      "totalUnAssigned": 0
+    }
+  }
+  
+   ```
+  
+  ### Notes
+  
+  - The query parameters `piStatus`, `daysOfflineFrom`, and `assigned` are crucial for filtering the licenses based on the specified criteria of being assigned and offline for more than 30 days.
+      
+  - The response includes details about each license, along with paging information and total counts of different license statuses.
+      
+  
+  This endpoint retrieves a list of licenses based on various filtering criteria, including their activation status and offline duration. Specifically, it can filter licenses that have been offline for more than 30 days.
+  
+  ## Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/getall`
+  
+  ### Query Parameters
+  
+  | Parameter | Type | Description |
+  | --- | --- | --- |
+  | `page` | number | The page number for pagination. Default is 1. |
+  | `search` | string | A search term to filter licenses. Default is an empty string. |
+  | `sortColumn` | string | The column by which to sort the results. Default is `TimeIn`. |
+  | `sortOrder` | string | The order of sorting: `asc` for ascending or `desc` for descending. Default is `desc`. |
+  | `pageSize` | number | The number of results to return per page. Default is 15. |
+  | `includeAdmin` | boolean | Whether to include admin licenses in the results. Default is false. |
+  | `piStatus` | number | The status of the license. Use `0` for offline licenses. |
+  | `daysOfflineFrom` | number | The minimum number of days a license must be offline to be included in the results. Set to `31` for licenses offline for more than 30 days. |
+  | `daysOfflineTo` | number | The maximum number of days a license can be offline. Default is `365`. |
+  | `isActivated` | number | Filter by activation status. Use `1` for activated licenses. |
+  | `isFavorite` | boolean | Filter for favorite licenses. Default is an empty string. |
+  | `timezone` | string | The timezone to consider for the results. Default is an empty string. |
+  | `dealerId` | string | Filter licenses by dealer ID. Default is an empty string. |
+  | `hostId` | string | Filter licenses by host ID. Default is an empty string. |
+  | `assigned` | boolean | Filter for assigned licenses. Default is an empty string. |
+  | `pending` | boolean | Filter for pending licenses. Default is an empty string. |
+  | `online` | boolean | Filter for online licenses. Default is an empty string. |
+  | `serverVersion` | string | Filter by server version. Default is an empty string. |
+  | `uiVersion` | string | Filter by UI version. Default is an empty string. |
+  | `piOrder` | string | Additional ordering criteria. Default is an empty string. |
+  
+  ## Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  ### Response Structure
+  
+  The response will contain a JSON object with the following structure:
+  
+  - `licenses`: An array of license objects that match the filtering criteria.
+      
+  - `paging`: An object containing pagination details such as `hasPreviousPage`, `hasNextPage`, `hasNextPage`, `totalEntities`, etc.
+      
+  - `totalCounts`: An object summarizing the total counts of licenses based on different statuses (online, offline, inactive, unassigned).
+      
+  
+  ### License Object Fields
+  
+  Each license object in the `licenses` array contains the following fields:
+  
+  - `licenseId`: Unique identifier for the license.
+      
+  - `licenseKey`: The key associated with the license.
+      
+  - `macAddress`: The MAC address of the device.
+      
+  - `isRegistered`: Registration status (0 for not registered, 1 for registered).
+      
+  - `isActivated`: Activation status (0 for not activated, 1 for activated).
+      
+  - `dealerId`: ID of the dealer associated with the license.
+      
+  - `hostId`: ID of the host associated with the license.
+      
+  - `dateCreated`: Date when the license was created.
+      
+  - `internetType`: Type of internet connection.
+      
+  - `internetSpeed`: Speed of the internet connection.
+      
+  - `memory`: Memory details of the device.
+      
+  - `totalStorage`: Total storage available.
+      
+  - `freeStorage`: Free storage available.
+      
+  - `dateUpdated`: Date when the license was last updated.
+      
+  - `playerStatus`: Status of the player.
+      
+  - `piStatus`: Status of the PI.
+      
+  - `isFavorite`: Indicates if the license is marked as favorite.
+      
+  - `tags`: An array of tags associated with the license.
+      
+  
+  ## Notes
+  
+  - To filter licenses that have been offline for more than 30 days, set `daysOfflineFrom` to `31`.
+      
+  - Ensure to set the `piStatus` to `0` to specifically target offline licenses.
+}

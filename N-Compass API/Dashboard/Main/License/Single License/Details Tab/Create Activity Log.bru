@@ -1,0 +1,123 @@
+meta {
+  name: Create Activity Log
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/activity/log
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ### API Endpoint: Create Activity Log
+  
+  This endpoint is used to record and log specific activities related to a license, such as remote commands initiated by an administrator. This includes actions triggered by buttons like "Restart Anydesk Service", "Test Internet Speed", and "Screenshot". These logs are subsequently fetched and displayed in the activity section for the corresponding license.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `POST`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/activity/log`
+  
+  ---
+  
+  #### Request Body
+  
+  The request body should be a JSON object containing the details of the activity to be logged. Below are examples of a plausible request body for the specified actions.
+  
+  **Example Request for "Screenshot":**
+  
+  JSON
+  
+  ```
+  {
+      "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+      "activityCode": "screenshot",
+      "activityDescription": "Screenshot Fired",
+      "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+      "initiatedBy": "PlaylistV2 John Lim"
+  }
+  
+   ```
+  
+  **Example Request for "Restart Anydesk Service":**
+  
+  JSON
+  
+  ```
+  {
+      "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+      "activityCode": "restart_anydesk",
+      "activityDescription": "Restart Anydesk Service Fired",
+      "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+      "initiatedBy": "PlaylistV2 John Lim"
+  }
+  
+   ```
+  
+  ---
+  
+  #### Successful Response
+  
+  A successful request will return a `200 OK` status with a confirmation message.
+  
+  JSON
+  
+  ```
+  {"message":"License activity log created successfully"}
+  
+   ```
+  
+  ---
+  
+  #### Error Response: Unsupported Media Type
+  
+  A `415 Unsupported Media Type` error is returned if the request body is not in the correct format, such as missing the `Content-Type: application/json` header.
+  
+  JSON
+  
+  ```
+  {
+      "type": "https://tools.ietf.org/html/rfc7231#section-6.5.13",
+      "title": "Unsupported Media Type",
+      "status": 415,
+      "traceId": "0HNEDETB02GUK:00000002"
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

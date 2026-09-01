@@ -1,0 +1,172 @@
+meta {
+  name: License Status > Assigned
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=true&pending=&online=&isActivated=1&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: true
+  pending: 
+  online: 
+  isActivated: 1
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # API Endpoint: Get All Licenses in License Status > Assigned
+  
+  This endpoint retrieves a paginated list of licenses that are currently assigned. The request includes a filter to specifically look for licenses that are both assigned and activated. This is useful for administrators and users who need to manage active and assigned licenses within the system.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and sort the licenses.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  - **search** (string, optional): A search term to filter licenses.
+      
+  - **sortColumn** (string, required): The column to sort the results by (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, required): The order of sorting (`desc`).
+      
+  - **pageSize** (integer, required): The number of records per page (e.g., `15`).
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **assigned** (boolean, required): Filter for licenses that are assigned. For this request, the value is `true`.
+      
+  - **isActivated** (boolean, required): Filter for licenses that have been activated. For this request, the value is `1` (which represents `true`).
+      
+  - **piStatus** (string, optional): Filter licenses by their PI status.
+      
+  - **... (other optional parameters)**: Other optional parameters are left blank to broaden the search within the specified filters.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  The response returns a list of license objects that meet the filter criteria, along with pagination information and summary counts.
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "ef3e0732-57fe-4fec-a07b-c4c2f494a593",
+              "licenseKey": "6ec28334-0c92-4bff-baa0-b095fac549e2",
+              "macAddress": "e4:5f:01:d5:2f:9d",
+              "isRegistered": 1,
+              "isActivated": 1,
+              "dealerId": "b14533af-e1bf-4cc6-8f1f-ee36daa13a92",
+              "hostId": "ffcc9f5c-3ece-4d65-9aae-7c0abfda6d10",
+              "dateCreated": "2024-06-10T20:38:12+00:00",
+              "internetType": "eth0",
+              "internetSpeed": "Good",
+              "memory": "4 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "80 %",
+              "dateUpdated": "2024-11-06T06:42:45+00:00",
+              "contentsUpdated": "2024-11-05T10:17:28+00:00",
+              "playerSocketId": null,
+              "piSocketId": "Gu_iSMGl4lZ2tLCpAAD5",
+              "playerStatus": 0,
+              "piStatus": 1,
+              "sequence": null,
+              "alias": "License # 20",
+              "timeIn": "November 05, 2024, 10:17:36 AM",
+              "timeOut": "November 05, 2024, 3:17:39 PM",
+              "anydeskId": "1218628435",
+              "appVersion":"{\"chromium\":\"92.0.4515.98\",\"electron\":\"N/A\",\"puppeteer\":\"N/A\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.5\"}"
+              // ... (additional license fields)
+          },
+          // ... (more license objects)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 1,
+          "totalEntities": 1,
+          "pageStart": 1,
+          "entities": [
+              // ... (duplicate of licenses array)
+          ]
+      },
+      "totalCounts": {
+          "total": 1,
+          "totalOnline": 1,
+          "totalOffline": 0,
+          "totalInActive": 0,
+          "totalUnAssigned": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

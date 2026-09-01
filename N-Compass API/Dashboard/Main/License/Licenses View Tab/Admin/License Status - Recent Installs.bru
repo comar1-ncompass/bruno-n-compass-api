@@ -1,0 +1,157 @@
+meta {
+  name: License Status > Recent Installs
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=true&pending=&online=&isActivated=0&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: true
+  pending: 
+  online: 
+  isActivated: 0
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  ## API Endpoint: Get All Licenses in License Status > Recent Installs
+  
+  This endpoint retrieves a list of licenses filtered by various parameters, specifically focusing on the License Status for recent installs.
+  
+  ### Request Parameters
+  
+  The following query parameters can be included in the request to filter the results:
+  
+  - **page** (integer): The page number of the results to retrieve.
+      
+  - **search** (string): A search term to filter the licenses by.
+      
+  - **sortColumn** (string): The column by which to sort the results (e.g., `PiStatus`).
+      
+  - **sortOrder** (string): The order of sorting, can be `asc` or `desc`.
+      
+  - **pageSize** (integer): The number of results to return per page.
+      
+  - **includeAdmin** (boolean): Whether to include admin licenses in the results.
+      
+  - **piStatus** (string): Filter licenses by their PI status.
+      
+  - **daysOfflineFrom** (integer): Filter licenses that have been offline for a specified number of days from this value.
+      
+  - **daysOfflineTo** (integer): Filter licenses that have been offline for a specified number of days to this value.
+      
+  - **active** (boolean): Filter for active licenses.
+      
+  - **daysInstalled** (integer): Filter licenses based on the number of days since installation.
+      
+  - **timezone** (string): The timezone to consider for the results.
+      
+  - **dealerId** (string): Filter licenses by dealer ID.
+      
+  - **hostId** (string): Filter licenses by host ID.
+      
+  - **assigned** (boolean): Filter for assigned licenses.
+      
+  - **pending** (boolean): Filter for pending licenses.
+      
+  - **online** (boolean): Filter for online licenses.
+      
+  - **isActivated** (integer): Filter by activation status (0 for not activated, 1 for activated).
+      
+  - **isFavorite** (boolean): Filter for favorite licenses.
+      
+  - **serverVersion** (string): Filter licenses by server version.
+      
+  - **uiVersion** (string): Filter licenses by UI version.
+      
+  - **piOrder** (string): Specify the order for PI.
+      
+  
+  ### Response Format
+  
+  The response will be in JSON format and will include the following structure:
+  
+  - **licenses** (array): An array of license objects containing details such as:
+      
+      - `licenseId`: Unique identifier for the license.
+          
+      - `licenseKey`: The key associated with the license.
+          
+      - `macAddress`: The MAC address of the device.
+          
+      - `isRegistered`: Registration status of the license (0 or 1).
+          
+      - `isActivated`: Activation status of the license (0 or 1).
+          
+      - Other fields related to the license details.
+          
+  - **paging** (object): Contains pagination information:
+      
+      - `hasPreviousPage`: Boolean indicating if there is a previous page.
+          
+      - `hasNextPage`: Boolean indicating if there is a next page.
+          
+      - `page`: Current page number.
+          
+      - `pageSize`: Number of results per page.
+          
+      - `totalEntities`: Total number of entities available.
+          
+  - **totalCounts** (object): Summary counts of licenses based on their statuses:
+      
+      - `total`: Total number of licenses.
+          
+      - `totalOnline`: Total number of online licenses.
+          
+      - `totalOffline`: Total number of offline licenses.
+          
+      - `totalInActive`: Total number of inactive licenses.
+          
+      - `totalUnAssigned`: Total number of unassigned licenses.
+          
+  
+  This endpoint is useful for administrators and users managing licenses, allowing them to filter and retrieve specific license information based on various criteria.
+}

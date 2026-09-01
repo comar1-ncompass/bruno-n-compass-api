@@ -1,0 +1,41 @@
+meta {
+  name: Filter Dealer Active Licenses
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/license/filter
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "keyword": "",
+      "enableUpdates": true,
+      "pageSize": 50,
+      "page": 1
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,46 @@
+meta {
+  name: Frequency
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/playlists/setFrequency
+  body: json
+  auth: inherit
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+  authorization: Bearer <YOUR_ACCESS_TOKEN>
+}
+
+body:json {
+  {
+    "frequency": 3,
+    "playlistContentId": "79718d69-d953-4bea-b07b-0c27a89d4cd7",
+    "playlistId": "047b0c62-b9b9-4151-9dcb-2fcb228527e6"
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
