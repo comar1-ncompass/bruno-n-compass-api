@@ -1,20 +1,32 @@
 meta {
-  name: Get Licenses ID
+  name: License
   type: http
-  seq: 1
+  seq: 2
 }
 
-get {
+patch {
   url: https://ntv360api-dev.n-compass.online/api/licenses/4e7dc3f2-5793-42c9-862b-a12017fe4f6c
-  body: none
+  body: json
   auth: inherit
 }
 
 headers {
+  Content-Type: application/json
   Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+   {
+  
+     
+        "statusId": 2
+        
+      
+   }
 }
 
 settings {
   encodeUrl: false
   timeout: 0
+  forwardAuthorizationHeader: false
 }
