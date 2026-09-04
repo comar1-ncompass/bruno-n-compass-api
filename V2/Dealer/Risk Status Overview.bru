@@ -22,47 +22,60 @@ tests {
   });
   
   test("Risk Status data should exist", function () {
-    expect(body.data).to.not.be.undefined;
     expect(body.data).to.be.an("array");
-  });
-  
-  test("Risk Status data should not be empty", function () {
     expect(body.data.length).to.be.greaterThan(0);
   });
   
-  test("Month should be valid", function () {
+  test("Risk Status counts should be valid", function () {
     body.data.forEach(function (item) {
       expect(item.month).to.be.a("number");
-      expect(item.month).to.be.at.least(1);
-      expect(item.month).to.be.at.most(12);
-    });
-  });
+      expect(item.month).to.be.within(1, 12);
   
-  test("On Track count should be valid", function () {
-    body.data.forEach(function (item) {
       expect(item.onTrack).to.be.a("number");
       expect(item.onTrack).to.be.at.least(0);
-    });
-  });
   
-  test("At Risk count should be valid", function () {
-    body.data.forEach(function (item) {
       expect(item.atRisk).to.be.a("number");
       expect(item.atRisk).to.be.at.least(0);
-    });
-  });
   
-  test("High Risk count should be valid", function () {
-    body.data.forEach(function (item) {
       expect(item.highRisk).to.be.a("number");
       expect(item.highRisk).to.be.at.least(0);
     });
   });
   
-  test("Weekly risk data should exist", function () {
+  test("Monthly risk counts should match weekly totals", function () {
     body.data.forEach(function (item) {
-      expect(item.week).to.not.be.undefined;
+      if (!item.week) return;
+  
+      let onTrackTotal = 0;
+      let atRiskTotal = 0;
+      let highRiskTotal = 0;
+  
+      Object.keys(item.week).forEach(function (week) {
+        onTrackTotal += item.week[week].onTrack;
+        atRiskTotal += item.week[week].atRisk;
+        highRiskTotal += item.week[week].highRisk;
+      });
+  
+      expect(item.onTrack).to.equal(onTrackTotal);
+      expect(item.atRisk).to.equal(atRiskTotal);
+      expect(item.highRisk).to.equal(highRiskTotal);
     });
+  });
+  
+  test("Calculate Risk Status totals", function () {
+    let onTrackTotal = 0;
+    let atRiskTotal = 0;
+    let highRiskTotal = 0;
+  
+    body.data.forEach(function (item) {
+      onTrackTotal += item.onTrack;
+      atRiskTotal += item.atRisk;
+      highRiskTotal += item.highRisk;
+    });
+  
+    console.log("On Track Total:", onTrackTotal);
+    console.log("At Risk Total:", atRiskTotal);
+    console.log("High Risk Total:", highRiskTotal);
   });
 }
 

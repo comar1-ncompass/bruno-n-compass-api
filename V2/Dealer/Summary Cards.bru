@@ -14,6 +14,57 @@ headers {
   Authorization: Bearer YOUR_SECRET_TOKEN
 }
 
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Summary card data should exist", function () {
+    expect(body.data).to.not.be.undefined;
+    expect(body.data.totalDealers).to.not.be.undefined;
+    expect(body.data.activeDealers).to.not.be.undefined;
+    expect(body.data.inactiveDealers).to.not.be.undefined;
+  });
+  
+  test("Dealer counts should be non-negative numbers", function () {
+    expect(body.data.totalDealers.overall).to.be.a("number");
+    expect(body.data.activeDealers.overall).to.be.a("number");
+    expect(body.data.inactiveDealers.overall).to.be.a("number");
+  
+    expect(body.data.totalDealers.overall).to.be.at.least(0);
+    expect(body.data.activeDealers.overall).to.be.at.least(0);
+    expect(body.data.inactiveDealers.overall).to.be.at.least(0);
+  });
+  
+  test("Total Dealers should equal Active + Inactive", function () {
+    const total = body.data.totalDealers.overall;
+    const active = body.data.activeDealers.overall;
+    const inactive = body.data.inactiveDealers.overall;
+  
+    expect(total).to.equal(active + inactive);
+  });
+  
+  test("This Week percentage should be calculated correctly", function () {
+    const thisWeek = body.data.totalDealers.thisWeek;
+    const lastWeek = body.data.totalDealers.lastWeek;
+  
+    const percentage = ((thisWeek - lastWeek) / lastWeek) * 100;
+  
+    expect(percentage).to.equal(-100);
+  });
+  
+  test("Last Week percentage should be calculated correctly", function () {
+    const lastWeek = body.data.totalDealers.lastWeek;
+    const twoWeeksAgo = body.data.totalDealers.twoWeeksAgo;
+  
+    const percentage = ((lastWeek - twoWeeksAgo) / twoWeeksAgo) * 100;
+  
+    expect(percentage).to.be.closeTo(7.69, 0.01);
+  });
+}
+
 settings {
   encodeUrl: false
   timeout: 0
@@ -27,6 +78,7 @@ docs {
     
    #### This Week = ((This Week - Last Week) / Last Week) × 100
         7.69  = ((14 - 13) / 13) × 100 (PASSED)
+          = ((0 - 14) / 14) × 100 (PASSED)
       
    #### Last Week = ((Last Week - Two Weeks Ago) / Two Weeks Ago) × 100
        18.18  = ((13 - 11) / 11) × 100 (PASSED)

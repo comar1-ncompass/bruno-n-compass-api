@@ -69,6 +69,33 @@ tests {
       expect(item).to.have.property("onboarding");
     });
   });
+  
+  test("Calculate Setup Progress totals", function () {
+    let newTotal = 0;
+    let onboardingTotal = 0;
+    let activeTotal = 0;
+    let inactiveTotal = 0;
+    let hasOnboardingData = false;
+  
+    body.data.forEach(function (item) {
+      newTotal += item.new;
+      activeTotal += item.active;
+      inactiveTotal += item.inactive;
+  
+      if (item.onboarding !== null) {
+        hasOnboardingData = true;
+        onboardingTotal += item.onboarding;
+      }
+    });
+  
+    console.log("New Total:", newTotal);
+    console.log(
+      "Onboarding Total:",
+      hasOnboardingData ? onboardingTotal : "N/A"
+    );
+    console.log("Active Total:", activeTotal);
+    console.log("Inactive Total:", inactiveTotal);
+  });
 }
 
 settings {
