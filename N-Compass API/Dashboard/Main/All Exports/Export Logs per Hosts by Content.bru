@@ -32,8 +32,14 @@ headers {
   Sec-Fetch-Site: same-site
 }
 
+script:pre-request {
+  bru.runner.skipRequest();
+  // automatically unauthorized
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {

@@ -1,0 +1,41 @@
+meta {
+  name: Assign by Code
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://dashboard-v2-dev.n-compass.online/api/licenses/assign-by-code
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json, text/plain, */*
+  Accept-Language: en-US,en;q=0.9
+  Cache-Control: no-cache
+  Connection: keep-alive
+  Content-Type: application/json
+  Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZjRlM2E4ZmItMGY3NC00ZjUwLWFkOTQtYjk2YTA3NjUxM2QwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIiwibmJmIjoxNzg4ODM3NDU0LCJleHAiOjE3ODg4NjYyNTQsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.-jfMRAN90-RUqjsVYYvFF788_cOg8J2wfJlvrgm-bZs; nctvRefToken=gYlQdckUJMYwcS6lZrC8vYvC4zI%2F8n2g1r%2BYXx0XlfI%3D; nctvUserId=f4e3a8fb-0f74-4f50-ad94-b96a076513d0; nctvDealerId=3ffe7e6a-5257-424e-a308-41799d9ab9e7; nctvRoleName=Dealer; nctvRoleId=bb7a0ca4-495c-11ea-b77f-2e728ce88125; stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYTNkNmZmNGMtM2EyYy00YTZjLWI1ZTktNTBkMDBkZmE4NmRiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIiwibmJmIjoxNzg4ODM3NjkzLCJleHAiOjE3ODg4NjY0OTMsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.XCSMis5-8TXKu2HujokZetSDNFiUy29PHGKASf2-JdU; stg_nctvRefToken=02sZm8n85Wp3z3S65myxcgZBD47j8esNMh%2BTcM5YG4c%3D; stg_nctvUserId=a3d6ff4c-3a2c-4a6c-b5e9-50d00dfa86db; stg_nctvDealerId=12ea3bd6-e899-4465-9444-f250fdc6387c; stg_nctvRoleName=Dealer; stg_nctvRoleId=bb7a0ca4-495c-11ea-b77f-2e728ce88125; __Secure-session_id=c1BTuLP5a2jG2CKQT3zuZ_uujLrAABZYI8ZKIabjOEI
+  Origin: https://dashboard-v2-dev.n-compass.online
+  Pragma: no-cache
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-origin
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
+  sec-ch-ua: "Chromium";v="152", "Not?A_Brand";v="24", "Google Chrome";v="152"
+  sec-ch-ua-mobile: ?0
+  sec-ch-ua-platform: "Windows"
+}
+
+body:json {
+  {
+    "code": "231231",
+    "licenseKey": "2fa5b103-ffca-4595-a5e4-d214122fdb60"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

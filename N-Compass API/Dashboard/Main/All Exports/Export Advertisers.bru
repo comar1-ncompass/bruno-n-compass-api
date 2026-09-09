@@ -14,8 +14,14 @@ params:query {
   dealer_id: {{dealerId}}
 }
 
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {

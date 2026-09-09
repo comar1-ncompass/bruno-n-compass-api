@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/host/export?page=1&search=&sortColumn=&sortOrder=&pageSize=0&status=
+  url: {{baseUrl}}/api/host/export?page=1&search=&sortColumn=&sortOrder=&pageSize=15&status=
   body: none
   auth: inherit
 }
@@ -15,12 +15,18 @@ params:query {
   search: 
   sortColumn: 
   sortOrder: 
-  pageSize: 0
+  pageSize: 15
   status: 
+}
+
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {

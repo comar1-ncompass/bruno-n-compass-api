@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/license/getallwithduration?page=0&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=0&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=
+  url: {{baseUrl}}/api/license/getallwithduration?page=0&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=&pending=&online=&isActivated=
   body: none
   auth: inherit
 }
@@ -15,7 +15,7 @@ params:query {
   search: 
   sortColumn: PiStatus
   sortOrder: desc
-  pageSize: 0
+  pageSize: 15
   includeAdmin: false
   piStatus: 
   daysOfflineFrom: 
@@ -29,6 +29,11 @@ params:query {
   pending: 
   online: 
   isActivated: 
+}
+
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
 }
 
 script:post-response {

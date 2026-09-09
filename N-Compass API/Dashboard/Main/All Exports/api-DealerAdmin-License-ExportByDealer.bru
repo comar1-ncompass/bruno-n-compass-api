@@ -25,6 +25,12 @@ body:json {
   }
 }
 
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -19,28 +19,13 @@ body:json {
           "dealerid": "{{dealerId}}",
           "hostid": "{{hostId}}",
           "templateid": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
-          "createdby": "333da0f4-8b31-4dd8-a61f-59bd98787714"
+          "createdby": "72992c57-cb3d-4267-9287-62ca343a93ae"
       },
       "screenZonePlaylists": [
       {
         "templateId": "e5d3f83b-6802-49b2-b765-ac70425be9be",
         "templateZoneId": "1a6ef200-fd02-43e1-b9e9-0cc59e0327f6",
         "playlistId": "e0410a60-91cf-481e-ae16-1f955d6662a0"
-      },
-      {
-        "templateId": "165e2ec5-cb9c-499b-b122-cd1e7ec6c012",
-        "templateZoneId": "8b260604-a293-4f5c-b6f2-cabbf4602135",
-        "playlistId": "faec83cc-ca5d-43c8-bf62-31665185b7a5"
-      },
-      {
-        "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
-        "templateZoneId": "c36a106f-2271-4709-88ae-a3bccdb1f81d",
-        "playlistId": "5fdfdd42-7e47-4048-a6d0-c2773cd359a8"
-      },
-      {
-        "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
-        "templateZoneId": "cd39dc92-8072-45a6-9a30-d9bd9a5e68e9",
-        "playlistId": "bc2e0264-ae60-43ff-aede-f89769f1dc93"
       }
     ],
       "licenses": [
@@ -51,6 +36,10 @@ body:json {
           }
       ]
   }
+}
+
+vars:pre-request {
+  inactiveLicenseId: fe028816-f138-4255-9015-41ee86feb9ef
 }
 
 script:pre-request {
@@ -166,7 +155,7 @@ script:pre-request {
           operationsCompleted++;
   
           // Wait a moment for the assignment to process
-          setTimeout(() => {
+          setTimeout(async () => {
               // Step 3: Find inactive license
               console.log("\n🔍 Step 3: Finding inactive assigned license...");
               const hostLicenseUrl = `${baseUrl}/api/license/getbyhost?hostid=${hostId}`;
@@ -233,4 +222,5 @@ script:pre-request {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

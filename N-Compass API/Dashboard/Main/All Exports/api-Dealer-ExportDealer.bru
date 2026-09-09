@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api​/contentPlaysDaily/exportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a&startDate=2026-01-01&endDate=2026-02-16
+  url: {{baseUrl}}/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a&startDate=2026-01-01&endDate=2026-02-16
   body: json
   auth: inherit
 }
@@ -27,6 +27,12 @@ body:json {
   }
 }
 
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }

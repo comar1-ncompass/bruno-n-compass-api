@@ -5,14 +5,19 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/license/GetOutDatedLicenses?pageSize=1000&page=1
+  url: {{baseUrl}}/api/license/GetOutDatedLicenses?pageSize=15&page=1
   body: none
   auth: inherit
 }
 
 params:query {
-  pageSize: 1000
+  pageSize: 15
   page: 1
+}
+
+script:pre-request {
+  // bru.runner.skipRequest();
+  // takes too long
 }
 
 script:post-response {

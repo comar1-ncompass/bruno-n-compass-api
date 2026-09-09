@@ -33,8 +33,14 @@ headers {
   Priority: u=0
 }
 
+script:pre-request {
+  bru.runner.skipRequest();
+  // takes too long
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {

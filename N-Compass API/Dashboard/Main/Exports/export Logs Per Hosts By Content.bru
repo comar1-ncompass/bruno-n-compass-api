@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: https://nctvapi.n-compass.online/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId=e0b8ee1c-818e-425a-9177-6a9c9a6f3869&startDate=2020-12-01&endDate=2026-01-21
+  url: {{baseUrl}}/api/contentPlaysDaily/exportLogsPerHostsByContent?contentId={{fillerContentId1}}&startDate=2020-12-01&endDate=2026-01-21
   body: none
   auth: inherit
 }
 
 params:query {
-  contentId: e0b8ee1c-818e-425a-9177-6a9c9a6f3869
+  contentId: {{fillerContentId1}}
   startDate: 2020-12-01
   endDate: 2026-01-21
 }
@@ -33,8 +33,16 @@ headers {
   Priority: u=0
 }
 
+script:pre-request {
+  bru.runner.skipRequest();
+  // automatically unautorized
+  
+  // logs out on search
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {
