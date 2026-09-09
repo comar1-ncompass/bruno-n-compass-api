@@ -1,0 +1,27 @@
+meta {
+  name: Search and/or Filter Licenses
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/pi/filter
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "sortColumn": "EnableUpdates",
+      "sortOrder": "ascending",
+      // "HostId": "01a855ba-74b4-488d-890b-13b10639a413"
+      "keyword": "test",
+      "pageSize": 5,
+      "page": 1
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+}

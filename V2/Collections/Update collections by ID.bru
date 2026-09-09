@@ -1,0 +1,40 @@
+meta {
+  name: Update collections by ID
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/{{collectionId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "collectionName": "API Updated Featured Products",
+    "position": 1,
+    "isVisible": false,
+    "isFeatured": false
+  }
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

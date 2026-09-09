@@ -1,0 +1,45 @@
+meta {
+  name: Logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/logout
+  body: json
+  auth: inherit
+}
+
+headers {
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Connection: keep-alive^
+  ^Content-Type: application/json^
+  ^Origin: https://suite.n-compass.online^
+  ^Referer: https://suite.n-compass.online/auth?code=dU_6fVvPQf_zhte6jDHmTi30g3Vb-UEZoRljfPQ-DgCwK^&state=bFdrQkk0ZlhSQ3cucFNKZC5RQmIzYTEzWWktRThOa2ZDSjRJa2Q4U3dpSA^%^3D^%^3D^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36^
+  ^sec-ch-ua: ^\^Chromium^^;v=^\^148^^, ^\^Google
+  ^sec-ch-ua-mobile: ?0^
+  ^sec-ch-ua-platform: ^\^Windows^^^
+}
+
+body:form-urlencoded {
+  "^^{^\^code^^:^\^dU_6fVvPQf_zhte6jDHmTi30g3Vb-UEZoRljfPQ-DgCwK^^,^\^redirectUri^^:^\^https://suite.n-compass.online/auth^^,^\^codeVerifier^^:^\^OThOZVK_9O7erP21j9pdV4mLIchEvGrIS7MGsai95lk^^,^\^audience^^:^\^https://api.ntv360.com^^^}^": 
+}
+
+script:post-response {
+  test('Token is set', () => {
+      const response = res.getBody();
+      bru.setEnvVar('bearer_token', response.token);
+      const tokenNow = bru.getEnvVar('bearer_token');
+      expect(response.token).to.equal(tokenNow);
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

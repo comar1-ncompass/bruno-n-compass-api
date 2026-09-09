@@ -1,0 +1,42 @@
+meta {
+  name: Update First Name / Last Name
+  type: http
+  seq: 3
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/eb664792-849a-4354-8847-2c23b96aefe3
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "user": {
+      "firstName": "{{firstName}}",
+      "lastName": "{{lastName}}"
+    }
+  }
+}
+
+script:pre-request {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let suffix = "";
+  
+  for (let i = 0; i < 6; i++) {
+    suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  
+  bru.setVar("firstName", `APIFirst${suffix}`);
+  bru.setVar("lastName", `APILast${suffix}`);
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

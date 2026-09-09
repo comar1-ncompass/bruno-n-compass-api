@@ -1,0 +1,60 @@
+meta {
+  name: Export Licenses by Dealer
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/license/exportbydealer?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Export License by Dealer
+  
+  This endpoint allows users to export license information associated with a specific dealer. It retrieves the relevant data based on the provided dealer ID.
+  
+  #### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/license/exportbydealer?dealerid={{dealerId}}`
+      
+  
+  ##### Query Parameters
+  
+  - `dealerid` (required): The unique identifier for the dealer whose license information is to be exported.
+      
+  
+  #### Response
+  
+  - **Status Code**: 200
+      
+  - **Content-Type**: application/json
+      
+  
+  ##### Response Body
+  
+  The response will contain a JSON object with the following structure:
+  
+  ``` json
+  {
+    "message": ""
+  }
+  
+   ```
+  
+  - `message`: A string that may contain additional information regarding the export process. In this case, it is empty.
+      
+  
+  This endpoint does not require a request body as it is a GET request. The primary purpose is to retrieve and export license data for the specified dealer.
+}

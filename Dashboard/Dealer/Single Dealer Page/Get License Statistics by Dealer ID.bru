@@ -1,0 +1,66 @@
+meta {
+  name: Get License Statistics by Dealer ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/getstatisticsbydealerid?dealerid=f3db7f9f-ed57-46ae-b34b-7415cdea97dd
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: f3db7f9f-ed57-46ae-b34b-7415cdea97dd
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Get License Statistics by Dealer ID
+  
+  This endpoint retrieves the license statistics associated with a specific dealer identified by their unique dealer ID.
+  
+  #### Request Parameters
+  
+  - **dealerid** (string, required): The unique identifier for the dealer whose statistics are being requested. It should be provided as a query parameter in the URL.
+      
+  
+  #### Example Request
+  
+  ```
+  GET {{baseUrl}}/api/license/getstatisticsbydealerid?dealerid=f3db7f9f-ed57-46ae-b34b-7415cdea97dd
+  
+   ```
+  
+  #### Expected Response
+  
+  On a successful request, the API will return a JSON object with the following fields:
+  
+  - **activityActive**: (null or relevant data) Indicates the number of active activities.
+      
+  - **activityInactive**: (null or relevant data) Indicates the number of inactive activities.
+      
+  - **statusOnline**: (null or relevant data) Indicates the count of online statuses.
+      
+  - **statusOffline**: (null or relevant data) Indicates the count of offline statuses.
+      
+  - **connectionTypeLan**: (null or relevant data) Indicates the count of LAN connections.
+      
+  - **connectionTypeWifi**: (null or relevant data) Indicates the count of Wi-Fi connections.
+      
+  - **screenTypeAd**: (null or relevant data) Indicates the count of advertisement screens.
+      
+  - **screenTypeMenu**: (null or relevant data) Indicates the count of menu screens.
+      
+  - **screenTypeClosed**: (null or relevant data) Indicates the count of closed screens.
+      
+  
+  #### Notes
+  
+  - The response fields may return null values if there are no statistics available for the specified dealer ID.
+      
+  - Ensure that the dealer ID provided is valid to get accurate statistics.
+}

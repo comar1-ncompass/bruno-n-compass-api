@@ -1,0 +1,134 @@
+meta {
+  name: Filter User Modal
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getall/minify?page=1&search=&pageSize=0&active=false
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  pageSize: 0
+  active: false
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # API Endpoint: Filter User by Dealer
+  
+  This endpoint is designed to retrieve a paginated and filtered list of dealers. This list can be used by a user to filter and manage associated licenses and other data. The response provides a minimized view of dealer information, making it efficient for use in user interfaces or dropdown menus.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/dealer/getall/minify`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to customize the list of dealers returned.
+  
+  - **page** (integer, required): The page number for pagination. In this request, it is set to `1`.
+      
+  - **search** (string, optional): A search term to filter the dealers by business name or alias.
+      
+  - **pageSize** (integer, required): The number of records per page. A value of `0` indicates that all records should be returned without pagination.
+      
+  - **active** (boolean, required): A filter to include only active (`true`) or inactive (`false`) dealers. In this request, it is set to `false`.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  On a successful request, the response will be in JSON format with the following structure:
+  
+  JSON
+  
+  ```
+  {
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 0,
+          "pages": 1,
+          "totalEntities": 514,
+          "pageStart": 1,
+          "entities": [
+              {
+                  "dealerId": "65c30899-3d3a-4c61-9bfe-3ef77e49658f",
+                  "businessName": "",
+                  "dealerIdAlias": "",
+                  "status": "A"
+              },
+              {
+                  "dealerId": "b7305775-7221-4998-b384-e9021b348ea2",
+                  "businessName": "",
+                  "dealerIdAlias": "",
+                  "status": "A"
+              },
+              // ... (many more dealer objects)
+              {
+                  "dealerId": "431dad8c-c1f4-427c-8493-05420482eda0",
+                  "businessName": "Zeld Advertising",
+                  "dealerIdAlias": "Zer00l",
+                  "status": "A"
+              }
+          ]
+      }
+  }
+  
+   ```
+  
+  ### Response Fields
+  
+  - **paging** (object): Contains all the information about the paginated list of dealers.
+      
+      - **hasPreviousPage** (boolean): Indicates if there's a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there's a next page.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The number of records returned per page. A value of `0` means all records are included.
+          
+      - **pages** (integer): The total number of pages available.
+          
+      - **totalEntities** (integer): The total number of dealers available.
+          
+      - **pageStart** (integer): The starting page number of the pagination.
+          
+      - **entities** (array): A list of dealer objects, each containing:
+          
+          - **dealerId** (string): A unique identifier for the dealer.
+              
+          - **businessName** (string): The official business name of the dealer.
+              
+          - **dealerIdAlias** (string): An alias or nickname for the dealer ID.
+              
+          - **status** (string): The status of the dealer, which can be `A` (Active) or `I` (Inactive).
+              
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

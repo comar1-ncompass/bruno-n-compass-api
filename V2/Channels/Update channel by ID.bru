@@ -1,0 +1,62 @@
+meta {
+  name: Update channel by ID
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/channels/{{channelId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "channelName": "Update {{templatedName}}",
+      "description": "Channel focused on wildlife and nature.",
+      "thumbnailUrl": "https://cdn.example.com/thumbnails/new-discovery.png",
+      "isHero": true,
+      "metadata": {
+          "icon": "📺",
+          "language": "fr",
+          "priority": 5
+      }
+  }
+}
+
+script:pre-request {
+  // Get current date and time
+  const now = new Date();
+  
+  // Format date and time
+  const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+  const time = now.toTimeString().split(' ')[0].replace(/:/g, ''); // HH-MM-SS
+  
+  // Build the collection name
+  const templatedName = `API_Discovery_Channel_${date}_${time}`;
+  
+  // Save to environment variable
+  bru.setEnvVar("templatedName", templatedName);
+  
+  //remove everything above when fix is made
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

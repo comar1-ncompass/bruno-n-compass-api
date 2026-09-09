@@ -1,0 +1,30 @@
+meta {
+  name: PATCH Dealer ID
+  type: http
+  seq: 5
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/dealers/241ad002-bf31-4d47-9589-d07a3df09acc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "userClientAssignment": {
+      "roleId": "bb7a0ca4-495c-11ea-b77f-2e728ce88125"
+    }
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

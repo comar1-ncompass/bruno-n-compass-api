@@ -1,0 +1,85 @@
+meta {
+  name: Get Hosts Asset
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/host/gettotal
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Total Hosts
+  
+  ### Description
+  
+  This endpoint retrieves the total number of hosts available in the system. It provides pagination information along with the total count of entities. This is useful for clients that need to display or manage a list of hosts while implementing pagination in their applications.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `https://dev-api.n-compass.online/api/host/gettotal`
+      
+  
+  ### Response
+  
+  Upon a successful request, the API returns a JSON object with the following structure:
+  
+  ``` json
+  {
+    "hasPreviousPage": boolean,
+    "hasNextPage": boolean,
+    "page": integer,
+    "pageSize": integer,
+    "pages": integer,
+    "totalEntities": integer,
+    "pageStart": integer,
+    "entities": array
+  }
+  
+   ```
+  
+  #### Response Parameters:
+  
+  - **hasPreviousPage** (boolean): Indicates if there is a previous page of results.
+      
+  - **hasNextPage** (boolean): Indicates if there is a next page of results.
+      
+  - **page** (integer): The current page number.
+      
+  - **pageSize** (integer): The number of items per page.
+      
+  - **pages** (integer): Total number of pages available.
+      
+  - **totalEntities** (integer): Total number of entities available.
+      
+  - **pageStart** (integer): The starting index of the current page.
+      
+  - **entities** (array): An array of host objects. This may be empty if there are no hosts available.
+      
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "hasPreviousPage": true,
+    "hasNextPage": true,
+    "page": 0,
+    "pageSize": 0,
+    "pages": 0,
+    "totalEntities": 0,
+    "pageStart": 0,
+    "entities": []
+  }
+  
+   ```
+  
+  This response indicates that there are no hosts available at the moment, while also providing pagination details.
+}

@@ -1,0 +1,45 @@
+meta {
+  name: Update channel-genre association
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/channel-genres/{{standalone_channel_ForGenre}}/4098c48e-0724-48e6-92d0-02940f5ad58c
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{bearer_token}}
+}
+
+body:json {
+  {
+    "channelId": "{{standalone_channel_ForGenre}}",
+    "genreId": "553cf470-5257-4676-b03a-889595b9ffd5"
+  }
+}
+
+script:post-response {
+  // 1. Status code is 200
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  // 2. Response time is acceptable
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

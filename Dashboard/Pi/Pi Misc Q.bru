@@ -1,0 +1,23 @@
+meta {
+  name: Pi Misc Q
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://nctvapi.n-compass.online/api/pi/miscellaneous/q
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "licenseId": "d0ce5983-36e6-4e4f-b983-e4f62e813803",
+      "monitorSatus": 1
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+}

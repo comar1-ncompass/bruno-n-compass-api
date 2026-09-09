@@ -1,0 +1,24 @@
+meta {
+  name: Screen
+  seq: 5
+}
+
+auth {
+  mode: inherit
+}
+
+script:pre-request {
+  // Performs extracting today's date in MM-DD-YYYY format
+  // Usage: {{todayDate}}
+  
+      var today = new Date();
+      // Format the date as YYYY-MM-DD
+      var formattedDate = today.getFullYear() + '-' + 
+                          ('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+                          ('0' + today.getDate()).slice(-2);
+  
+      // Set a collection variable (or environment/global variable)
+  //     pm.collectionVariables.set("todayDate", formattedDate); 
+  
+  
+}

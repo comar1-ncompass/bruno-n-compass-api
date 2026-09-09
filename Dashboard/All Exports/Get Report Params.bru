@@ -1,0 +1,32 @@
+meta {
+  name: Get Report Params
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}/api​/contentPlaysDaily/exportLogsPerHostsByContent?contentId=74986eb0-c728-499a-8012-55ddebf4684a&startDate=2026-01-01&endDate=2026-02-16
+  body: json
+  auth: inherit
+}
+
+params:query {
+  contentId: 74986eb0-c728-499a-8012-55ddebf4684a
+  startDate: 2026-01-01
+  endDate: 2026-02-16
+}
+
+body:json {
+  {
+      "dealerid": "136ce61b-8c69-4723-95f3-45600090cf8b",
+      "from": "2026-01-01",
+      "to": "2026-02-16",
+      "pageSize": 10,
+      "page": 1,
+      "contenttitle": ""
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,109 @@
+meta {
+  name: Get Host Total by Rank - List & Search
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dma/gethosttotalbyrank?page=1&search=&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get Host Total by Rank
+  
+  This endpoint retrieves the total number of hosts associated with different DMAs (Designated Market Areas) based on their rank. It supports pagination and allows for searching through the results.
+  
+  #### Request Parameters
+  
+  - **page** (integer, required): The page number to retrieve. This is used for pagination.
+      
+  - **search** (string, optional): A search term to filter the results. Currently, it can be left empty.
+      
+  - **pageSize** (integer, required): The number of results to return per page.
+      
+  
+  #### Example Request
+  
+  ```
+  GET https://dev-api.n-compass.online/api/dma/gethosttotalbyrank?page=1&search=&pageSize=15
+  
+   ```
+  
+  #### Expected Response
+  
+  The response will return a JSON object containing the following structure:
+  
+  - **paging** (object): Contains pagination information.
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The number of results per page.
+          
+      - **pages** (integer): Total number of pages available.
+          
+      - **totalEntities** (integer): Total number of entities available.
+          
+      - **pageStart** (integer): The starting index of the current page.
+          
+      - **entities** (array): An array of entities returned.
+          
+          - Each entity contains:
+              
+              - **dmaCode** (string): The code associated with the DMA.
+                  
+              - **dmaName** (string): The name of the DMA.
+                  
+              - **dmaRank** (integer): The rank of the DMA.
+                  
+              - **totalHosts** (integer): Total number of hosts for the DMA.
+                  
+  
+  #### Example Response
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0,
+      "entities": [
+        {
+          "dmaCode": "",
+          "dmaName": "",
+          "dmaRank": 0,
+          "totalHosts": 0
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  ### Notes
+  
+  - The response will typically include pagination details and an array of entities, each representing a DMA with its respective total hosts.
+      
+  - Ensure to handle cases where there may be no results returned (e.g., when `totalEntities` is 0).
+      
+  - This endpoint is useful for applications that need to display or analyze host data by DMA ranking.
+}

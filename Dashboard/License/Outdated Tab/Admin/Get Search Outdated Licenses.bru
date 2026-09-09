@@ -1,0 +1,90 @@
+meta {
+  name: Get Search Outdated Licenses
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/GetOutDatedLicenses?page=1&pageSize=15&sortColumn=UiVersion&sortOrder=asc&search=cd33489e-d292-4be2-b0e8-bf0ed8bf00db
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 15
+  sortColumn: UiVersion
+  sortOrder: asc
+  search: cd33489e-d292-4be2-b0e8-bf0ed8bf00db
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Search by Outdated Licenses
+  
+  This endpoint retrieves a paginated list of licenses that are currently running an outdated software version. The search functionality further filters this list by a specific query, which can be a license ID, host name, or other relevant criteria. The endpoint is crucial for identifying devices that need to be updated.
+  
+  ---
+  
+  ### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/license/GetOutDatedLicenses`
+  
+  ---
+  
+  ### Query Parameters
+  
+  The following query parameters are used to filter, sort, and paginate the list of outdated licenses.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `2`).
+      
+  - **pageSize** (integer, required): The number of records per page (e.g., `15`).
+      
+  - **sortColumn** (string, optional): The column to sort the results by. In this case, `UiVersion`.
+      
+  - **sortOrder** (string, optional): The order of sorting (`asc`).
+      
+  - **search** (string, optional): The search term to filter the list of outdated licenses. For this request, the value is a license key: `cd33489e-d292-4be2-b0e8-bf0ed8bf00db`.
+      
+  
+  ---
+  
+  ### Expected Response Format
+  
+  The response returns an empty list if no licenses match the search criteria or if no outdated licenses are found on the requested page. The pagination details in the JSON reflect the query parameters and the total number of matching entities.
+  
+  JSON
+  
+  ```
+  {
+      "appUiVersion": null,
+      "appServerVersion": null,
+      "paging": {
+          "page": 1,
+          "pageSize": 15,
+          "pages": 0,
+          "totalEntities": 0,
+          "hasNextPage": false,
+          "pageStart": 1,
+          "hasPreviousPage": false,
+          "entities": []
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

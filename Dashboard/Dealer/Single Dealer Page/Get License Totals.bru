@@ -1,0 +1,101 @@
+meta {
+  name: Get License Totals
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/license/gettotal?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Total License Information
+  
+  This endpoint retrieves the total license information for a specific dealer. It provides various metrics related to licenses, including counts of assigned, unassigned, active, disabled, and pending licenses.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/license/gettotal`
+      
+  - **Query Parameters:**
+      
+      - `dealerid` (string): The unique identifier for the dealer whose license information is being requested.
+          
+  
+  ### Response
+  
+  - **Status Code:** 200
+      
+  - **Content-Type:** application/json
+      
+  - **Response Body:**
+      
+      - `total` (integer): The total number of licenses.
+          
+      - `totalAssigned` (integer): The number of licenses that are currently assigned.
+          
+      - `totalUnAssigned` (integer): The number of licenses that are currently unassigned.
+          
+      - `totalDisabled` (integer): The number of licenses that are currently disabled.
+          
+      - `totalActive` (integer): The number of licenses that are currently active.
+          
+      - `totalPending` (integer): The number of licenses that are pending.
+          
+      - `totalOnline` (integer): The number of licenses that are currently online.
+          
+      - `totalOffline` (integer): The number of licenses that are currently offline.
+          
+      - `totalLan` (integer): The number of licenses that are connected via LAN.
+          
+      - `totalWifi` (integer): The number of licenses that are connected via WiFi.
+          
+      - `newLicensesThisWeek` (integer): The number of new licenses added this week.
+          
+      - `newLicensesLastWeek` (integer): The number of new licenses added last week.
+          
+      - `totalAd` (integer): The total number of advertisements associated with licenses.
+          
+      - `totalMenu` (integer): The total number of menus associated with licenses.
+          
+      - `totalClosed` (integer): The total number of closed licenses.
+          
+      - `totalUnassignedScreenCount` (integer): The count of unassigned screens.
+          
+      - `thisWeekTotalAd` (integer): Total advertisements this week.
+          
+      - `thisWeekTotalMenu` (integer): Total menus this week.
+          
+      - `thisWeekTotalClosed` (integer): Total closed licenses this week.
+          
+      - `thisWeekUnassignedCount` (integer): Count of unassigned licenses this week.
+          
+      - `lastWeekTotalAd` (integer): Total advertisements last week.
+          
+      - `lastWeekTotalMenu` (integer): Total menus last week.
+          
+      - `lastWeekTotalClosed` (integer): Total closed licenses last week.
+          
+      - `lastWeekUnassignedCount` (integer): Count of unassigned licenses last week.
+          
+      - `totalAdminLicenses` (integer): Total number of admin licenses.
+          
+  
+  ### Notes
+  
+  - Ensure that the `dealerid` parameter is valid to receive accurate license information.
+      
+  - The response will contain counts that may vary based on the dealer's activity and license management.
+}

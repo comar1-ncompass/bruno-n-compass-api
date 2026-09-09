@@ -1,0 +1,22 @@
+meta {
+  name: Update Play Credits
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/playlists/updatecredits
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlistContentId": "5cacfd3c-2634-4d00-b624-3d98d7619141",
+      "credits": 0
+  }
+}
+
+settings {
+  encodeUrl: true
+}

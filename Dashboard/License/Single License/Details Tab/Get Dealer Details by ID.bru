@@ -1,0 +1,134 @@
+meta {
+  name: Get Dealer Details by ID
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getbyid?dealer_id=dcb88788-22c8-48e3-ac3f-6be98c75ab35
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealer_id: dcb88788-22c8-48e3-ac3f-6be98c75ab35
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get Dealer Details by ID
+  
+  This endpoint retrieves comprehensive information about a specific dealer using their unique ID. The response includes the dealer's profile details, a list of all associated hosts, and a list of all associated advertisers.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/dealer/getbyid`
+  
+  ---
+  
+  #### Query Parameters
+  
+  - **dealer_id** (string, required): The unique identifier of the dealer to retrieve.
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response is a complex JSON object containing the main dealer object and nested arrays for hosts and advertisers. The provided JSON is large, so the example below is a condensed representation to illustrate the structure.
+  
+  JSON
+  
+  ```
+  {
+      "dealer": {
+          "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+          "businessName": "Test Tech",
+          "contactPerson": "Tech Support",
+          "contactNumber": "09191234567",
+          "region": "W",
+          "state": "CA",
+          "city": "Los Angeles",
+          "userId": "fd9ea90c-5f25-4029-85d1-d48a46972309",
+          "dateCreated": "2020-08-13T21:26:11+00:00",
+          "dateUpdated": null,
+          "createdBy": " ",
+          "updatedBy": null,
+          "status": "A",
+          "totalHost": "16",
+          "activeHost": "9",
+          "forInstallationHost": "23",
+          "email": null,
+          "generatedId": "D1234",
+          "tags": [],
+          "hosts": [
+              {
+                  "licenses": [
+                      {
+                          "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+                          "licenseKey": "cd33489e-d292-4be2-b0e8-bf0ed8bf00db",
+                          "macAddress": "b8:27:eb:c7:f4:cc",
+                          "isRegistered": 1,
+                          "isActivated": 1,
+                          "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                          "hostId": "936ef7b7-469b-47dd-b3b2-373813b6d9a5",
+                          "alias": "Conference Room"
+                          // ... (more license fields)
+                      },
+                      // ... (other licenses for this host)
+                  ],
+                  "hostId": "936ef7b7-469b-47dd-b3b2-373813b6d9a5",
+                  "dealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                  "hostName": "Brian's Office",
+                  "address": "406 Fremont St",
+                  "city": "Wathena",
+                  "postalCode": "66090",
+                  "region": "MW",
+                  "state": "KS",
+                  "timeZone": "96d4ba4b-fd42-4b49-9291-711a687c5534",
+                  "storeHours": "[...]",
+                  "notes": "This is a test to see where this info displays",
+                  "status": "A",
+                  "category": "Premise"
+                  // ... (more host fields)
+              },
+              // ... (other host objects)
+          ],
+          "advertisers": [
+              {
+                  "Id": "309585ec-0dca-4142-b703-a20f1976c899",
+                  "DealerId": "dcb88788-22c8-48e3-ac3f-6be98c75ab35",
+                  "Name": "Golfland Sunsplash",
+                  "Region": null,
+                  "State": "AZ",
+                  "Status": "A",
+                  "DateCreated": "2020-08-23T22:13:23Z",
+                  "FirstName": "Scripter AI",
+                  "LastName": "#4",
+                  "Email": "scripter4@exe.com"
+              },
+              // ... (more advertiser objects)
+          ],
+          "piFieldGroupValues": null
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

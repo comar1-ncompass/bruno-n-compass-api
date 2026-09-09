@@ -1,0 +1,127 @@
+meta {
+  name: Search by Tags
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/license/getByTags?page=1&search=%23HisenseRoku
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: %23HisenseRoku
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # API Endpoint: Search Licenses by Tag
+  
+  This endpoint retrieves a paginated list of licenses associated with a specific tag. It is an efficient way to filter licenses based on custom classifications, such as device type, location, or any other user-defined category.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/license/getByTags`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and paginate the results.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  - **search** (string, required): The tag to search for. For this request, the value is `#HisenseRoku` (URL encoded as `#HisenseRoku`).
+      
+  - **sortColumn** (string, optional): The column to sort the results by (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, optional): The order of sorting (`desc`).
+      
+  - **pageSize** (integer, optional): The number of records per page (e.g., `15`).
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **... (other optional parameters)**: Other parameters are left blank in this request.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  The response returns a list of license objects that have the specified tag, along with pagination information.
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "301e8017-1784-4698-bf51-779b6d96758b",
+              "licenseKey": "5e2ee11e-9ca4-4397-8fbf-d4e8c5e4e505",
+              "hostId": "6432a319-5981-4a82-9054-521fee89685d",
+              "macAddress": "d8:3a:dd:1c:b3:1f",
+              "isActivated": 1,
+              "isRegistered": 1,
+              "dealerId": "05e72a4f-5cbe-490a-b353-ffe6c385d9b1",
+              "dateCreated": "2024-10-04T18:06:00+00:00",
+              "internetSpeed": "Slow",
+              "internetType": "eth0",
+              "memory": "2 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "85 %",
+              "piSocketId": "hLFFTAiTZnlFVeZxACAx",
+              "piStatus": 1,
+              "playerSocketId": null,
+              "playerStatus": 0,
+              "alias": "License # 14",
+              "timeOut": "November 06, 2024, 12:02:35 AM",
+              "dateUpdated": "2024-11-06T06:43:24+00:00",
+              "contentsUpdated": "2024-11-06T00:05:28+00:00",
+              "anydeskId": "1272048754",
+              "appVersion":"{\"chromium\":\"92.0.4515.98\",\"electron\":\"N/A\",\"puppeteer\":\"N/A\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.5\"}"
+              // ... (additional license fields)
+          },
+          // ... (more license objects with the #HisenseRoku tag)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": false,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 1,
+          "totalEntities": 1,
+          "pageStart": 1,
+          "entities": [
+              // ... (duplicate of licenses array)
+          ]
+      },
+      "totalCounts": {
+          "total": 1,
+          "totalOnline": 0,
+          "totalOffline": 1,
+          "totalInActive": 0,
+          "totalUnAssigned": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

@@ -1,0 +1,98 @@
+meta {
+  name: Get Outdated Licenses
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/license/GetOutDatedLicenses?page=1&pageSize=15&sortColumn=UiVersion&sortOrder=asc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 15
+  sortColumn: UiVersion
+  sortOrder: asc
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Outdated Licenses
+  
+  This endpoint retrieves a paginated list of outdated licenses from the system. It allows users to specify pagination parameters to control the number of results returned and the order in which they are sorted.
+  
+  ### Request
+  
+  **Method:** GET  
+  **Endpoint:** `https://dev-api.n-compass.online/api/license/GetOutDatedLicenses`
+  
+  #### Query Parameters:
+  
+  - `page` (integer): The page number of the results to retrieve. Default is 1.
+      
+  - `pageSize` (integer): The number of results to return per page. Default is 15.
+      
+  - `sortColumn` (string): The column by which to sort the results. Example: `UiVersion`.
+      
+  - `sortOrder` (string): The order in which to sort the results. Accepted values are `asc` for ascending or `desc` for descending.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  #### Response Body Structure:
+  
+  The response body is a JSON object containing the following fields:
+  
+  - `appUiVersion`: (nullable) The UI version of the application.
+      
+  - `appServerVersion`: (nullable) The server version of the application.
+      
+  - `paging`: An object that contains pagination details:
+      
+      - `page`: The current page number.
+          
+      - `pageSize`: The number of results per page.
+          
+      - `pages`: The total number of pages available.
+          
+      - `totalEntities`: The total number of entities available.
+          
+      - `hasNextPage`: A boolean indicating if there is a next page of results.
+          
+      - `pageStart`: The starting index of the current page.
+          
+      - `hasPreviousPage`: A boolean indicating if there is a previous page of results.
+          
+  - `entities`: An array that contains the list of outdated licenses. This will be empty if there are no outdated licenses available.
+      
+  
+  ### Example Response:
+  
+  ``` json
+  {
+    "appUiVersion": null,
+    "appServerVersion": null,
+    "paging": {
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "hasNextPage": true,
+      "pageStart": 0,
+      "hasPreviousPage": true
+    },
+    "entities": []
+  }
+  
+   ```
+  
+  This structure allows users to easily navigate through the results and understand the status of the licenses.
+}

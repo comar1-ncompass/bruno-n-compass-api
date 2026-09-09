@@ -1,0 +1,198 @@
+meta {
+  name: Get All Dealers for License Generation
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getall/minify?page=1&search=&pageSize=0&active=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  pageSize: 0
+  active: true
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Get All Dealers for License Generation
+  
+  This endpoint retrieves a list of all dealers, which is intended for use in creating or generating licenses within a modal. The request allows you to specify pagination and filtering options to tailor the results according to your needs.
+  
+  #### Request Parameters:
+  
+  - `page` (integer): The page number of the results to retrieve. Default is `1`.
+      
+  - `search` (string): A search term to filter dealers. Default is an empty string, which retrieves all dealers.
+      
+  - `pageSize` (integer): The number of results to return per page. Set to `0` to indicate no limit.
+      
+  - `active` (boolean): A flag to filter the results based on the active status of the dealers. Set to `true` to retrieve only active dealers.
+      
+  
+  #### Response:
+  
+  The response will return a JSON object containing:
+  
+  - `paging`: An object that includes pagination information:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page of results.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page of results.
+          
+      - `page` (integer): The current page number.
+          
+      - `pageSize` (integer): The size of the page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of dealer entities available.
+          
+      - `pageStart` (integer): The starting index of the current page.
+          
+      - `entities` (array): An array of dealer objects, each containing:
+          
+          - `dealerId` (string): Unique identifier for the dealer.
+              
+          - `businessName` (string): The name of the dealer's business.
+              
+          - `dealerIdAlias` (string): An alias for the dealer's ID.
+              
+          - `status` (string): The current status of the dealer.
+              
+  
+  This endpoint is essential for fetching dealer information necessary for the license generation process.
+  
+  This endpoint retrieves a list of dealers based on specified query parameters. It is particularly useful for applications that require displaying dealer information in a modal for license creation or generation.
+  
+  #### Request Parameters
+  
+  - **page** (integer): The page number for pagination. Default is `1`.
+      
+  - **search** (string): A search term to filter the dealers. Default is an empty string.
+      
+  - **pageSize** (integer): The number of dealers to return per page. Default is `0`, which may indicate returning all dealers.
+      
+  - **active** (boolean): A flag to filter the dealers based on their active status. Default is `true`.
+      
+  
+  #### Response
+  
+  The response will return a JSON object containing the following structure:
+  
+  - **paging**: An object that contains pagination details.
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page of results.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page of results.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The number of entities per page.
+          
+      - **pages** (integer): Total number of pages available.
+          
+      - **totalEntities** (integer): Total number of dealer entities available.
+          
+      - **pageStart** (integer): The starting index of the current page.
+          
+      - **entities** (array): An array of dealer objects, each containing:
+          
+          - **dealerId** (string): The unique identifier for the dealer.
+              
+          - **businessName** (string): The business name of the dealer.
+              
+          - **dealerIdAlias** (string): An alias for the dealer ID.
+              
+          - **status** (string): The current status of the dealer.
+              
+  
+  This endpoint is essential for applications that need to fetch dealer information to facilitate the generation of licenses, allowing users to specify how many licenses they wish to create based on the retrieved dealer data.
+  
+  This endpoint retrieves a list of dealers based on the specified query parameters. It allows for pagination and filtering of the results.
+  
+  #### Request
+  
+  - **Method:** GET
+      
+  - **URL:** `{{baseUrl}}/api/dealer/getall/minify`
+      
+  - **Query Parameters:**
+      
+      - `page` (integer): The page number to retrieve. Defaults to 1.
+          
+      - `search` (string): A search term to filter dealers. Can be left empty for no filtering.
+          
+      - `pageSize` (integer): The number of results to return per page. A value of 0 indicates no limit.
+          
+      - `active` (boolean): A flag to filter for active dealers. Set to `true` to only retrieve active dealers.
+          
+  
+  #### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  
+  The response will be a JSON object containing the following structure:
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": boolean,
+      "hasNextPage": boolean,
+      "page": integer,
+      "pageSize": integer,
+      "pages": integer,
+      "totalEntities": integer,
+      "pageStart": integer,
+      "entities": [
+        {
+          "dealerId": string,
+          "businessName": string,
+          "dealerIdAlias": string,
+          "status": string
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  - **paging**: An object that contains pagination information.
+      
+      - `hasPreviousPage`: Indicates if there is a previous page of results.
+          
+      - `hasNextPage`: Indicates if there is a next page of results.
+          
+      - `page`: The current page number.
+          
+      - `pageSize`: The number of results per page.
+          
+      - `pages`: The total number of pages available.
+          
+      - `totalEntities`: The total number of entities that match the query.
+          
+      - `pageStart`: The starting index of the current page.
+          
+      - `entities`: An array of dealer objects, each containing:
+          
+          - `dealerId`: Unique identifier for the dealer.
+              
+          - `businessName`: Name of the dealer's business.
+              
+          - `dealerIdAlias`: An alias for the dealer's ID.
+              
+          - `status`: The current status of the dealer.
+              
+  
+  This endpoint is useful for applications that need to display a list of dealers with options for pagination and filtering based on activity status.
+}

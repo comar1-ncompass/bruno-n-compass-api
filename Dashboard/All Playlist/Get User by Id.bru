@@ -1,0 +1,52 @@
+meta {
+  name: Get User by Id
+  type: http
+  seq: 7
+}
+
+get {
+  url: https://stg-api.n-compass.online/api/user/getbyid?user_id=6ae871b4-70e6-4057-9e9e-6e1172c631d9
+  body: none
+  auth: inherit
+}
+
+params:query {
+  user_id: 6ae871b4-70e6-4057-9e9e-6e1172c631d9
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0
+  Accept: application/json
+  Accept-Language: en-US,en;q=0.9
+  Accept-Encoding: gzip, deflate, br, zstd
+  Content-Type: application/json
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2YWU4NzFiNC03MGU2LTQwNTctOWU5ZS02ZTExNzJjNjMxZDkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3ODAzMywiZXhwIjoxNzcxNTA2ODMzLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.e_xTMfsFD8BCO-T7zZ86c5sAzvOzscCnVySsrAXNCto
+  Origin: https://stg-dashboard.n-compass.online
+  Connection: keep-alive
+  Referer: https://stg-dashboard.n-compass.online/
+  Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3NzgyNSwiZXhwIjoxNzcxNTA2NjI1LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.9iSOLPI-yKAldzpOt-Jx73JxWZZof27DBJzi9K_vOOo; nctvRefToken=h2IYF1UGoCDg1YHPY%2F5AEz7TRqE%2B8w2F9Stq3t6VFGc%3D; nctvDealerId=; nctvRoleName=Super%20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; nctvUserId=32c3eec4-c6df-43be-9ba6-7347382fae43; stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2YWU4NzFiNC03MGU2LTQwNTctOWU5ZS02ZTExNzJjNjMxZDkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3ODAzMywiZXhwIjoxNzcxNTA2ODMzLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.e_xTMfsFD8BCO-T7zZ86c5sAzvOzscCnVySsrAXNCto; stg_nctvRefToken=BsAd71m2oc4GP5kVJNnW4K4a7VNKg3pXlrn4moZRysk%3D; stg_nctvUserId=6ae871b4-70e6-4057-9e9e-6e1172c631d9; stg_nctvRoleName=Super%20Admin; stg_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-site
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl.exe ^"https://stg-api.n-compass.online/api/user/getbyid?user_id=6ae871b4-70e6-4057-9e9e-6e1172c631d9^" ^
+    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+    -H ^"Accept: application/json^" ^
+    -H ^"Accept-Language: en-US,en;q=0.9^" ^
+    -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+    -H ^"Content-Type: application/json^" ^
+    -H ^"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2YWU4NzFiNC03MGU2LTQwNTctOWU5ZS02ZTExNzJjNjMxZDkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3ODAzMywiZXhwIjoxNzcxNTA2ODMzLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.e_xTMfsFD8BCO-T7zZ86c5sAzvOzscCnVySsrAXNCto^" ^
+    -H ^"Origin: https://stg-dashboard.n-compass.online^" ^
+    -H ^"Connection: keep-alive^" ^
+    -H ^"Referer: https://stg-dashboard.n-compass.online/^" ^
+    -H ^"Cookie: nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzMmMzZWVjNC1jNmRmLTQzYmUtOWJhNi03MzQ3MzgyZmFlNDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3NzgyNSwiZXhwIjoxNzcxNTA2NjI1LCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.9iSOLPI-yKAldzpOt-Jx73JxWZZof27DBJzi9K_vOOo; nctvRefToken=h2IYF1UGoCDg1YHPY^%^2F5AEz7TRqE^%^2B8w2F9Stq3t6VFGc^%^3D; nctvDealerId=; nctvRoleName=Super^%^20Admin; nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125; nctvUserId=32c3eec4-c6df-43be-9ba6-7347382fae43; stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAYWRtaW4uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2YWU4NzFiNC03MGU2LTQwNTctOWU5ZS02ZTExNzJjNjMxZDkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlciBBZG1pbiIsIm5iZiI6MTc3MTQ3ODAzMywiZXhwIjoxNzcxNTA2ODMzLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.e_xTMfsFD8BCO-T7zZ86c5sAzvOzscCnVySsrAXNCto; stg_nctvRefToken=BsAd71m2oc4GP5kVJNnW4K4a7VNKg3pXlrn4moZRysk^%^3D; stg_nctvUserId=6ae871b4-70e6-4057-9e9e-6e1172c631d9; stg_nctvRoleName=Super^%^20Admin; stg_nctvRoleId=bb7a061e-495c-11ea-b77f-2e728ce88125^" ^
+    -H ^"Sec-Fetch-Dest: empty^" ^
+    -H ^"Sec-Fetch-Mode: cors^" ^
+    -H ^"Sec-Fetch-Site: same-site^"
+}

@@ -1,0 +1,73 @@
+meta {
+  name: Check Duplicate Email
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/user/checkifduplicateemail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "email": "kyle1@admin.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Check for Duplicate Email
+  
+  This endpoint allows you to check if a given email address already exists in the system.
+  
+  ### Request
+  
+  - **Method**: `POST`
+      
+  - **Endpoint**: `{{baseUrl}}/api/user/checkifduplicateemail`
+      
+  - **Request Body**: The request body must be in JSON format and should contain the following parameter:
+      
+      - `email` (string): The email address you want to check for duplicates.
+          
+  
+  ### Example Request Body
+  
+  ``` json
+  {
+    "email": "example@example.com"
+  }
+  
+   ```
+  
+  ### Response
+  
+  - **Status Code**: `200`
+      
+  - **Content-Type**: `application/json`
+      
+  - **Response Body**: The response will return a JSON object containing the following key:
+      
+      - `email` (string): The email address that was checked. If the email exists, this field will contain the email; otherwise, it will be an empty string.
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "email": ""
+  }
+  
+   ```
+  
+  ### Notes
+  
+  - A non-empty `email` field in the response indicates that the email address already exists in the system.
+      
+  - An empty `email` field indicates that the email address is available for registration.
+}

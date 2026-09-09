@@ -1,0 +1,23 @@
+meta {
+  name: Get Timezone
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://api.timezonedb.com/v2.1/get-time-zone?key=VDREUWGAR8QT&format=json&by=position&lat={{host_latitude}}&lng={{host_longitude}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  key: VDREUWGAR8QT
+  format: json
+  by: position
+  lat: {{host_latitude}}
+  lng: {{host_longitude}}
+}
+
+settings {
+  encodeUrl: true
+}

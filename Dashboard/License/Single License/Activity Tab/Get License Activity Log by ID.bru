@@ -1,0 +1,174 @@
+meta {
+  name: Get License Activity Log by ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/activity/getactivitybylicenseid?licenseid=de5796ea-b0ea-405d-95ab-3bccde81f19c&sortOrder=desc&sortColumn=DateCreated&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseid: de5796ea-b0ea-405d-95ab-3bccde81f19c
+  sortOrder: desc
+  sortColumn: DateCreated
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get License Activity Log
+  
+  This endpoint is used to retrieve a paginated list of all activity logs associated with a specific license.
+  
+  - **URL:** `{{baseUrl}}/api/activity/getactivitybylicenseid`
+      
+  - **Method:** `GET`
+      
+  
+  #### Query Parameters
+  
+  - `licenseid` (string, required): The unique identifier of the license to retrieve activity logs for.
+      
+  - `page` (integer, optional): The page number of the results to retrieve.
+      
+  - `pageSize` (integer, optional): The number of results per page.
+      
+  - `sortColumn` (string, optional): The column to sort the results by (e.g., `DateCreated`).
+      
+  - `sortOrder` (string, optional): The sort order, either `asc` or `desc`.
+      
+  
+  #### Example Response
+  
+  JSON
+  
+  ```
+  {
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": true,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 12,
+          "totalEntities": 172,
+          "pageStart": 1,
+          "entities": [
+              {
+                  "activityLogId": "cfc06b15-66df-4148-a302-7079e70607b3",
+                  "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+                  "activityCode": "refetch",
+                  "activityDescription": "Refetch Content Fired",
+                  "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+                  "initiatedBy": "PlaylistV2 John Lim",
+                  "dateCreated": "2025-08-04T06:20:30+00:00",
+                  "dateUpdated": null
+              },
+              {
+                  "activityLogId": "fd931e7c-bef1-42e2-8783-a41ce04109d2",
+                  "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+                  "activityCode": "reset_data",
+                  "activityDescription": "Reset Player Data Fired",
+                  "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+                  "initiatedBy": "PlaylistV2 John Lim",
+                  "dateCreated": "2025-08-04T04:47:33+00:00",
+                  "dateUpdated": null
+              },
+              {
+                  "activityLogId": "352cd033-d2ac-499d-969a-4d072274612d",
+                  "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+                  "activityCode": "reboot_pi",
+                  "activityDescription": "Reboot Pi Device Fired",
+                  "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+                  "initiatedBy": "PlaylistV2 John Lim",
+                  "dateCreated": "2025-08-04T04:42:04+00:00",
+                  "dateUpdated": null
+              }
+              // ... (truncated for brevity)
+          ]
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ### API Endpoint: Create Activity Log
+  
+  This endpoint is used to create a new activity log entry, which is typically triggered by an action in the user interface.
+  
+  - **URL:** `{{baseUrl}}/api/activity/log`
+      
+  - **Method:** `POST`
+      
+  
+  #### Request Body
+  
+  The request body should be a JSON object detailing the activity. This endpoint is used for actions such as:
+  
+  - **`"restart_anydesk"`**: Restarting the Anydesk service.
+      
+  - **`"test_internet_speed"`**: Running a test of the internet connection speed.
+      
+  - **`"screenshot"`**: Capturing a screenshot of the device's display.
+      
+  - **`"refetch"`**: Forcing the device to refetch its content playlist.
+      
+  - **`"reboot_pi"`**: Rebooting the physical Pi device.
+      
+  - **`"reboot_player"`**: Rebooting the player software.
+      
+  
+  **Example Request for "Screenshot" Activity:**
+  
+  JSON
+  
+  ```
+  {
+      "licenseId": "de5796ea-b0ea-405d-95ab-3bccde81f19c",
+      "activityCode": "screenshot",
+      "activityDescription": "Screenshot Fired",
+      "initiatedById": "a9d88009-4dfa-43b3-8aa1-2dba1f45a15d",
+      "initiatedBy": "PlaylistV2 John Lim"
+  }
+  
+   ```
+  
+  #### Successful Response
+  
+  A successful request will return a `200 OK` status with a confirmation message.
+  
+  JSON
+  
+  ```
+  {"message":"License activity log created successfully"}
+  
+   ```
+  
+  #### Error Response: Unsupported Media Type
+  
+  A `415 Unsupported Media Type` error is returned if the request body is not in the correct format, such as missing the `Content-Type: application/json` header.
+  
+  JSON
+  
+  ```
+  {
+      "type": "https://tools.ietf.org/html/rfc7231#section-6.5.13",
+      "title": "Unsupported Media Type",
+      "status": 415,
+      "traceId": "0HNEDETB02GUK:00000002"
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  Both endpoints require the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Get Content metrics by Content
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/api/contentplaysdaily/exportscontentmetricsbycontent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "contentid": "74986eb0-c728-499a-8012-55ddebf4684a",
+      "from": "2026-01-01",
+      "to": "2026-02-16",
+      "contenttitle": ""
+  }
+}
+
+settings {
+  encodeUrl: true
+}

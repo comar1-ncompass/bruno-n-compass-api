@@ -1,0 +1,43 @@
+meta {
+  name: Assign channels to a collections
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/collections/{{collectionId}}/channels
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "channels": [
+          {
+              "channelId": "88979d05-f662-4e36-8d6d-09db9ee3034a", //should use existing channels
+              "sequenceOrder": 1,
+              "duration": 30
+          }
+      ]
+  }
+}
+
+script:post-response {
+  test("Status code is 200 or 201", function () {
+      expect(res.getStatus() === 200 || res.getStatus() === 201).to.be.true;
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

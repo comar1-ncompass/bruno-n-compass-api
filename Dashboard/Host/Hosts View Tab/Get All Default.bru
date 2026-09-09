@@ -1,0 +1,162 @@
+meta {
+  name: Get All Default
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/host/getalldefault?page=1&search=&sortColumn=&sortOrder=&pageSize=15
+  body: formUrlEncoded
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+  pageSize: 15
+}
+
+script:post-response {
+  test("Response status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  
+  test("Response time is less than 200ms", function () {
+      expect(res.getResponseTime()).to.be.below(200);
+  });
+  
+  
+  test("Validate the schema of the response", function () {
+      const responseData = res.getBody();
+  
+      expect(responseData).to.be.an('object');
+      expect(responseData.paging).to.be.an('object').that.includes.all.keys('page', 'pageSize', 'pages', 'totalEntities', 'hasNextPage', 'pageStart', 'hasPreviousPage', 'entities');
+      
+      expect(responseData.paging.entities).to.be.an('array');
+      responseData.paging.entities.forEach(entity => {
+          expect(entity).to.be.an('object').that.includes.all.keys(
+              'hostId', 'dealerId', 'userId', 'hostName', 'address', 'street', 'city', 
+              'postalCode', 'region', 'state', 'country', 'groupId', 'latitude', 
+              'longitude', 'timeZone', 'storeHours', 'venueType', 'monthlyTraffic', 
+              'avgDwellTime', 'avgTicket', 'demographics', 'internet', 'notes', 
+              'installDate', 'dateCreated', 'dateUpdated', 'createdBy', 'updatedBy', 
+              'status', 'category', 'vistarVenueId', 'others', 'logo', 
+              'contactNumber', 'contactPerson', 'dealerStatus', 'businessName', 
+              'timezoneName', 'county', 'dmaCode', 'dmaName', 'dmaRank', 
+              'generalCategory', 'totalLicenses'
+          );
+      });
+  });
+  
+  
+  test("Entities array is present and can handle both empty and populated responses", function () {
+      const responseData = res.getBody();
+      
+      expect(responseData).to.be.an('object');
+      expect(responseData.paging).to.exist;
+      expect(responseData.paging.entities).to.exist;
+      expect(responseData.paging.entities).to.be.an('array');
+      
+      // Check if entities array can be empty or populated
+      if (responseData.paging.entities.length > 0) {
+          responseData.paging.entities.forEach(function(entity) {
+              expect(entity).to.be.an('object');
+          });
+      }
+  });
+  
+  
+  test("TotalEntities Correctly Reflects Number of Items in Entities Array", function () {
+      const responseData = res.getBody();
+      
+      expect(responseData).to.be.an('object');
+      expect(responseData.paging).to.exist;
+      expect(responseData.paging.totalEntities).to.equal(responseData.paging.entities.length, "Total entities should match the length of the entities array");
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get All Default Hosts
+  
+  This endpoint retrieves a paginated list of default hosts from the API. It allows users to specify pagination and sorting options through query parameters.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `https://dev-api.n-compass.online/api/host/getalldefault`
+  
+  #### Query Parameters:
+  
+  - `page` (integer): The page number to retrieve. Default is 1.
+      
+  - `search` (string): A search term to filter the results. Default is an empty string.
+      
+  - `sortColumn` (string): The column by which to sort the results. Default is an empty string.
+      
+  - `sortOrder` (string): The order of sorting (ascending or descending). Default is an empty string.
+      
+  - `pageSize` (integer): The number of results per page. Default is 15.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  The response contains a `paging` object and an `entities` array. The `paging` object provides information about the pagination state, while the `entities` array contains the list of hosts.
+  
+  #### Response Structure:
+  
+  - `paging` (object):
+      
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Number of results per page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of entities available.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `pageStart` (integer): The starting index of the current page.
+          
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+  - `entities` (array): A list of host objects, each containing:
+      
+      - `hostId` (string): Unique identifier for the host.
+          
+      - `dealerId` (string): Identifier for the dealer associated with the host.
+          
+      - `userId` (string|null): Identifier for the user associated with the host.
+          
+      - `hostName` (string): Name of the host.
+          
+      - `address` (string): Address of the host.
+          
+      - `city` (string): City where the host is located.
+          
+      - `postalCode` (string): Postal code of the host's address.
+          
+      - `state` (string): State where the host is located.
+          
+      - `country` (string|null): Country where the host is located.
+          
+      - Additional fields related to the host's details.
+          
+  
+  ### Notes
+  
+  - The response may include empty values for various fields, depending on the data available for each host.
+      
+  - Ensure to handle pagination appropriately when retrieving large sets of data.
+}

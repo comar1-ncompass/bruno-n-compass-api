@@ -1,0 +1,22 @@
+meta {
+  name: ExportPlayLogsPerHostsByContent
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/api/contentPlaysDaily/exportLogsPerHostsByContent?startDate=2026-01-01&endDate=2026-02-16&contentId=74986eb0-c728-499a-8012-55ddebf4684a
+  body: none
+  auth: inherit
+}
+
+params:query {
+  startDate: 2026-01-01
+  endDate: 2026-02-16
+  contentId: 74986eb0-c728-499a-8012-55ddebf4684a
+  ~source: 
+}
+
+settings {
+  encodeUrl: true
+}

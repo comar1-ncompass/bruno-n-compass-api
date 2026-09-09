@@ -1,0 +1,172 @@
+meta {
+  name: Timezone > Central
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=Central&dealerId=&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: Central
+  dealerId: 
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get All Licenses in Timezone > Central
+  
+  This endpoint retrieves a list of licenses filtered based on various criteria, including timezone. Specifically, it allows for filtering licenses where the timezone is greater than "Central".
+  
+  ### Request Parameters
+  
+  The following query parameters can be used to customize the request:
+  
+  - **page** (integer): The page number to retrieve (default is 1).
+      
+  - **search** (string): A search term to filter licenses.
+      
+  - **sortColumn** (string): The column by which to sort the results (e.g., `PiStatus`).
+      
+  - **sortOrder** (string): The order of sorting (e.g., `asc` or `desc`).
+      
+  - **pageSize** (integer): The number of results per page (default is 15).
+      
+  - **includeAdmin** (boolean): Whether to include admin licenses (default is false).
+      
+  - **piStatus** (string): Filter by specific PI status.
+      
+  - **daysOfflineFrom** (integer): Filter licenses that have been offline for a certain number of days from this value.
+      
+  - **daysOfflineTo** (integer): Filter licenses that have been offline for a certain number of days to this value.
+      
+  - **active** (boolean): Filter for active licenses.
+      
+  - **daysInstalled** (integer): Filter licenses based on the number of days installed.
+      
+  - **timezone** (string): The timezone to filter licenses (e.g., `Central`).
+      
+  - **dealerId** (string): Filter by dealer ID.
+      
+  - **hostId** (string): Filter by host ID.
+      
+  - **assigned** (boolean): Filter for assigned licenses.
+      
+  - **pending** (boolean): Filter for pending licenses.
+      
+  - **online** (boolean): Filter for online licenses.
+      
+  - **isActivated** (boolean): Filter for activated licenses.
+      
+  - **isFavorite** (boolean): Filter for favorite licenses.
+      
+  - **serverVersion** (string): Filter by server version.
+      
+  - **uiVersion** (string): Filter by UI version.
+      
+  - **piOrder** (string): Additional ordering criteria.
+      
+  
+  ### Response Format
+  
+  On a successful request, the response will return a JSON object containing:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - **licenseId** (string): Unique identifier for the license.
+          
+      - **licenseKey** (string): The key associated with the license.
+          
+      - **macAddress** (string): MAC address associated with the license.
+          
+      - **isRegistered** (integer): Registration status (0 or 1).
+          
+      - **isActivated** (integer): Activation status (0 or 1).
+          
+      - **dealerId** (string): ID of the dealer.
+          
+      - **hostId** (string): ID of the host.
+          
+      - **dateCreated** (string): Creation date of the license.
+          
+      - **internetType** (string): Type of internet connection.
+          
+      - **internetSpeed** (string): Speed of the internet connection.
+          
+      - **memory** (string): Memory details.
+          
+      - **totalStorage** (string): Total storage capacity.
+          
+      - **freeStorage** (string): Free storage available.
+          
+      - **dateUpdated** (string): Last updated date of the license.
+          
+      - **playerStatus** (integer): Status of the player.
+          
+      - **piStatus** (integer): Status of the PI.
+          
+      - **isFavorite** (boolean): Indicates if the license is marked as favorite.
+          
+      - **tags** (array): List of tags associated with the license, each containing:
+          
+          - **tagId** (string): Unique identifier for the tag.
+              
+          - **name** (string): Name of the tag.
+              
+          - **description** (string): Description of the tag (if available).
+              
+          - **tagColor** (string): Color associated with the tag.
+              
+  - **paging** (object): Contains pagination details including:
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): Current page number.
+          
+      - **pageSize** (integer): Size of the page.
+          
+      - **totalEntities** (integer): Total number of entities available.
+          
+  - **totalCounts** (object): Summary of total counts for licenses including:
+      
+      - **total** (integer): Total number of licenses.
+          
+      - **totalOnline** (integer): Total number of online licenses.
+          
+      - **totalOffline** (integer): Total number of offline licenses.
+          
+      - **totalInActive** (integer): Total number of inactive licenses.
+          
+      - **totalUnAssigned** (integer): Total number of unassigned licenses.
+          
+  
+  This endpoint is useful for managing and monitoring licenses based on various filtering criteria, particularly in relation to their timezone settings.
+}

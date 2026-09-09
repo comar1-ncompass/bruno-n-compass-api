@@ -1,0 +1,22 @@
+meta {
+  name: Get Dealer List - minified
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getall/minify?page=1&search=&pageSize=0&active=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  pageSize: 0
+  active: true
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,38 @@
+meta {
+  name: Delete channel-user association
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/channel-users/{{standalone_channel_ForUser}}/625349e1-32bf-4175-b935-ce2642b6a857
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{bearer_token}}
+}
+
+script:post-response {
+  // 1. Status code is 200
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  // 2. Response time is acceptable
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Response is a valid JSON object
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

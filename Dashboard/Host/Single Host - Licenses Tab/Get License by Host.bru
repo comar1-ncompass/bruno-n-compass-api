@@ -1,0 +1,35 @@
+meta {
+  name: Get License by Host
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/license/getbyhost?hostid=ebede792-edbd-4b68-a840-c4d2d9d98488
+  body: none
+  auth: inherit
+}
+
+params:query {
+  hostid: ebede792-edbd-4b68-a840-c4d2d9d98488
+}
+
+script:post-response {
+  // Extracts a license key in the Host that is not yet activated
+  // Usage: {{licenseKey}}
+  let json = res.getBody();
+  
+  let unactivated = json.licenses.find(item => item.isActivated === 0);
+  
+  if (unactivated) {
+  //     pm.collectionVariables.set("licenseKey", unactivated.licenseKey);
+      console.log("Saved licenseKey:", unactivated.licenseKey);
+  } else {
+      console.warn("No unactivated licenseKey found.");
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

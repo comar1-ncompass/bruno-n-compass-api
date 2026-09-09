@@ -1,0 +1,23 @@
+meta {
+  name: Search Dealer Default
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dealers?page=1&limit=15&sortBy=createdAt&sortOrder=desc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  sortBy: createdAt
+  sortOrder: desc
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

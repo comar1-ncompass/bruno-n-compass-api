@@ -1,0 +1,19 @@
+meta {
+  name: Prod content
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/playlistsv2/GetLicensePlaylistContents?playlistContentId=642e8d3b-f1e7-41dc-a2aa-4e7f45d40adf
+  body: none
+  auth: inherit
+}
+
+params:query {
+  playlistContentId: 642e8d3b-f1e7-41dc-a2aa-4e7f45d40adf
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,19 @@
+meta {
+  name: PiDownloader - Dev
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://dev-api.n-compass.online/api/pidownloader/getcontents?licenseKey={{licenseKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseKey: {{licenseKey}}
+}
+
+settings {
+  encodeUrl: true
+}

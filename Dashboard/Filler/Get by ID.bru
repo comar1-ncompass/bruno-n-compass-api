@@ -1,0 +1,317 @@
+meta {
+  name: Get by ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/filler/group/getbyid?id={{filler_group_id}}
+  body: json
+  auth: inherit
+}
+
+params:query {
+  id: {{filler_group_id}}
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(3000);
+  });
+  
+  test("Response has valid JSON structure", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+      expect(responseJson).to.have.property('data');
+      expect(responseJson.data).to.be.an('array');
+  });
+  
+  test("Data array contains at least one group", function () {
+      const responseJson = res.getBody();
+      expect(responseJson.data.length).to.be.greaterThan(0);
+      console.log(`Found ${responseJson.data.length} filler group(s)`);
+  });
+  
+  test("All required fields are present", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group, `Group ${index}`).to.have.property('fillerGroupId');
+          expect(group, `Group ${index}`).to.have.property('name');
+          expect(group, `Group ${index}`).to.have.property('status');
+          expect(group, `Group ${index}`).to.have.property('count');
+          expect(group, `Group ${index}`).to.have.property('dateCreated');
+          expect(group, `Group ${index}`).to.have.property('createdBy');
+          expect(group, `Group ${index}`).to.have.property('createdByName');
+          expect(group, `Group ${index}`).to.have.property('bucketName');
+      });
+  });
+  
+  test("Filler Group ID is valid UUID", function () {
+      const responseJson = res.getBody();
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.fillerGroupId, `Group ${index} fillerGroupId`).to.match(uuidPattern);
+      });
+  });
+  
+  test("Group name is valid and not empty", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.name, `Group ${index} name`).to.be.a('string');
+          expect(group.name.trim().length, `Group ${index} name length`).to.be.greaterThan(0);
+          expect(group.name.length, `Group ${index} name max length`).to.be.lessThan(256);
+      });
+  });
+  
+  test("Status field validation", function () {
+      const responseJson = res.getBody();
+      const validStatuses = ['A', 'I', 'D']; // Active, Inactive, Deleted
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.status, `Group ${index} status`).to.be.a('string');
+          expect(validStatuses, `Group ${index} status value`).to.include(group.status);
+      });
+  });
+  
+  test("Content count validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.count, `Group ${index} count`).to.be.a('number');
+          expect(group.count, `Group ${index} count`).to.be.greaterThanOrEqual(0);
+          expect(group.count, `Group ${index} count`).to.be.lessThan(10000); // reasonable upper limit
+      });
+  });
+  
+  test("Role field validation", function () {
+      const responseJson = res.getBody();
+      const validRoles = [0, 1, 2]; // Assuming 0=public, 1=private, 2=admin
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.role, `Group ${index} role`).to.be.a('number');
+          expect(validRoles, `Group ${index} role value`).to.include(group.role);
+      });
+  });
+  
+  test("Paired field validation", function () {
+      const responseJson = res.getBody();
+      const validPairedValues = [0, 1]; // 0=not paired, 1=paired
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.paired, `Group ${index} paired`).to.be.a('number');
+          expect(validPairedValues, `Group ${index} paired value`).to.include(group.paired);
+      });
+  });
+  
+  test("AdminOnly field validation", function () {
+      const responseJson = res.getBody();
+      const validAdminValues = [0, 1]; // 0=not admin only, 1=admin only
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.adminOnly, `Group ${index} adminOnly`).to.be.a('number');
+          expect(validAdminValues, `Group ${index} adminOnly value`).to.include(group.adminOnly);
+      });
+  });
+  
+  test("Cover photo URL validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          if (group.coverPhoto) {
+              expect(group.coverPhoto, `Group ${index} coverPhoto`).to.be.a('string');
+              expect(group.coverPhoto, `Group ${index} coverPhoto format`).to.match(/^https:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i);
+              expect(group.coverPhoto, `Group ${index} coverPhoto domain`).to.include('.cloudfront.net');
+          }
+      });
+  });
+  
+  test("Date fields are valid ISO dates", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          // Check dateCreated
+          expect(group.dateCreated, `Group ${index} dateCreated`).to.be.a('string');
+          const createdDate = new Date(group.dateCreated);
+          expect(createdDate.toString(), `Group ${index} dateCreated format`).to.not.equal('Invalid Date');
+          
+          // Check dateUpdated if present
+          if (group.dateUpdated) {
+              expect(group.dateUpdated, `Group ${index} dateUpdated`).to.be.a('string');
+              const updatedDate = new Date(group.dateUpdated);
+              expect(updatedDate.toString(), `Group ${index} dateUpdated format`).to.not.equal('Invalid Date');
+              
+              // Updated date should be after created date
+              expect(updatedDate.getTime(), `Group ${index} dateUpdated after dateCreated`).to.be.greaterThanOrEqual(createdDate.getTime());
+          }
+      });
+  });
+  
+  test("Creator ID validation", function () {
+      const responseJson = res.getBody();
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.createdBy, `Group ${index} createdBy`).to.match(uuidPattern);
+          expect(group.createdByName, `Group ${index} createdByName`).to.be.a('string');
+          expect(group.createdByName.trim().length, `Group ${index} createdByName length`).to.be.greaterThan(0);
+          
+          if (group.updatedBy) {
+              expect(group.updatedBy, `Group ${index} updatedBy`).to.match(uuidPattern);
+              expect(group.updatedByName, `Group ${index} updatedByName`).to.be.a('string');
+              expect(group.updatedByName.trim().length, `Group ${index} updatedByName length`).to.be.greaterThan(0);
+          }
+      });
+  });
+  
+  test("Bucket name validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.bucketName, `Group ${index} bucketName`).to.be.a('string');
+          expect(group.bucketName, `Group ${index} bucketName format`).to.match(/^n-compass-filestack\/fillers\/(dev|staging|prod)\/[a-f0-9-]{36}$/i);
+          expect(group.bucketName, `Group ${index} bucketName contains groupId`).to.include(group.fillerGroupId);
+      });
+  });
+  
+  test("Blacklist arrays validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          expect(group.blacklistedDealers, `Group ${index} blacklistedDealers`).to.be.an('array');
+          expect(group.blacklistedDealerAdmins, `Group ${index} blacklistedDealerAdmins`).to.be.an('array');
+          
+          // If arrays have items, validate they are UUIDs
+          if (group.blacklistedDealers.length > 0) {
+              const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+              group.blacklistedDealers.forEach((dealerId, dealerIndex) => {
+                  expect(dealerId, `Group ${index} blacklistedDealer ${dealerIndex}`).to.match(uuidPattern);
+              });
+          }
+          
+          if (group.blacklistedDealerAdmins.length > 0) {
+              const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+              group.blacklistedDealerAdmins.forEach((adminId, adminIndex) => {
+                  expect(adminId, `Group ${index} blacklistedDealerAdmin ${adminIndex}`).to.match(uuidPattern);
+              });
+          }
+      });
+  });
+  
+  test("Data integrity - count validation", function () {
+      const responseJson = res.getBody();
+      const expectedGroupId = bru.getEnvVar("filler_group_id");
+      
+      responseJson.data.forEach((group, index) => {
+          if (group.fillerGroupId === expectedGroupId) {
+              expect(group.count, `Group ${index} count matches expected`).to.equal(33);
+              console.log(`Group "${group.name}" reports ${group.count} items`);
+          }
+      });
+  });
+  
+  test("Statistical validation - content counts", function () {
+      const responseJson = res.getBody();
+      const counts = responseJson.data.map(group => group.count);
+      
+      const totalContent = counts.reduce((sum, count) => sum + count, 0);
+      const averageContent = totalContent / counts.length;
+      const maxContent = Math.max(...counts);
+      const minContent = Math.min(...counts);
+      
+      console.log(`Content Statistics:
+          - Total groups: ${counts.length}
+          - Total content items: ${totalContent}
+          - Average items per group: ${averageContent.toFixed(2)}
+          - Max items in a group: ${maxContent}
+          - Min items in a group: ${minContent}`);
+      
+      expect(totalContent, "Total content count").to.be.greaterThan(0);
+      expect(averageContent, "Average content per group").to.be.greaterThan(0);
+  });
+  
+  test("Business logic validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          // Active groups should have content
+          if (group.status === 'A') {
+              expect(group.count, `Active group ${index} should have content`).to.be.greaterThan(0);
+          }
+          
+          // Groups with cover photos should be active
+          if (group.coverPhoto) {
+              expect(group.status, `Group ${index} with cover photo should be active`).to.equal('A');
+          }
+          
+          // Admin-only groups logging
+          if (group.adminOnly === 1) {
+              console.log(`Group "${group.name}" is admin-only`);
+          }
+      });
+  });
+  
+  test("Negative scenario - null field handling", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          // Description can be null
+          if (group.description === null) {
+              console.log(`Group ${index} has null description`);
+          }
+          
+          // DealerId can be null
+          if (group.dealerId === null) {
+              console.log(`Group ${index} has null dealerId`);
+          }
+          
+          // But core fields should never be null
+          expect(group.fillerGroupId, `Group ${index} fillerGroupId not null`).to.not.be.null;
+          expect(group.name, `Group ${index} name not null`).to.not.be.null;
+          expect(group.status, `Group ${index} status not null`).to.not.be.null;
+          expect(group.count, `Group ${index} count not null`).to.not.be.null;
+      });
+  });
+  
+  test("Environment variable setup", function () {
+      const responseJson = res.getBody();
+      
+      if (responseJson.data.length > 0) {
+          const firstGroup = responseJson.data[0];
+          bru.setEnvVar("test_group_id", firstGroup.fillerGroupId);
+          bru.setEnvVar("test_group_name", firstGroup.name);
+          bru.setEnvVar("test_group_status", firstGroup.status);
+          
+          console.log("Set environment variables for testing:");
+          console.log(`- test_group_id: ${firstGroup.fillerGroupId}`);
+          console.log(`- test_group_name: ${firstGroup.name}`);
+          console.log(`- test_group_status: ${firstGroup.status}`);
+      }
+  });
+  
+  test("Security validation", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.data.forEach((group, index) => {
+          // Ensure no sensitive data is exposed
+          expect(group, `Group ${index} should not expose passwords`).to.not.have.property('password');
+          expect(group, `Group ${index} should not expose tokens`).to.not.have.property('token');
+          expect(group, `Group ${index} should not expose keys`).to.not.have.property('apiKey');
+          
+          // Bucket name should not contain sensitive info
+          expect(group.bucketName, `Group ${index} bucketName security`).to.not.include('password');
+          expect(group.bucketName, `Group ${index} bucketName security`).to.not.include('secret');
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+}

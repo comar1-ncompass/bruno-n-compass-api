@@ -1,0 +1,318 @@
+meta {
+  name: Create
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v2/form-drafts
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "formDraftTypeId": 1,
+      "formDraftContentRaw": {
+          "createHost": {
+              "hostDetails": {
+                  "businessName": "Mikoo business test",
+                  "generalCategory": "Bar/Restaurant",
+                  "category": "Filipino restaurant",
+                  "latitude": 29.4882598,
+                  "longitude": -98.5864824,
+                  "address": "5033 Northwest Loop 410 Ste 182",
+                  "city": "San Antonio",
+                  "state": "TX",
+                  "region": "SW",
+                  "postalCode": "78229",
+                  "timezone": "US/Central",
+                  "storeHours": [
+                      {
+                          "id": 0,
+                          "label": "S",
+                          "day": "Sunday",
+                          "periods": [
+                              {
+                                  "id": "ceb9c679-83c8-40f3-9ce2-39b68a888486",
+                                  "day_id": 0,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 1,
+                          "label": "M",
+                          "day": "Monday",
+                          "periods": [
+                              {
+                                  "id": "8fd3b3f0-94c2-49bd-b70a-2dee1a76effc",
+                                  "day_id": 1,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 2,
+                          "label": "T",
+                          "day": "Tuesday",
+                          "periods": [
+                              {
+                                  "id": "7544cf00-12b4-43dc-98f2-6afaa5337b40",
+                                  "day_id": 2,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 3,
+                          "label": "W",
+                          "day": "Wednesday",
+                          "periods": [
+                              {
+                                  "id": "c79e090b-5b3e-42a9-959c-a69f90332fae",
+                                  "day_id": 3,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 4,
+                          "label": "T",
+                          "day": "Thursday",
+                          "periods": [
+                              {
+                                  "id": "00cd3691-3a7e-4af0-acbb-93b712eabe2c",
+                                  "day_id": 4,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 5,
+                          "label": "F",
+                          "day": "Friday",
+                          "periods": [
+                              {
+                                  "id": "db55340e-1f50-4737-839f-557989fd1147",
+                                  "day_id": 5,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      },
+                      {
+                          "id": 6,
+                          "label": "S",
+                          "day": "Saturday",
+                          "periods": [
+                              {
+                                  "id": "2c7195ef-cb13-4f5b-982d-3f88039a625b",
+                                  "day_id": 6,
+                                  "open": "9:00 AM",
+                                  "close": "11:00 PM",
+                                  "openingHourData": {
+                                      "hour": 9,
+                                      "minute": 0,
+                                      "second": 0
+                                  },
+                                  "closingHourData": {
+                                      "hour": 23,
+                                      "minute": 0,
+                                      "second": 0
+                                  }
+                              }
+                          ],
+                          "status": true
+                      }
+                  ],
+                  "dealerId": "ff8c43b2-e894-43f1-bd39-6ce8323e910a",
+                  "numberOfLicense": [
+                      "license2",
+                      "license-85fc5536-2eaa-48f8-b672-c8dfe8f6e76b"
+                  ],
+                  "contactPerson": "Jeremicah Licup",
+                  "contactNumber": "898686998669",
+                  "createdBy": "3b5c7662-2f8d-4897-9191-1b6de0e107e3",
+                  "logo": "https://lh3.googleusercontent.com"
+              },
+              "searchHostPlace": {
+                  "name": "Jollibee",
+                  "value": "5033 Northwest Loop 410 Ste 182, San Antonio, TX 78229",
+                  "id": "ChIJQR2zDaxdXIYR-ITTrSbxGBc"
+              },
+              "licensesToGenerate": [
+                  {
+                      "licenseId": "license-85fc5536-2eaa-48f8-b672-c8dfe8f6e76b",
+                      "dateCreated": "2025-08-19T06:35:28.217Z"
+                  },
+                  {
+                      "licenseId": "license-884c5800-cbd8-4ece-ba7e-4ab7f7fb6810",
+                      "dateCreated": "2025-08-19T06:35:28.217Z"
+                  }
+              ]
+          },
+          "metadata": {
+              "title": "Untitled Installation",
+              "description": "Installation in progress"
+          },
+          "id": "draft-1755585305539",
+          "createdAt": "2025-08-19T06:35:05.539Z",
+          "updatedAt": "2025-08-19T06:36:56.904Z",
+          "createScreen": {
+              "screenName": "Sample Screen",
+              "description": "Description",
+              "screenType": "menu-board",
+              "templateId": "Standard Layout",
+              "screenZonePlaylists": [
+                  {
+                      "templateZoneId": "Main Content",
+                      "playlist": "playlist-1755585351769",
+                      "playlistName": "Sample",
+                      "templateId": "Standard Layout",
+                      "playlistId": "playlist-1755585351769"
+                  },
+                  {
+                      "templateZoneId": "Side Panel",
+                      "playlist": "playlist1",
+                      "playlistName": "Nature Collection",
+                      "templateId": "Standard Layout",
+                      "playlistId": "playlist1"
+                  },
+                  {
+                      "templateZoneId": "Bottom Bar",
+                      "playlist": "playlist3",
+                      "playlistName": "Food Gallery",
+                      "templateId": "Standard Layout",
+                      "playlistId": "playlist3"
+                  },
+                  {
+                      "templateZoneId": "Background Zone",
+                      "playlist": "playlist1",
+                      "playlistName": "Nature Collection",
+                      "templateId": "Standard Layout",
+                      "playlistId": "playlist1"
+                  }
+              ],
+              "playlistsToCreate": [
+                  {
+                      "playlistId": "playlist-1755585351769",
+                      "playlistName": "Sample",
+                      "dateCreated": "2025-08-19T06:35:51.769Z",
+                      "createdBy": "user-12345"
+                  }
+              ],
+              "contentsToCreate": [
+                  {
+                      "contentId": "content-1755585355617-ff8pxo8ih",
+                      "contentTitle": "Mountain Lake",
+                      "contentType": "image",
+                      "dateCreated": "2025-08-19T06:35:55.617Z",
+                      "createdBy": "user-12345"
+                  },
+                  {
+                      "contentId": "content-1755585355617-y4d6uy7oz",
+                      "contentTitle": "Ocean Sunset",
+                      "contentType": "image",
+                      "dateCreated": "2025-08-19T06:35:55.617Z",
+                      "createdBy": "user-12345"
+                  },
+                  {
+                      "contentId": "file_0_1755585363063",
+                      "contentTitle": "Screenshot 2024-07-03 114720",
+                      "contentType": "image",
+                      "dateCreated": "2025-08-19T06:36:03.777Z",
+                      "createdBy": "user-12345"
+                  }
+              ]
+          },
+          "setInstallationDate": [
+              {
+                  "licenseId": "license2",
+                  "installDate": "2025-08-19",
+                  "bgColor": "#3B82F6"
+              },
+              {
+                  "licenseId": "license-85fc5536-2eaa-48f8-b672-c8dfe8f6e76b",
+                  "installDate": "2025-08-22",
+                  "bgColor": "#3B82F6"
+              }
+          ]
+      }
+  }
+}
+
+settings {
+  encodeUrl: true
+}

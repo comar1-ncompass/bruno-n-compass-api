@@ -1,0 +1,19 @@
+meta {
+  name: Get Advertiser Export
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/Advertiser/Export?dealer_id=136ce61b-8c69-4723-95f3-45600090cf8b
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealer_id: 136ce61b-8c69-4723-95f3-45600090cf8b
+}
+
+settings {
+  encodeUrl: true
+}

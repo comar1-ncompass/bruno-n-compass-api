@@ -1,0 +1,26 @@
+meta {
+  name: Put Support ticket
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/api/support/:supportId
+  body: json
+  auth: inherit
+}
+
+params:path {
+  supportId: 
+}
+
+body:json {
+  {
+      "Url": "https://www.youtube.com/watch?v=qKK-GVTxqow&list=RDqKK-GVTxqow&start_radio=1",
+      "Notes": "Attack on Titan - Bauklötze 3"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

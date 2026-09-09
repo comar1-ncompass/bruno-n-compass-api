@@ -1,0 +1,105 @@
+meta {
+  name: Filter Age
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dealers?page=1&limit=15&sortBy=age&sortOrder=desc&monthAsDealer=months_0_3
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 15
+  sortBy: age
+  sortOrder: desc
+  @description('''
+    change this param for more filter:
+    
+    months_0_3
+    months_4_9
+    months_10_plus
+  ''')
+  monthAsDealer: months_0_3
+}
+
+tests {
+  const response = res.getBody();
+  const dealers = response.data;
+  
+  const url = req.getUrl();
+  const match = url.match(/monthAsDealer=([^&]+)/);
+  const ageFilter = match ? match[1] : null;
+  
+  test("Response status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains dealer data", function() {
+    expect(response).to.have.property("data");
+    expect(dealers).to.be.an("array");
+  });
+  
+  test(`Dealer age filter ${ageFilter} is correct`, function() {
+  
+    dealers.forEach((dealer, index) => {
+  
+      const age = dealer.age;
+  
+      if (ageFilter === "months_0_3") {
+  
+        expect(
+          age,
+          `Dealer ${index} has age ${age} days; expected 0-3 months`
+        ).to.be.within(0, 119);
+  
+      }
+  
+      else if (ageFilter === "months_4_9") {
+  
+        expect(
+          age,
+          `Dealer ${index} has age ${age} days; expected 4-9 months`
+        ).to.be.within(120, 299);
+  
+      }
+  
+      else if (ageFilter === "months_10_plus") {
+  
+        expect(
+          age,
+          `Dealer ${index} has age ${age} days; expected 10+ months`
+        ).to.be.at.least(300);
+  
+      }
+  
+      else {
+  
+        throw new Error(`Unknown monthAsDealer filter: ${ageFilter}`);
+  
+      }
+  
+    });
+  
+  });
+  
+  test("Dealers are sorted by age descending", function() {
+  
+    for (let i = 0; i < dealers.length - 1; i++) {
+  
+      expect(
+        dealers[i].age,
+        `Dealer ${i} should have age >= Dealer ${i + 1}`
+      ).to.be.at.least(dealers[i + 1].age);
+  
+    }
+  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

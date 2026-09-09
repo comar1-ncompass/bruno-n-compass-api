@@ -1,0 +1,45 @@
+meta {
+  name: Get Channel Genre
+  type: http
+  seq: 9
+}
+
+get {
+  url: https://channel-dev.n-compass.online/api/genres
+  body: none
+  auth: inherit
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0
+  Accept: application/json, text/plain, */*
+  Accept-Language: en-US,en;q=0.9
+  Accept-Encoding: gzip, deflate, br, zstd
+  Connection: keep-alive
+  Referer: https://channel-dev.n-compass.online/channels/create-channel
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-origin
+  If-None-Match: W/"b4c-ceX7SWFQTokzjtcoVqUeJORJ2AE"
+  TE: trailers
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  Generated from cURL: curl.exe ^"https://channel-dev.n-compass.online/api/genres^" ^
+    --compressed ^
+    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+    -H ^"Accept: application/json, text/plain, */*^" ^
+    -H ^"Accept-Language: en-US,en;q=0.9^" ^
+    -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+    -H ^"Connection: keep-alive^" ^
+    -H ^"Referer: https://channel-dev.n-compass.online/channels/create-channel^" ^
+    -H ^"Sec-Fetch-Dest: empty^" ^
+    -H ^"Sec-Fetch-Mode: cors^" ^
+    -H ^"Sec-Fetch-Site: same-origin^" ^
+    -H ^"If-None-Match: W/^\^"b4c-ceX7SWFQTokzjtcoVqUeJORJ2AE^\^"^" ^
+    -H ^"TE: trailers^"
+}

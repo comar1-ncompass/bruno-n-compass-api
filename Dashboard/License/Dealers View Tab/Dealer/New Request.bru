@@ -1,0 +1,20 @@
+meta {
+  name: New Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://nctvapi.n-compass.online/api/dealer/getdealerlicensebyzone?page=1&dealerId=0eecbd44-fa6f-45c8-97c1-eebe7ffefa28
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  dealerId: 0eecbd44-fa6f-45c8-97c1-eebe7ffefa28
+}
+
+settings {
+  encodeUrl: true
+}

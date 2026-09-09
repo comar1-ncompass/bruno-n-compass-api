@@ -1,0 +1,68 @@
+meta {
+  name: Get Template List
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/template/getall
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Endpoint Description
+  
+  This endpoint retrieves all available templates from the system. It is a `GET` request made to `{{baseUrl}}/api/template/getall`.
+  
+  ### Request Parameters
+  
+  No specific query parameters are required for this request.
+  
+  ### Expected Response
+  
+  Upon a successful request, the API will return a JSON response with a status code of `200`. The response structure includes:
+  
+  - **template**: An object representing the template.
+      
+      - **templateId**: The unique identifier for the template.
+          
+      - **name**: The name of the template.
+          
+  - **templateZones**: An array of objects representing the zones within the template.
+      
+      - **templateZoneId**: The unique identifier for the template zone.
+          
+      - **templateId**: The identifier of the associated template.
+          
+      - **name**: The name of the template zone.
+          
+      - **description**: A brief description of the template zone.
+          
+      - **xPos**: The x-coordinate position of the zone.
+          
+      - **yPos**: The y-coordinate position of the zone.
+          
+      - **height**: The height of the zone.
+          
+      - **width**: The width of the zone.
+          
+      - **background**: The background color or image of the zone.
+          
+      - **order**: The order in which the zone appears.
+          
+      - **isMainZone**: A boolean indicating if this is the main zone.
+          
+  
+  ### Notes
+  
+  - The response may contain multiple templates, each with its respective zones.
+      
+  - Ensure proper error handling for scenarios where no templates are available.
+      
+  - This endpoint is useful for populating UI components that require template data.
+}

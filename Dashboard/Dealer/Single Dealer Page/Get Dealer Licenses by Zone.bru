@@ -1,0 +1,67 @@
+meta {
+  name: Get Dealer Licenses by Zone
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getdealerlicensebyzone?dealerId={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Dealer License by Zone
+  
+  This endpoint retrieves dealer license information based on the specified dealer ID within a particular zone.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/dealer/getdealerlicensebyzone`
+      
+  - **Query Parameters**:
+      
+      - `dealerId` (required): The unique identifier for the dealer whose license information is being requested.
+          
+  
+  ### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  - **Response Body**:
+      
+      - `hasPreviousPage` (boolean): Indicates if there are previous pages of results.
+          
+      - `hasNextPage` (boolean): Indicates if there are more pages of results available.
+          
+      - `page` (integer): The current page number.
+          
+      - `pageSize` (integer): The size of the page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of entities returned.
+          
+      - `pageStart` (integer): The starting index of the current page.
+          
+      - `entities` (array): An array containing the dealer license entities. This may be empty if no licenses are found.
+          
+  
+  ### Notes
+  
+  - Ensure that the `dealerId` is valid and corresponds to an existing dealer in the system.
+      
+  - The response will indicate whether there are additional pages of results to be fetched.
+}

@@ -1,0 +1,23 @@
+meta {
+  name: New Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://dev-api.n-compass.online/api/feed/getbydealerid?dealerid=628d81c9-9d3c-4a92-8296-fb54684f7a4e&page=1&search=&sortColumn=DateCreated&sortOrder=desc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: 628d81c9-9d3c-4a92-8296-fb54684f7a4e
+  page: 1
+  search: 
+  sortColumn: DateCreated
+  sortOrder: desc
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,69 @@
+meta {
+  name: Fetch All Notifications
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/notification/getall
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### GET /api/notification/getall
+  
+  This endpoint retrieves a list of notifications for the authenticated user. It supports pagination and provides information about the availability of previous and next pages of notifications.
+  
+  #### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/notification/getall`
+      
+  - **Request Body**: This endpoint does not require a request body.
+      
+  
+  #### Response
+  
+  On a successful request, the API will return a JSON object with the following structure:
+  
+  - **hasPreviousPage** (boolean): Indicates if there are previous pages of notifications.
+      
+  - **hasNextPage** (boolean): Indicates if there are more pages of notifications available.
+      
+  - **page** (integer): The current page number.
+      
+  - **pageSize** (integer): The number of notifications per page.
+      
+  - **pages** (integer): The total number of pages available.
+      
+  - **totalEntities** (integer): The total number of notifications available.
+      
+  - **pageStart** (integer): The starting index of the notifications on the current page.
+      
+  - **entities** (array): An array containing the notification objects. This will be empty if there are no notifications.
+      
+  
+  #### Example Response
+  
+  ``` json
+  {
+    "hasPreviousPage": true,
+    "hasNextPage": true,
+    "page": 0,
+    "pageSize": 0,
+    "pages": 0,
+    "totalEntities": 0,
+    "pageStart": 0,
+    "entities": []
+  }
+  
+   ```
+  
+  This response indicates that while there are previous and next pages available, there are currently no notifications to display.
+}

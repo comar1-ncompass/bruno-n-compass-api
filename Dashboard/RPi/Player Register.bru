@@ -1,0 +1,31 @@
+meta {
+  name: Player Register
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{player-server-api}}/player/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "appVersion": "{\r\n  \"chromium\": \"92.0.4515.98\",\r\n  \"electron\": \"N/A\",\r\n  \"puppeteer\": \"N/A\",\r\n  \"rpi_model\":\"Raspberry Pi 3 Model B Rev 1.2\r\n}",
+      "internetInfo": "{\r\n  \"date\": \"Sun Sep 29 2024 22:40:35 GMT-0500 (Central Daylight Time)\",\r\n  \"downloadMbps\": 27.749504,\r\n  \"ping\": 18.663,\r\n  \"uploadMbps\": 3.200296\r\n}",
+      "licenseKey": "0afcf617-7d0e-4b37-aa64-e7500a433bfc",
+      "macaddress": "b8:27:eb:c9:0c:49",
+      "memory": "1 GB",
+      "internettype": "wlan0",
+      "internetspeed": "Good",
+      "totalstorage": "117 GB",
+      "freestorage": "90%",
+      "serverVersion": "2.9.2",
+      "uiVersion": "3.0.41"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

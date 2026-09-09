@@ -1,0 +1,117 @@
+meta {
+  name: Bulk delete collections
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/collections/bulk-delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "collectionIds": [
+      "{{collectionId2}}"
+    ]
+  }
+  // {
+  //   "collectionIds": [
+  //     "20c33081-b674-410e-b9fb-26b5da808474",
+  //     "f565b28a-5a24-47cc-9a3c-b0f9899f397e",
+  //     "2ce6d117-ef51-4683-8096-25274f33868b",
+  //     "2b9103d2-e293-46cd-b017-b33bd1fc91d0"
+  //   ]
+  // }
+}
+
+script:pre-request {
+  await bru.sendRequest({
+      url: "https://dev-nctvapi2.n-compass.online/api/collections",
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      }
+  }, async function(err, res) {
+      if (err) {
+          console.log("Error calling API:", err);
+          return;
+      }
+  
+      const jsonData = res.data;
+  
+      if (jsonData.meta && jsonData.meta.pagination) {
+          const totalCount = jsonData.meta.pagination.totalCount;
+          const nextIndex = totalCount + 1;
+  
+          bru.setEnvVar("nextAvailableIndex", nextIndex);
+  
+          console.log("Total collections:", totalCount);
+          console.log("nextAvailableIndex set to:", nextIndex);
+      } else {
+          console.log("Unexpected response structure", jsonData);
+      }
+  });
+  
+  await bru.sendRequest({
+      url: "https://dev-nctvapi2.n-compass.online/api/collections",
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${bru.getEnvVar("bearer_token")}`
+      },
+      data: JSON.stringify({
+          collectionName: "API Test Featured Products",
+          position: Number(bru.getEnvVar("nextAvailableIndex")),
+          isVisible: true,
+          isFeatured: false,
+          createdBy: "321e6547-b98c-21d3-b456-426614174000",
+          channels: [
+              {
+                  channelId: "88979d05-f662-4e36-8d6d-09db9ee3034a",
+                  sequenceOrder: 1,
+                  duration: 30
+              },
+              {
+                  channelId: "4232dae3-b296-41d2-bf3c-80f38be03a0c",
+                  sequenceOrder: 2,
+                  duration: 45
+              }
+          ]
+      })
+  }, async function(err, res) {
+      if (err) {
+          console.log("POST request failed:", err);
+          return;
+      }
+  
+      const response = res.data;
+  
+      // Extract collectionId (correct field)
+      let collectionId2 = response.data.collectionId;
+  
+      // Save to environment variable
+      bru.setEnvVar("collectionId2", collectionId2);
+  });
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

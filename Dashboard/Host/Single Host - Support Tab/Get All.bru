@@ -1,0 +1,22 @@
+meta {
+  name: Get All
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/support/getall?hostId=1ecdc863-820e-48d6-b2b0-5d633cf9c0a7&page=1&sortColumn=DateCreated&sortOrder=desc
+  body: none
+  auth: inherit
+}
+
+params:query {
+  hostId: 1ecdc863-820e-48d6-b2b0-5d633cf9c0a7
+  page: 1
+  sortColumn: DateCreated
+  sortOrder: desc
+}
+
+settings {
+  encodeUrl: true
+}

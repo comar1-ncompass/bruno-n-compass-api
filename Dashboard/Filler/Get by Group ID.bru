@@ -1,0 +1,550 @@
+meta {
+  name: Get by Group ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/filler/content/getbygroupid?id={{filler_group_id}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  id: {{filler_group_id}}
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("Response is valid JSON array", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('array');
+  });
+  
+  test("Response contains filler content items", function () {
+      const responseJson = res.getBody();
+      expect(responseJson.length).to.be.greaterThan(0);
+      console.log(`Found ${responseJson.length} filler content items`);
+  });
+  
+  test("All items have required fields", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item, `Item ${index}`).to.have.property('fillerContentId');
+          expect(item, `Item ${index}`).to.have.property('fillerGroupId');
+          expect(item, `Item ${index}`).to.have.property('groupName');
+          expect(item, `Item ${index}`).to.have.property('filename');
+          expect(item, `Item ${index}`).to.have.property('fileType');
+          expect(item, `Item ${index}`).to.have.property('url');
+          expect(item, `Item ${index}`).to.have.property('isConverted');
+          expect(item, `Item ${index}`).to.have.property('duration');
+          expect(item, `Item ${index}`).to.have.property('fillerContentSchedule');
+      });
+  });
+  
+  test("All filler content IDs are valid UUIDs", function () {
+      const responseJson = res.getBody();
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      
+      responseJson.forEach((item, index) => {
+          expect(item.fillerContentId, `Item ${index} fillerContentId`).to.match(uuidPattern);
+      });
+  });
+  
+  test("All items belong to the correct group", function () {
+      const responseJson = res.getBody();
+      const expectedGroupId = bru.getEnvVar("filler_group_id");
+      
+      responseJson.forEach((item, index) => {
+          expect(item.fillerGroupId, `Item ${index} fillerGroupId`).to.equal(expectedGroupId);
+          expect(item.groupName, `Item ${index} groupName`).to.equal("Peaceful Footage");
+      });
+  });
+  
+  test("All URLs are valid and accessible", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.url, `Item ${index} URL`).to.be.a('string');
+          expect(item.url, `Item ${index} URL`).to.include('https://');
+          expect(item.url, `Item ${index} URL`).to.include('.cloudfront.net');
+          expect(item.url.length, `Item ${index} URL length`).to.be.greaterThan(0);
+      });
+  });
+  
+  test("File types are valid video formats", function () {
+      const responseJson = res.getBody();
+      const validFileTypes = ['webm', 'mp4', 'mov', 'avi'];
+      
+      responseJson.forEach((item, index) => {
+          expect(validFileTypes, `Item ${index} fileType`).to.include(item.fileType);
+      });
+  });
+  
+  test("All items are converted", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.isConverted, `Item ${index} isConverted`).to.be.true;
+      });
+  });
+  
+  test("Duration values are valid", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.duration, `Item ${index} duration`).to.be.a('number');
+          expect(item.duration, `Item ${index} duration`).to.be.greaterThan(5);
+      });
+  });
+  
+  test("File sizes are valid", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.fileSize, `Item ${index} fileSize`).to.be.a('string');
+          expect(parseInt(item.fileSize), `Item ${index} fileSize as number`).to.be.greaterThan(0);
+      });
+  });
+  
+  test("Upload dates are valid", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.dateUploaded, `Item ${index} dateUploaded`).to.be.a('string');
+          const uploadDate = new Date(item.dateUploaded);
+          expect(uploadDate.toString(), `Item ${index} dateUploaded format`).to.not.equal('Invalid Date');
+      });
+  });
+  
+  test("Created by field is populated", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          expect(item.createdBy, `Item ${index} createdBy`).to.be.a('string');
+          expect(item.createdBy.length, `Item ${index} createdBy length`).to.be.greaterThan(0);
+      });
+  });
+  
+  test("Schedule objects have correct structure", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          const schedule = item.fillerContentSchedule;
+          expect(schedule, `Item ${index} schedule`).to.be.an('object');
+          expect(schedule, `Item ${index} schedule`).to.have.property('type');
+          expect(schedule, `Item ${index} schedule`).to.have.property('recurring');
+          expect(schedule, `Item ${index} schedule`).to.have.property('liveStream');
+          expect(schedule, `Item ${index} schedule`).to.have.property('days');
+          expect(schedule, `Item ${index} schedule`).to.have.property('playTimeStart');
+          expect(schedule, `Item ${index} schedule`).to.have.property('playTimeEnd');
+      });
+  });
+  
+  test("Schedule types are valid", function () {
+      const responseJson = res.getBody();
+      const validTypes = [1, 2, 3]; // 1 - Default; 2 - Do Not Play; 3 - Custom
+          
+      responseJson.forEach((item, index) => {
+          const scheduleType = item.fillerContentSchedule.type;
+          expect(validTypes, `Item ${index} schedule type`).to.include(scheduleType);
+      });
+  });
+  
+  test("Time format validation for custom schedules", function () {
+      const responseJson = res.getBody();
+      const timePattern = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)( AM| PM)?$/; // Allowing the duplicate AM/PM you have in data
+      
+      responseJson.forEach((item, index) => {
+          const schedule = item.fillerContentSchedule;
+          if (schedule.playTimeStart && schedule.playTimeStart.length > 0) {
+              expect(schedule.playTimeStart, `Item ${index} playTimeStart format`).to.match(timePattern);
+          }
+          if (schedule.playTimeEnd && schedule.playTimeEnd.length > 0) {
+              expect(schedule.playTimeEnd, `Item ${index} playTimeEnd format`).to.match(timePattern);
+          }
+      });
+  });
+  
+  test("Store random content IDs for subsequent tests", function () {
+      const responseJson = res.getBody();
+      
+      if (responseJson.length >= 3) {
+          // Shuffle and pick 3 random items
+          const shuffled = responseJson.sort(() => 0.5 - Math.random());
+          const selected3 = shuffled.slice(0, 3);
+          
+          bru.setEnvVar("fillerContentId1", selected3[0].fillerContentId);
+          bru.setEnvVar("fillerContentId2", selected3[1].fillerContentId);
+          bru.setEnvVar("fillerContentId3", selected3[2].fillerContentId);
+          
+          console.log("Set random content IDs:", {
+              id1: selected3[0].fillerContentId,
+              id2: selected3[1].fillerContentId,
+              id3: selected3[2].fillerContentId
+          });
+      }
+  });
+  
+  test("Data consistency checks", function () {
+      const responseJson = res.getBody();
+      
+      responseJson.forEach((item, index) => {
+          // Filename should contain file extension
+          expect(item.filename, `Item ${index} filename contains extension`).to.include(`.${item.fileType}`);
+          
+          // Title should be different from filename (usually without the random prefix)
+          expect(item.title, `Item ${index} has title`).to.be.a('string');
+          
+          // HandlerID should be present
+          expect(item.handlerId, `Item ${index} handlerId`).to.be.a('string');
+          expect(item.handlerId.length, `Item ${index} handlerId length`).to.be.greaterThan(0);
+      });
+  });
+}
+
+settings {
+  encodeUrl: true
+}
+
+example {
+  name: Get by Group ID
+  
+  request: {
+    url: {{baseUrl}}/api/filler/content/getbygroupid?id={{filler_group_id}}
+    method: GET
+    mode: none
+    params:query: {
+      id: {{filler_group_id}}
+    }
+  }
+  
+  response: {
+    headers: {
+      Date: Thu, 21 Aug 2025 01:41:35 GMT
+      Content-Type: application/json; charset=utf-8
+      Transfer-Encoding: chunked
+      Connection: keep-alive
+      Server: Kestrel
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        [
+            {
+                "fillerContentId": "ee43ed24-0b81-45fd-a646-aa969dbedd30",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "SLkng2JSWmTndMdYLRmQ_1387134.jpg",
+                "fileType": "jpg",
+                "sorting": 5,
+                "handlerId": "KhwXtqhCSJymeFol3tTC",
+                "title": "1387134.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/SLkng2JSWmTndMdYLRmQ_1387134.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "4b0af939-008b-450c-a1d9-3abeb6f90792",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "u3Kd4s6STbGgXUx7YmLQ_152514.jpg",
+                "fileType": "jpg",
+                "sorting": 6,
+                "handlerId": "IiddC8bSlmzg2IdTYIhO",
+                "title": "152514.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/u3Kd4s6STbGgXUx7YmLQ_152514.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "2e80bef0-2caf-497d-8ef6-17e75b8dad64",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "o0ngpRPkSkCLH6VYybia_7i3hstto0vm11.png",
+                "fileType": "png",
+                "sorting": 0,
+                "handlerId": "YYdBKjrSGCnGM8hnbeuQ",
+                "title": "7i3hstto0vm11.png",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/o0ngpRPkSkCLH6VYybia_7i3hstto0vm11.png",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "b427f788-0ed8-4c9e-914c-b50014e2bc26",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "MZSSKqpDT7CFPMpf4XB6_anime-quality-fail-005.jpg",
+                "fileType": "jpg",
+                "sorting": 3,
+                "handlerId": "fXinjMCSQMq7POzTQJ1A",
+                "title": "anime-quality-fail-005.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/MZSSKqpDT7CFPMpf4XB6_anime-quality-fail-005.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "6580b648-614d-46a7-af6c-c49e79716cb3",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "GUdMcNZRUKA7kapVW1ZF_beemovie.jpg",
+                "fileType": "jpg",
+                "sorting": 4,
+                "handlerId": "grkxz2MCSyOZHR66gyPB",
+                "title": "beemovie.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/GUdMcNZRUKA7kapVW1ZF_beemovie.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "8d9e6d4e-c405-46df-8a95-a444d8983b24",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "ysbgeXg6SudPdYc6NDx9_brainrot.jpg",
+                "fileType": "jpg",
+                "sorting": 8,
+                "handlerId": "VCABpv8TzGQmIvUupvvw",
+                "title": "brainrot.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/ysbgeXg6SudPdYc6NDx9_brainrot.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "87cdaaa3-1a0c-4d30-94ed-bcd9c83dfefa",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "r61VJTTrTY2ZTkGX4l1q_images.jpg",
+                "fileType": "jpg",
+                "sorting": 2,
+                "handlerId": "AVFrRu1PTOCt8SesLhVO",
+                "title": "images.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/r61VJTTrTY2ZTkGX4l1q_images.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "cc80939d-800e-4624-bbed-38f3fcd09648",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "NjXvq5gQSQeq1jegBvDr_maxresdefault.jpg",
+                "fileType": "jpg",
+                "sorting": 7,
+                "handlerId": "Ryeuc4xR5SU81p016cwE",
+                "title": "maxresdefault.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/NjXvq5gQSQeq1jegBvDr_maxresdefault.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            },
+            {
+                "fillerContentId": "e64cebfb-bd3b-43e4-b00d-6a7e3d4b8f5b",
+                "fillerGroupId": "21a2cc73-6be2-4636-beda-2b70ec059a8c",
+                "groupName": "Deepseek Filler Group",
+                "filename": "d3ZFVKQQTgKVKgZSjfnR_mixcollage-17-dec-2024-04-36-am-6413.jpg",
+                "fileType": "jpg",
+                "sorting": 1,
+                "handlerId": "77FhzVB4TdW4mLnr65c7",
+                "title": "mixcollage-17-dec-2024-04-36-am-6413.jpg",
+                "uuid": null,
+                "fileSize": null,
+                "duration": null,
+                "isConverted": false,
+                "dateUploaded": "2025-08-21T01:40:28",
+                "createdBy": "Francis Comar",
+                "url": "https://d193aoclwas08l.cloudfront.net/fillers/dev/21a2cc73-6be2-4636-beda-2b70ec059a8c/d3ZFVKQQTgKVKgZSjfnR_mixcollage-17-dec-2024-04-36-am-6413.jpg",
+                "fillerContentSchedule": {
+                    "fillerContentsScheduleId": null,
+                    "fillerContentId": null,
+                    "fillerGroupId": null,
+                    "type": 1,
+                    "recurring": false,
+                    "liveStream": 0,
+                    "from": null,
+                    "to": null,
+                    "days": "0,1,2,3,4,5,6",
+                    "alternateWeek": 0,
+                    "playTimeStart": null,
+                    "playTimeEnd": null,
+                    "dateCreated": null,
+                    "status": null
+                }
+            }
+        ]
+      '''
+    }
+  }
+}

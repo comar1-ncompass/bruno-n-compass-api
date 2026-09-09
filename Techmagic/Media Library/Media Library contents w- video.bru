@@ -1,0 +1,37 @@
+meta {
+  name: Media Library contents w/ video
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/media-library?limit=34&page=1&filters=%7B%22fileName%22:%7B%22_ilike%22:%22%22%7D,%22fileType%22:%7B%22_in%22:%5B%22video/mp4%22,%22video/mpeg%22,%22video/webm%22,%22video/quicktime%22,%22video/x-msvideo%22%5D%7D%7D
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 34
+  page: 1
+  filters: %7B%22fileName%22:%7B%22_ilike%22:%22%22%7D,%22fileType%22:%7B%22_in%22:%5B%22video/mp4%22,%22video/mpeg%22,%22video/webm%22,%22video/quicktime%22,%22video/x-msvideo%22%5D%7D%7D
+}
+
+headers {
+  ^User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0^
+  ^Accept: application/json, text/plain, */*^
+  ^Accept-Language: en-US,en;q=0.9^
+  ^Accept-Encoding: gzip, deflate, br, zstd^
+  ^Referer: https://suite.n-compass.online/media-library^
+  ^Connection: keep-alive^
+  ^Cookie: __Host-session_id=5g057U0w6yEsbu8HhS6PfNC-1hGS0ID93drRB5apfGM^
+  ^Sec-Fetch-Dest: empty^
+  ^Sec-Fetch-Mode: cors^
+  ^Sec-Fetch-Site: same-origin^
+  ^If-None-Match: W/^\^a076-HQUVVe7xkKXqQGbIwWvcitTsV+4^^^
+  ^Priority: u=4^
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

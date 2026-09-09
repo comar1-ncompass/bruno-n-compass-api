@@ -1,0 +1,63 @@
+meta {
+  name: Get Host Totals
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/host/gettotal?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Get Total Hosts
+  
+  This endpoint retrieves the total number of hosts associated with a specific dealer. It provides a summary of the current status of hosts, including active and inactive counts, as well as new hosts added in the past week.
+  
+  ### Request
+  
+  - **Method:** GET
+      
+  - **Endpoint:** `{{baseUrl}}/api/host/gettotal`
+      
+  - **Query Parameters:**
+      
+      - `dealerid` (required): The unique identifier for the dealer whose host information is being requested.
+          
+  
+  ### Response
+  
+  - **Status Code:** 200 OK
+      
+  - **Content-Type:** application/json
+      
+  - **Response Body:**
+      
+      - `total`: Total number of hosts.
+          
+      - `totalActive`: Count of active hosts.
+          
+      - `totalInActive`: Count of inactive hosts.
+          
+      - `newHostsThisWeek`: Number of new hosts added this week.
+          
+      - `newHostsLastWeek`: Number of new hosts added last week.
+          
+      - `forInstallationScheduled`: Number of hosts scheduled for installation.
+          
+  
+  ### Notes
+  
+  - Ensure that the `dealerid` parameter is valid to receive accurate results.
+      
+  - The response will always include counts, which may be zero if there are no hosts associated with the specified dealer.
+}

@@ -1,0 +1,61 @@
+meta {
+  name: Create License Endpoint
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/license/create?dealerId={{dealerId}}&licensecount=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerId: {{dealerId}}
+  licensecount: 1
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Create License Endpoint
+  
+  This endpoint allows you to create a new license for a specified dealer.
+  
+  #### Request
+  
+  **HTTP Method:** POST  
+  **Endpoint:** `{{baseUrl}}/api/license/create`
+  
+  **Query Parameters:**
+  
+  - `dealerId` (string): The unique identifier for the dealer requesting the license.
+      
+  - `licensecount` (integer): The number of licenses to be created.
+      
+  
+  #### Example Request
+  
+  ```
+  POST {{baseUrl}}/api/license/create?dealerId=49b7ff43-3728-437c-9d0b-87d1b6d26d33&licensecount=1
+  
+   ```
+  
+  #### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** text/xml
+  
+  The response will confirm the successful creation of the license. While the specific XML structure is not detailed here, it is expected to reflect the successful processing of the request.
+  
+  #### Related Responses
+  
+  Responses from other related endpoints indicate the structure of data returned, which includes user and advertiser information. These responses typically contain fields such as `userId`, `firstName`, `lastName`, `email`, and `advertisers` with their respective details.
+  
+  - {"advertisers": \[ { "id": "", "dealerId": "", "name": "", "state": "", "status": "", "dateCreated": "", ... }\],"paging": { "hasPreviousPage": true, "hasNextPage": true, ...}}
+      
+  
+  This endpoint is crucial for managing licenses associated with dealers, and it is important to ensure that the `dealerId` and `licensecount` parameters are correctly provided in the request.
+}

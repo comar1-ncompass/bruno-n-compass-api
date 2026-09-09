@@ -1,0 +1,104 @@
+meta {
+  name: N-Compass API
+}
+
+auth {
+  mode: none
+}
+
+vars:pre-request {
+  todayDate: 2025-08-04
+  currentTime: 
+  playTimeStart: 
+  playTimeEnd: 
+  randomDays: 
+  hostName: 
+  hostZipCode: 
+}
+
+script:pre-request {
+  // Global Test Data
+  
+  // Host Module Test Data
+  bru.setEnvVar("staticValidSearchHost", "Brian's Office");
+  bru.setEnvVar("staticValidHostAddress", "406 Fremont St");
+  bru.setEnvVar("staticValidPostalCode", "66090");
+  
+  // Get today's date in YYYY-MM-DD format
+  let today = new Date();
+  let yyyy = today.getFullYear();
+  let mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0
+  let dd = String(today.getDate()).padStart(2, '0');
+  
+  let formattedDate = `${yyyy}-${mm}-${dd}`;
+  
+  // Time parts (HH:mm:ss in 24-hour format)
+  let hours = today.getHours(); // Keep as number for calculations
+  let minutes = today.getMinutes(); // Keep as number for calculations
+  let seconds = today.getSeconds(); // Keep as number for calculations
+  
+  // Calculate playTimeEnd as 8 hours after start
+  let endTime = new Date(today.getTime() + 8 * 60 * 60 * 1000); // add 8 hours
+  let endHours = endTime.getHours();
+  let endMinutes = endTime.getMinutes();
+  
+  // Function to convert 24-hour time to 12-hour format
+  function convertTo12Hour(hours, minutes, seconds = null) {
+      let period = hours >= 12 ? 'PM' : 'AM';
+      let hour12 = hours % 12;
+      if (hour12 === 0) hour12 = 12; // Convert 0 to 12 for midnight and noon
+      
+      // Pad single digits with leading zero
+      let paddedHour = hour12.toString().padStart(2, '0');
+      let paddedMinutes = minutes.toString().padStart(2, '0');
+      
+      if (seconds !== null) {
+          let paddedSeconds = seconds.toString().padStart(2, '0');
+          return `${paddedHour}:${paddedMinutes}:${paddedSeconds} ${period}`;
+      } else {
+          return `${paddedHour}:${paddedMinutes} ${period}`;
+      }
+  }
+  
+  // Convert to 12-hour format
+  let formattedTime = convertTo12Hour(hours, minutes, seconds);
+  let playTimeStart = convertTo12Hour(hours, minutes);
+  let playTimeEnd = convertTo12Hour(endHours, endMinutes);
+  
+  // Store as collection variables
+  // pm.collectionVariables.set("todayDate", formattedDate);
+  // pm.collectionVariables.set("currentTime", formattedTime);
+  // pm.collectionVariables.set("playTimeStart", playTimeStart);
+  // pm.collectionVariables.set("playTimeEnd", playTimeEnd);
+  
+  // Optional: log it in Postman Console
+  console.log("Current Date & Time:", formattedDate, formattedTime, playTimeStart, playTimeEnd);
+  
+  // Generate a random subset of days from 0 to 6
+  function getRandomDays() {
+      let daysArray = [0, 1, 2, 3, 4, 5, 6];
+      let selectedDays = [];
+  
+      daysArray.forEach(day => {
+          if (Math.random() < 0.5) { // 50% chance to include the day
+              selectedDays.push(day);
+          }
+      });
+  
+      // Ensure at least one day is selected
+      if (selectedDays.length === 0) {
+          selectedDays.push(daysArray[Math.floor(Math.random() * daysArray.length)]);
+      }
+  
+      // Sort for readability
+      selectedDays.sort((a, b) => a - b);
+  
+      return selectedDays.join(", ");
+  }
+  
+  // Store as string so it fits the API's "days" format
+  // pm.collectionVariables.set("randomDays", getRandomDays());
+  
+  // Debug
+  console.log("Random Days String:", bru.getCollectionVar("randomDays"));
+}

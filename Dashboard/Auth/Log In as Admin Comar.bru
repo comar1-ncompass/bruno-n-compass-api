@@ -1,0 +1,37 @@
+meta {
+  name: Log In as Admin Comar
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/account/login
+  body: json
+  auth: none
+}
+
+params:query {
+  ~email: 
+}
+
+body:json {
+  {
+      "username": "francisc@admin.com",
+      "password": "password"
+  }
+}
+
+script:post-response {
+  test('Token is set', () => {
+      const response = res.getBody();
+      bru.setEnvVar('bearer_token', response.token);
+      const tokenNow = bru.getEnvVar('bearer_token');
+      expect(response.token).to.equal(tokenNow);
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

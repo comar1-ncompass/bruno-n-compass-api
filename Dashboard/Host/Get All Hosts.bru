@@ -1,0 +1,127 @@
+meta {
+  name: Get All Hosts
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/host/getalldefault?page=1&search=&sortColumn=&sortOrder=&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get All Default Hosts
+  
+  This endpoint retrieves a paginated list of default hosts from the system. It allows users to specify pagination parameters and sorting options to filter the results effectively.
+  
+  #### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/host/getalldefault`
+  
+  ##### Query Parameters:
+  
+  - `page` (integer, required): The page number of the results to retrieve. Default is `1`.
+      
+  - `search` (string, optional): A search term to filter the results based on host attributes.
+      
+  - `sortColumn` (string, optional): The column name by which to sort the results.
+      
+  - `sortOrder` (string, optional): The order of sorting (e.g., ascending or descending).
+      
+  - `pageSize` (integer, optional): The number of results per page. Default is `15`.
+      
+  
+  #### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  The response contains a JSON object with the following structure:
+  
+  ``` json
+  {
+    "paging": {
+      "page": integer,
+      "pageSize": integer,
+      "pages": integer,
+      "totalEntities": integer,
+      "hasNextPage": boolean,
+      "pageStart": integer,
+      "hasPreviousPage": boolean
+    },
+    "entities": [
+      {
+        "hostId": string,
+        "programmaticId": string,
+        "dealerId": string,
+        "userId": string or null,
+        "hostName": string,
+        "address": string,
+        "street": string or null,
+        "city": string,
+        "postalCode": string,
+        "region": string,
+        "state": string,
+        "country": string or null,
+        "groupId": string or null,
+        "latitude": string,
+        "longitude": string,
+        "timeZone": string,
+        "storeHours": string,
+        "venueType": string or null,
+        "monthlyTraffic": number or null,
+        "avgDwellTime": number or null,
+        "avgTicket": number or null,
+        "demographics": string or null,
+        "internet": string or null,
+        "notes": string,
+        "installDate": string or null,
+        "dateCreated": string,
+        "dateUpdated": string or null,
+        "createdBy": string,
+        "updatedBy": string or null,
+        "status": string,
+        "category": string,
+        "vistarVenueId": string or null,
+        "others": string or null,
+        "logo": string,
+        "contactNumber": string,
+        "contactPerson": string,
+        "dealerStatus": string,
+        "businessName": string,
+        "timezoneName": string,
+        "county": string or null,
+        "dmaCode": string or null,
+        "dmaName": string or null,
+        "dmaRank": string or null,
+        "generalCategory": string,
+        "totalLicenses": integer
+      }
+    ]
+  }
+  
+   ```
+  
+  #### Explanation of Response Fields:
+  
+  - **paging**: Contains pagination information including the current page, page size, total number of pages, and entity count.
+      
+  - **entities**: An array of host objects, each containing detailed information about a host, including identifiers, location details, contact information, and status.
+      
+  
+  This endpoint is useful for applications that need to display or process a list of default hosts with options for searching and sorting.
+}

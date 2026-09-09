@@ -1,0 +1,73 @@
+meta {
+  name: Create dealer
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/dealers
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "user": {
+      "username": "apitestdealer005",
+      "emailAddress": "apitestdealer005@example.com",
+      "firstName": "API",
+      "lastName": "TestDealer",
+      "contactNumber": "0123456780",
+      "profilePicture": null,
+      "statusId": 1,
+      "organizationIdSignin": "5170b521-07cd-4c7a-a837-293d85ef6d70",
+      "createdBy": "229e168a-db92-46d5-943a-a9df5ed83961",
+      "password": "Str0ng@Password123",
+      "passwordConfirmation": "Str0ng@Password123",
+      "metadata": "{ \"referralCode\": \"API-TEST-002\" }",
+      "userClientAssignment": {
+        "clientTypeId": "550e8400-e29b-41d4-a716-446655440009",
+        "clientInformationId": null,
+        "organizationId": "5170b521-07cd-4c7a-a837-293d85ef6d70",
+        "roleId": "bb7a0ca4-495c-11ea-b77f-2e728ce88125"
+      },
+      "userSettings": {
+        "userId": "229e168a-db92-46d5-943a-a9df5ed83961",
+        "allowEmail": true,
+        "allowTargetReleasePermission": false
+      }
+    },
+    "clientInformation": {
+      "clientTypeId": "550e8400-e29b-41d4-a716-446655440009",
+      "businessName": "API Test Dealer 002",
+      "ownerId": "229e168a-db92-46d5-943a-a9df5ed83961",
+      "region": "West Coast",
+      "state": "California",
+      "city": "Los Angeles",
+      "address": "123 Elm Street",
+      "zip": "90001",
+      "alias": "API-TEST-DEALER-002",
+      "dateActivated": "2026-09-01",
+      "logoUrl": "https://example.com/logo.png",
+      "metadata": "{ \"referralCode\": \"API-TEST-002\", \"onboardedBy\": \"api-test\" }",
+      "createdBy": "229e168a-db92-46d5-943a-a9df5ed83961"
+    },
+    "userClientAssignment": {
+      "clientTypeId": "550e8400-e29b-41d4-a716-446655440009",
+      "clientInformationId": null,
+      "organizationId": "5170b521-07cd-4c7a-a837-293d85ef6d70",
+      "roleId": "bb7a0ca4-495c-11ea-b77f-2e728ce88125"
+    }
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

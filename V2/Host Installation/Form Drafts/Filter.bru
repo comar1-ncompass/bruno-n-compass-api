@@ -1,0 +1,28 @@
+meta {
+  name: Filter
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v2/form-drafts/filter
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "page": 1,
+      "pageSize": 10,
+      "status": "active",
+      "formDraftTypeId": 1,
+      "keyword": "chester",
+      "sortColumn": "name",
+      "sortOrder": "DESC"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,70 @@
+meta {
+  name: Get License Installation Stats
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/getinstallationstats?installdate={{todayDate}}
+  body: json
+  auth: inherit
+}
+
+params:query {
+  installdate: {{todayDate}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Endpoint Description
+  
+  This endpoint retrieves the installation statistics for licenses based on a specified installation date. It provides insights into the total number of installations and breakdowns for specific timeframes.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/license/getinstallationstats`
+      
+  - **Query Parameters**:
+      
+      - `installdate` (string): The date for which the installation statistics are being requested, formatted as `{{todayDate}}`.
+          
+  
+  ### Response
+  
+  - **Status Code**: 200
+      
+  - **Content-Type**: application/json
+      
+  - {"licenseInstallationStats": { "total": 0, "currentMonth": 0, "nextMonth": 0, "previousMonth": 0, "today": 0, "tomorrow": 0, "nextThreeDays": 0}}
+      
+  
+  ### Response Fields
+  
+  - `licenseInstallationStats`: An object containing the following fields:
+      
+      - `total` (integer): Total number of installations.
+          
+      - `currentMonth` (integer): Number of installations in the current month.
+          
+      - `nextMonth` (integer): Number of installations expected in the next month.
+          
+      - `previousMonth` (integer): Number of installations from the previous month.
+          
+      - `today` (integer): Number of installations made today.
+          
+      - `tomorrow` (integer): Number of installations expected tomorrow.
+          
+      - `nextThreeDays` (integer): Number of installations expected in the next three days.
+          
+  
+  ### Notes
+  
+  - The response will always include the `licenseInstallationStats` object, which may contain zero values if there have been no installations for the specified date.
+      
+  - This endpoint can be useful for tracking installation trends over different time periods.
+}

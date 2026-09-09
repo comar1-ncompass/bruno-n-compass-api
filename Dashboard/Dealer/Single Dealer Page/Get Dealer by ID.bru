@@ -1,0 +1,47 @@
+meta {
+  name: Get Dealer by ID
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getbyid?dealer_id={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealer_id: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Dealer by ID
+  
+  This endpoint retrieves detailed information about a specific dealer based on their unique identifier.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **Endpoint**: `{{baseUrl}}/api/dealer/getbyid`
+      
+  - **Query Parameters**:
+      
+      - `dealer_id` (string): The unique identifier for the dealer whose information is being requested.
+          
+  
+  ### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  - { "dealer": { "dealerId": "", "businessName": "", "contactPerson": "", "contactNumber": "", "region": "", "state": "", "city": "", "userId": "", "dateCreated": "", "dateUpdated": null, "createdBy": "", "updatedBy": null, "status": "", "totalHost": "", "activeHost": "", "forInstallationHost": "", "email": null, "generatedId": "", "tags": \[\], "hosts": \[ { "licenses": \[\], "hostId": "", "dealerId": "", "userId": null, "name": "", "address": "", "street": null, "city": "", "postalCode": "", "region": "", "state": "", "country": null, "groupId": null, "latitude": "", "longitude": "", "timeZone": "", "storeHours": "", "venueType": null, "monthlyTraffic": null, "avgDwellTime": null, "avgTicket": null, "demographics": null, "internet": null, "notes": "", "installDate": null, "dateCreated": null, "dateUpdated": null, "createdBy": "", "updatedBy": "", "status": "", "category": "", "vistarVenueId": null, "others": null, "logo": null, "contactPerson": null, "contactNumber": null, "programmaticId": null } \], "advertisers": \[ { "Id": "", "DealerId": "", "UserId": null, "AdvertiserId": null, "Name": "", "Region": "", "State": "", "Status": "", "DateCreated": "", "DateUpdated": "", "CreatedBy": "", "UpdatedBy": null, "FirstName": null, "LastName": null, "Email": null } \], "licenses": { "online": "", "offline": "", "recentPurchaseDate": "", "quantity": "", "activeLicenses": "", "inActiveLicenses": "", "totalLicenses": "" }, "monthAsDealer": "", "ownerFirstName": null, "ownerLastName": null, "dealerIdAlias": "", "contractDetails": null, "license": null, "playerCount": 0, "startDate": "", "logo": "" }, "contract_details": null, "licenses": \[ { "licenseId": null, "licenseKey": null, "macAddress": null, "isRegistered": 0, "isActivated": 0, "dealerId": null, "hostId": null, "dateCreated": "", "internetType": null, "internetSpeed": null, "memory": null, "totalStorage": null, "freeStorage": null, "dateUpdated": null, "contentsUpdated": null, "playerSocketId": null, "piSocketId": null, "playerStatus": null, "piStatus": null, "sequence": 0, "alias": "", "timeIn": null, "timeOut": null, "anydeskId": null, "appVersion": null, "playerUiKey": null, "playerAssetServerKey": null, "installDate": null, "internetInfo": null, "screenshot": null, "displayStatus": 0, "serverVersion": null, "uiVersion": null, "screenshotSettings": null, "speedtestSettings": null, "displayControlSettings": null, "resourceSettings": null, "bootDelay": null, "emailSettings": null, "notificationSettings": null, "tvDisplaySettings": null, "rebootTime": null, "isCecEnabled": null, "isCecCtlEnabled": null, "fastEdgeMonitoringTool": 0, "tvBrand": null, "publicIP": null, "prevPublicIP": null, "installRequestDate": null, "backgroundImageUrl": null, "enableUpdates": true, "piLocalDateTime": null, "displayStatusDateUpdated": null, "playerStatusDateUpdated": null } \]}
+      
+  
+  This structure provides comprehensive details about the dealer, including their contact information, associated hosts and advertisers, licenses, and more.
+}

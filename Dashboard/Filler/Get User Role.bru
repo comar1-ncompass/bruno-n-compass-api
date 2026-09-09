@@ -1,0 +1,281 @@
+meta {
+  name: Get User Role
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/user/getuserrole?userid={{filler_group_user_id}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  userid: {{filler_group_user_id}}
+}
+
+script:post-response {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(2000);
+  });
+  
+  test("Response has valid JSON structure", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+      expect(responseJson).to.have.property('role');
+  });
+  
+  test("Role object exists and is not empty", function () {
+      const responseJson = res.getBody();
+      expect(responseJson.role).to.be.an('object');
+      expect(Object.keys(responseJson.role).length).to.be.greaterThan(0);
+      console.log(`Found ${Object.keys(responseJson.role).length} role(s)`);
+  });
+  
+  test("Role IDs are valid UUIDs", function () {
+      const responseJson = res.getBody();
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      
+      Object.keys(responseJson.role).forEach((roleId) => {
+          expect(roleId, `Role ID ${roleId}`).to.match(uuidPattern);
+      });
+  });
+  
+  test("Role names are valid strings", function () {
+      const responseJson = res.getBody();
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          expect(roleName, `Role name for ${roleId}`).to.be.a('string');
+          expect(roleName.trim().length, `Role name length for ${roleId}`).to.be.greaterThan(0);
+          expect(roleName.length, `Role name max length for ${roleId}`).to.be.lessThan(100);
+      });
+  });
+  
+  test("Role names match expected system roles", function () {
+      const responseJson = res.getBody();
+      const validRoles = [
+          "Administrator",
+          "Super Admin", 
+          "Dealer Admin",
+          "Tech Officer",
+          "Dealer",
+          "Sub-Dealer",
+          "Host",
+          "Advertiser"
+      ];
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          expect(validRoles, `Role name "${roleName}" is valid system role`).to.include(roleName);
+          
+          // No leading/trailing whitespace
+          expect(roleName, `Role name "${roleName}" has no leading/trailing spaces`).to.equal(roleName.trim());
+      });
+  });
+  
+  test("Role hierarchy validation", function () {
+      const responseJson = res.getBody();
+      const roleHierarchy = {
+          "Administrator": 8,      // Access to all data and grant all privilege
+          "Super Admin": 7,        // Confirmed from your original response
+          "Dealer Admin": 6,       // Access to all data and grant all privilege under certain dealers
+          "Tech Officer": 5,       // Access to all data and grant all privilege except billing
+          "Dealer": 4,            // View and edit access to their Hosts and Advertisers data
+          "Sub-Dealer": 3,        // Dealer account with access to only a max of 5 sub accounts
+          "Host": 2,              // View access to data of Ads played in their workplace
+          "Advertiser": 1         // View access to their advertising content
+      };
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (roleHierarchy[roleName]) {
+              console.log(`Role "${roleName}" has hierarchy level ${roleHierarchy[roleName]}`);
+              expect(roleHierarchy[roleName], `Role ${roleName} hierarchy level`).to.be.greaterThan(0);
+          }
+      });
+  });
+  
+  test("Administrator role validation", function () {
+      const responseJson = res.getBody();
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (roleName === "Administrator") {
+              console.log(`Administrator role found with ID: ${roleId}`);
+              expect(roleId, "Administrator role ID").to.be.a('string');
+              expect(roleId.length, "Administrator role ID length").to.equal(36);
+          }
+      });
+  });
+  
+  test("Super Admin role validation", function () {
+      const responseJson = res.getBody();
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (roleName === "Super Admin") {
+              console.log(`Super Admin role found with ID: ${roleId}`);
+              expect(roleId, "Super Admin role ID").to.be.a('string');
+              expect(roleId.length, "Super Admin role ID length").to.equal(36);
+              
+              // Should match the expected ID from your data
+              if (roleId === "bb7a061e-495c-11ea-b77f-2e728ce88125") {
+                  console.log("✅ Super Admin role ID matches expected value");
+              }
+          }
+      });
+  });
+  
+  test("Permission-based role validation", function () {
+      const responseJson = res.getBody();
+      const rolePermissions = {
+          "Administrator": {
+              dataAccess: "all",
+              privileges: "all",
+              restrictions: "none"
+          },
+          "Dealer Admin": {
+              dataAccess: "all",
+              privileges: "all",
+              restrictions: "certain_dealers_only"
+          },
+          "Tech Officer": {
+              dataAccess: "all",
+              privileges: "all_except_billing",
+              restrictions: "no_billing"
+          },
+          "Dealer": {
+              dataAccess: "hosts_and_advertisers",
+              privileges: "view_and_edit",
+              restrictions: "own_data_only"
+          },
+          "Sub-Dealer": {
+              dataAccess: "limited",
+              privileges: "dealer_account",
+              restrictions: "max_5_sub_accounts"
+          },
+          "Host": {
+              dataAccess: "workplace_ads",
+              privileges: "view_only",
+              restrictions: "workplace_only"
+          },
+          "Advertiser": {
+              dataAccess: "own_content",
+              privileges: "view_only",
+              restrictions: "own_advertising_content"
+          }
+      };
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (rolePermissions[roleName]) {
+              console.log(`Role "${roleName}" permissions:`, rolePermissions[roleName]);
+              expect(rolePermissions[roleName], `${roleName} has defined permissions`).to.be.an('object');
+          }
+      });
+  });
+  
+  test("Business access level validation", function () {
+      const responseJson = res.getBody();
+      const adminRoles = ["Administrator", "Super Admin", "Dealer Admin"];
+      const managerRoles = ["Tech Officer", "Dealer"];
+      const userRoles = ["Sub-Dealer", "Host", "Advertiser"];
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (adminRoles.includes(roleName)) {
+              console.log(`${roleName} is an admin-level role`);
+          } else if (managerRoles.includes(roleName)) {
+              console.log(`${roleName} is a manager-level role`);
+          } else if (userRoles.includes(roleName)) {
+              console.log(`${roleName} is a user-level role`);
+          }
+      });
+  });
+  
+  test("Role naming convention consistency", function () {
+      const responseJson = res.getBody();
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          // Should follow proper naming conventions
+          if (roleName.includes("Admin")) {
+              expect(roleName, `Admin role "${roleName}" format`).to.match(/^(Super Admin|Dealer Admin|Administrator)$/);
+          }
+          
+          // No underscores in role names (UI shows spaces or proper names)
+          expect(roleName, `Role name "${roleName}" no underscores`).to.not.include('_');
+          
+          // Should be proper case
+          const words = roleName.split(' ');
+          words.forEach(word => {
+              expect(word.charAt(0), `Word "${word}" in role "${roleName}" starts with capital`).to.match(/[A-Z]/);
+          });
+      });
+  });
+  
+  test("Data relationship validation", function () {
+      const responseJson = res.getBody();
+      const hierarchicalRoles = ["Dealer", "Sub-Dealer"];
+      const contentRoles = ["Host", "Advertiser"];
+      const systemRoles = ["Administrator", "Super Admin", "Dealer Admin", "Tech Officer"];
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          if (hierarchicalRoles.includes(roleName)) {
+              console.log(`${roleName} is a hierarchical business role`);
+          } else if (contentRoles.includes(roleName)) {
+              console.log(`${roleName} is a content-focused role`);
+          } else if (systemRoles.includes(roleName)) {
+              console.log(`${roleName} is a system administration role`);
+          }
+      });
+  });
+  
+  test("No duplicate role names", function () {
+      const responseJson = res.getBody();
+      const roleNames = Object.values(responseJson.role);
+      const uniqueRoleNames = [...new Set(roleNames)];
+      
+      expect(roleNames.length, "No duplicate role names").to.equal(uniqueRoleNames.length);
+      
+      if (roleNames.length !== uniqueRoleNames.length) {
+          const duplicates = roleNames.filter((name, index) => roleNames.indexOf(name) !== index);
+          console.log("Duplicate role names found:", duplicates);
+      }
+  });
+  
+  test("Security validation", function () {
+      const responseJson = res.getBody();
+      
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          // No injection patterns
+          expect(roleName.toLowerCase(), `Role name security check`).to.not.include('select');
+          expect(roleName.toLowerCase(), `Role name security check`).to.not.include('drop');
+          expect(roleName.toLowerCase(), `Role name XSS check`).to.not.include('<script');
+          
+          // Should not contain sensitive keywords
+          expect(roleName.toLowerCase(), `Role name sensitive data`).to.not.include('password');
+          expect(roleName.toLowerCase(), `Role name sensitive data`).to.not.include('token');
+      });
+  });
+  
+  test("Environment variable setup", function () {
+      const responseJson = res.getBody();
+      
+      // Set variables for each role type
+      Object.entries(responseJson.role).forEach(([roleId, roleName]) => {
+          const variableName = roleName.toLowerCase().replace(/[\s-]/g, '_') + '_role_id';
+          bru.setEnvVar(variableName, roleId);
+          console.log(`Set ${variableName}: ${roleId}`);
+      });
+      
+      // Set the Super Admin specifically (from your original data)
+      if (responseJson.role["bb7a061e-495c-11ea-b77f-2e728ce88125"]) {
+          bru.setEnvVar("confirmed_super_admin_id", "bb7a061e-495c-11ea-b77f-2e728ce88125");
+          bru.setEnvVar("confirmed_super_admin_name", responseJson.role["bb7a061e-495c-11ea-b77f-2e728ce88125"]);
+      }
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+}

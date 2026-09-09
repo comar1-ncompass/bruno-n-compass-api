@@ -1,0 +1,33 @@
+meta {
+  name: 1231
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/Playlists/Create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "playlist": {
+          "playlistId": "1f37a139-b444-41ac-adaf-77ea5b6fcd45",
+          "dealerId": "79916e1d-475a-48f3-a79d-ed8a5b5c429f",
+          "playlistName": "api test playlist",
+          "playlistDescription": "dasda",
+          "businessName": null,
+          "hosts": null,
+          "totalContents": 0,
+          "dateCreated": "0001-01-01T00:00:00+00:00",
+          "dateUpdated": null,
+          "assets": [],
+          "isMigrated": 0
+      }
+  }
+}
+
+settings {
+  encodeUrl: true
+}

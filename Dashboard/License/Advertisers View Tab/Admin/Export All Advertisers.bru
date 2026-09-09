@@ -1,0 +1,262 @@
+meta {
+  name: Export All Advertisers
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/advertiser/getall?page=1&pageSize=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 0
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Export All Advertisers
+  
+  This endpoint allows you to retrieve a list of all advertisers from the system. It supports pagination through query parameters, enabling you to specify the page number and the number of records per page.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/advertiser/getall`
+  
+  #### Query Parameters
+  
+  - `page` (integer, required): The page number to retrieve. For example, `page=1` retrieves the first page.
+      
+  - `pageSize` (integer, required): The number of advertiser records to return per page. For example, `pageSize=10` retrieves 10 records.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  #### Response Structure
+  
+  The response contains two main components: `advertisers` and `paging`.
+  
+  - **advertisers** (array): A list of advertiser objects, each containing the following fields:
+      
+      - `id` (string): Unique identifier for the advertiser.
+          
+      - `dealerId` (string): Identifier for the dealer associated with the advertiser.
+          
+      - `userId` (string|null): Identifier for the user linked to the advertiser.
+          
+      - `advertiserId` (string|null): Identifier for the advertiser.
+          
+      - `name` (string): Name of the advertiser.
+          
+      - `region` (string|null): Region where the advertiser operates.
+          
+      - `state` (string): State of the advertiser.
+          
+      - `status` (string): Current status of the advertiser.
+          
+      - `dateCreated` (string): Timestamp when the advertiser was created.
+          
+      - `dateUpdated` (string|null): Timestamp when the advertiser was last updated.
+          
+      - `createdBy` (string): User who created the advertiser.
+          
+      - `updatedBy` (string|null): User who last updated the advertiser.
+          
+      - `latitude` (string): Latitude of the advertiser's location.
+          
+      - `longitude` (string): Longitude of the advertiser's location.
+          
+      - `city` (string): City where the advertiser is located.
+          
+      - `postalCode` (string): Postal code of the advertiser's address.
+          
+      - `address` (string): Physical address of the advertiser.
+          
+      - `category` (string): Category of the advertiser.
+          
+      - `businessName` (string): Business name of the advertiser.
+          
+      - `logo` (string|null): URL or path to the advertiser's logo.
+          
+  - **paging** (object): Contains pagination details:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page available.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page available.
+          
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Number of records per page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of advertiser records available.
+          
+      - `pageStart` (integer): Starting index of the current page.
+          
+      - `entities` (array): List of advertiser objects for the current page.
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "advertisers": [
+      {
+        "id": "",
+        "dealerId": "",
+        "userId": null,
+        "advertiserId": null,
+        "name": "",
+        "region": null,
+        "state": "",
+        "status": "",
+        "dateCreated": "",
+        "dateUpdated": null,
+        "createdBy": "",
+        "updatedBy": null,
+        "latitude": "",
+        "longitude": "",
+        "city": "",
+        "postalCode": "",
+        "address": "",
+        "category": "",
+        "businessName": "",
+        "logo": null
+      }
+    ],
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0,
+      "entities": [
+        {
+          "id": "",
+          "dealerId": "",
+          "userId": null,
+          "advertiserId": null,
+          "name": "",
+          "region": null,
+          "state": "",
+          "status": "",
+          "dateCreated": "",
+          "dateUpdated": null,
+          "createdBy": "",
+          "updatedBy": null,
+          "latitude": "",
+          "longitude": "",
+          "city": "",
+          "postalCode": "",
+          "address": "",
+          "category": "",
+          "businessName": "",
+          "logo": null
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  This endpoint retrieves a list of advertisers from the system, supporting pagination through query parameters. It allows clients to specify the page number and the number of items per page.
+  
+  #### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/advertiser/getall`
+      
+  - **Query Parameters**:
+      
+      - `page` (integer): The page number to retrieve. For example, `page=1` requests the first page.
+          
+      - `pageSize` (integer): The number of items to return per page. Setting `pageSize=0` will return all items without pagination.
+          
+  
+  #### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  
+  The response contains a JSON object with two main properties: `advertisers` and `paging`.
+  
+  ##### Response Structure:
+  
+  - **advertisers** (array of objects): A list of advertiser objects, each containing the following fields:
+      
+      - `id` (string): Unique identifier for the advertiser.
+          
+      - `dealerId` (string): Identifier for the dealer associated with the advertiser.
+          
+      - `userId` (string or null): Identifier for the user associated with the advertiser.
+          
+      - `advertiserId` (string or null): Identifier for the advertiser.
+          
+      - `name` (string): Name of the advertiser.
+          
+      - `region` (string or null): Region where the advertiser operates.
+          
+      - `state` (string): State where the advertiser is located.
+          
+      - `status` (string): Current status of the advertiser.
+          
+      - `dateCreated` (string): Date when the advertiser was created.
+          
+      - `dateUpdated` (string or null): Date when the advertiser was last updated.
+          
+      - `createdBy` (string): User who created the advertiser entry.
+          
+      - `updatedBy` (string or null): User who last updated the advertiser entry.
+          
+      - `latitude` (string): Latitude of the advertiser's location.
+          
+      - `longitude` (string): Longitude of the advertiser's location.
+          
+      - `city` (string): City where the advertiser is located.
+          
+      - `postalCode` (string): Postal code of the advertiser's location.
+          
+      - `address` (string): Complete address of the advertiser.
+          
+      - `category` (string): Category under which the advertiser falls.
+          
+      - `businessName` (string): Business name of the advertiser.
+          
+      - `logo` (string or null): URL to the logo of the advertiser.
+          
+  - **paging** (object): Contains pagination details with the following fields:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Number of items per page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of advertisers available.
+          
+      - `pageStart` (integer): Starting index of the current page.
+          
+      - **entities** (array of objects): A list of advertiser objects similar to the `advertisers` array.
+          
+  
+  This endpoint is useful for applications that need to display a list of advertisers, allowing for efficient navigation through large datasets.
+}

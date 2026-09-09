@@ -1,0 +1,23 @@
+meta {
+  name: Get By ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/advertiser/getbyid?id=d882c04d-582f-4bdf-90bc-cdd07b410ba5
+  body: none
+  auth: bearer
+}
+
+params:query {
+  id: d882c04d-582f-4bdf-90bc-cdd07b410ba5
+}
+
+auth:bearer {
+  token: {{bearer_token}}
+}
+
+settings {
+  encodeUrl: true
+}

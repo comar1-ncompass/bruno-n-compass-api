@@ -1,0 +1,15 @@
+meta {
+  name: Create Admin Tag
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/tag/admin/create/generic
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

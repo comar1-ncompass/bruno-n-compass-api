@@ -1,0 +1,88 @@
+meta {
+  name: Get Minified Dealer List
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getall/minify
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get All Dealers (Minified)
+  
+  This endpoint retrieves a list of all dealers in a minified format. It is useful for obtaining a compact representation of dealer data, which can be utilized in various applications where a full detailed view is not necessary.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/dealer/getall/minify`
+      
+  - **Request Body**: None
+      
+  
+  ### Response
+  
+  The response is returned in JSON format and contains the following structure:
+  
+  - **paging**: An object that provides pagination information.
+      
+      - **hasPreviousPage**: A boolean indicating if there is a previous page of results.
+          
+      - **hasNextPage**: A boolean indicating if there is a next page of results.
+          
+      - **page**: The current page number.
+          
+      - **pageSize**: The size of each page (number of items per page).
+          
+      - **pages**: The total number of pages available.
+          
+      - **totalEntities**: The total number of dealer entities available.
+          
+      - **pageStart**: The starting index of the current page.
+          
+      - **entities**: An array of dealer objects, each containing:
+          
+          - **dealerId**: The unique identifier for the dealer.
+              
+          - **businessName**: The name of the dealer's business.
+              
+          - **dealerIdAlias**: An alternative identifier for the dealer.
+              
+          - **status**: The current status of the dealer.
+              
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": true,
+      "hasNextPage": true,
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "pageStart": 0,
+      "entities": [
+        {
+          "dealerId": "",
+          "businessName": "",
+          "dealerIdAlias": "",
+          "status": ""
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  This endpoint is particularly useful for applications that need to display a list of dealers without requiring detailed information for each dealer.
+}

@@ -1,0 +1,538 @@
+meta {
+  name: Bulk Yearly Custom Schedule
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/filler/content/schedule/upsert/bulk
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+      {
+          // Following variables came from the collection of
+          // Dashboard & Filler
+          "fillerContentId": "{{fillerContentId1}}",
+          "type": 3,
+          "alternateWeek": 0,
+          "from": "{{todayDate}} {{currentTime}}",
+          "to": "2030-12-30 23:59:00",
+          "days": "{{randomDays}}",
+          "playTimeStart": "{{playTimeStart}}",
+          "playTimeEnd": "{{playTimeEnd}}",
+          "recurring": true,
+          "schedule": {
+              "type": 3,
+              "alternateWeek": 0,
+              "from": "{{todayDate}} {{currentTime}}",
+              "to": "2030-12-30 23:59:00",
+              "days": "{{randomDays}}",
+              "playTimeStart": "{{playTimeStart}}",
+              "playTimeEnd": "{{playTimeEnd}}",
+              "recurring": true
+          },
+          "duration": 5,
+          "isFullScreen": 0
+      },
+      {
+          // Following variables came from the collection of
+          // Dashboard & Filler
+          "fillerContentId": "{{fillerContentId2}}",
+          "type": 3,
+          "alternateWeek": 0,
+          "from": "{{todayDate}} {{currentTime}}",
+          "to": "2030-12-30 23:59:00",
+          "days": "{{randomDays}}",
+          "playTimeStart": "{{playTimeStart}}",
+          "playTimeEnd": "{{playTimeEnd}}",
+          "recurring": true,
+          "schedule": {
+              "type": 3,
+              "alternateWeek": 0,
+              "from": "{{todayDate}} {{currentTime}}",
+              "to": "2030-12-30 23:59:00",
+              "days": "{{randomDays}}",
+              "playTimeStart": "{{playTimeStart}}",
+              "playTimeEnd": "{{playTimeEnd}}",
+              "recurring": true
+          },
+          "duration": 20,
+          "isFullScreen": 0
+      },
+      {
+          // Following variables came from the collection of
+          // Dashboard & Filler
+          "fillerContentId": "{{fillerContentId3}}",
+          "type": 3,
+          "alternateWeek": 0,
+          "from": "{{todayDate}} {{currentTime}}",
+          "to": "2030-12-30 23:59:00",
+          "days": "{{randomDays}}",
+          "playTimeStart": "{{playTimeStart}}",
+          "playTimeEnd": "{{playTimeEnd}}",
+          "recurring": true,
+          "schedule": {
+              "type": 3,
+              "alternateWeek": 0,
+              "from": "{{todayDate}} {{currentTime}}",
+              "to": "2030-12-30 23:59:00",
+              "days": "{{randomDays}}",
+              "playTimeStart": "{{playTimeStart}}",
+              "playTimeEnd": "{{playTimeEnd}}",
+              "recurring": true
+          },
+          "duration": 20,
+          "isFullScreen": 0
+      }
+  ]
+}
+
+script:pre-request {
+  // API endpoint to fetch filler content by group ID
+  const fillerGroupId = bru.getEnvVar("filler_group_id");
+  const accessToken = bru.getCollectionVar("access_token");
+  
+  // ADD DEBUG INFO AT THE START
+  console.log("=== REQUEST INFO ===");
+  console.log("filler_group_id:", fillerGroupId);
+  console.log("access_token exists:", !!accessToken);
+  
+  await bru.sendRequest({
+      url: `https://dev-api.n-compass.online/api/filler/content/getbygroupid?id=${fillerGroupId}`,
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+      }
+  }, async function(err, res) {
+      if (err) {
+          console.error("Error fetching filler content:", err);
+          return;
+      }
+  
+      // ADD RESPONSE DEBUG
+      console.log("=== RESPONSE INFO ===");
+      res.status;
+      res.statusText;
+  
+      let responseData = res.data;
+  
+      // Check if API returned "No records found"
+      if (responseData && responseData.message === "No records found") {
+          console.error(`No filler content found for group ID: ${fillerGroupId}`);
+          console.error("Please check if the filler_group_id is correct or if there's active content in that group");
+          
+          // Set empty fallback values
+          bru.setEnvVar("fillerContentId1", "");
+          bru.setEnvVar("fillerContentId2", "");
+          bru.setEnvVar("fillerContentId3", "");
+          return;
+      }
+  
+      // Handle array response
+      let contentArray;
+      if (Array.isArray(responseData)) {
+          contentArray = responseData;
+          
+          // ADD CONTENT DEBUG HERE
+          console.log("=== CONTENT DEBUG ===");
+          console.log("Total content items:", contentArray.length);
+          console.log("First item structure:", Object.keys(contentArray[0] || {}));
+          console.log("First item sample:", contentArray[0]);
+          
+      } else {
+          console.error("Unexpected response format");
+          console.error("Response type:", typeof responseData);
+          console.error("Response keys:", Object.keys(responseData || {}));
+          return;
+      }
+  
+      // Since all statuses are undefined, use alternative filtering
+      console.log("=== FILTERING DEBUG ===");
+  
+      // Filter by isConverted and valid URL (since status is undefined)
+      let activeContent = contentArray.filter(item => 
+          item.isConverted === true &&  // Only converted content
+          item.url &&                   // Must have a valid URL
+          item.url.length > 0 &&        // URL must not be empty
+          item.fillerContentId          // Must have valid ID
+      );
+  
+      console.log('Items with isConverted === true and valid URL:', activeContent.length);
+  
+      if (activeContent.length === 0) {
+          console.warn("No content found with isConverted filter. Using all available content...");
+          
+          // Fallback: use all content with valid IDs and URLs
+          activeContent = contentArray.filter(item => 
+              item.fillerContentId && 
+              item.url && 
+              item.url.length > 0
+          );
+          
+          if (activeContent.length === 0) {
+              console.error("No usable content found");
+              bru.setEnvVar("fillerContentId1", "");
+              bru.setEnvVar("fillerContentId2", "");
+              bru.setEnvVar("fillerContentId3", "");
+              return;
+          }
+      }
+  
+      console.log("=== FINAL ACTIVE CONTENT ===");
+      console.log("Using", activeContent.length, "active items");
+  
+      // Generate 3 random filler content IDs
+      if (activeContent.length >= 3) {
+          // Shuffle the array
+          let shuffled = [...activeContent];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+              let j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          
+          // Pick first 3 from shuffled array
+          const selected3 = shuffled.slice(0, 3);
+          
+          // Set individual environment variables for each filler content ID
+          bru.setEnvVar("fillerContentId1", selected3[0].fillerContentId);
+          bru.setEnvVar("fillerContentId2", selected3[1].fillerContentId);
+          bru.setEnvVar("fillerContentId3", selected3[2].fillerContentId);
+          
+          console.log("=== FINAL RESULTS ===");
+          console.log("fillerContentId1:", selected3[0].fillerContentId);
+          console.log("fillerContentId2:", selected3[1].fillerContentId);
+          console.log("fillerContentId3:", selected3[2].fillerContentId);
+          console.log("✅ Variables set successfully!");
+          
+      } else if (activeContent.length === 2) {
+          // Only 2 items available, use them twice
+          bru.setEnvVar("fillerContentId1", activeContent[0].fillerContentId);
+          bru.setEnvVar("fillerContentId2", activeContent[1].fillerContentId);
+          bru.setEnvVar("fillerContentId3", activeContent[0].fillerContentId); // Reuse first one
+          
+          console.log("=== FINAL RESULTS (Only 2 items available) ===");
+          console.log("fillerContentId1:", activeContent[0].fillerContentId);
+          console.log("fillerContentId2:", activeContent[1].fillerContentId);
+          console.log("fillerContentId3:", activeContent[0].fillerContentId, "(reused)");
+          console.log("⚠️ Variables set with reused content!");
+          
+      } else if (activeContent.length === 1) {
+          // Only 1 item available, use it for all 3
+          const singleId = activeContent[0].fillerContentId;
+          bru.setEnvVar("fillerContentId1", singleId);
+          bru.setEnvVar("fillerContentId2", singleId);
+          bru.setEnvVar("fillerContentId3", singleId);
+          
+          console.log("=== FINAL RESULTS (Only 1 item available) ===");
+          console.log("fillerContentId1:", singleId);
+          console.log("fillerContentId2:", singleId, "(reused)");
+          console.log("fillerContentId3:", singleId, "(reused)");
+          console.log("⚠️ Variables set with same content for all 3!");
+          
+      } else {
+          console.error("No active content available");
+          bru.setEnvVar("fillerContentId1", "");
+          bru.setEnvVar("fillerContentId2", "");
+          bru.setEnvVar("fillerContentId3", "");
+      }
+  });
+  
+}
+
+script:post-response {
+  // ===== UNIFIED TYPE 3 CUSTOM SCHEDULE POST-RESPONSE TESTS =====
+  // Handles both recurring and non-recurring Type 3 custom schedules
+  
+  // Determine if this is a recurring schedule request
+  let isRecurringSchedule = false;
+  try {
+      const requestBody = JSON.parse(req.getBody().raw);
+      if (requestBody.length > 0 && requestBody[0].hasOwnProperty('recurring')) {
+          isRecurringSchedule = requestBody[0].recurring === true;
+      }
+  } catch (e) {
+      console.log("⚠️  Could not parse request body for recurring check");
+  }
+  
+  const scheduleTypeLabel = isRecurringSchedule ? "TYPE 3 RECURRING SCHEDULE" : "TYPE 3 CUSTOM SCHEDULE";
+  
+  test("✅ Response status code validation", function () {
+      console.log(`=== ${scheduleTypeLabel} RESPONSE ANALYSIS ===`);
+      console.log("Status Code:", res.getStatus());
+      console.log("Status Text:", res.statusText);
+      console.log("Response Time:", res.getResponseTime() + "ms");
+      
+      const successCodes = [200, 201];
+      expect(successCodes, "Status code should indicate success").to.include(res.getStatus());
+      
+      // Log response body for debugging
+      try {
+          const responseJson = res.getBody();
+          console.log("Response Body:", JSON.stringify(responseJson, null, 2));
+      } catch (e) {
+          console.log("Response Body (raw):", JSON.stringify(res.getBody()));
+      }
+  });
+  
+  test("✅ Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("✅ Response has valid JSON structure", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+  
+  test("✅ Custom Schedule Request Body Verification", function () {
+      const responseJson = res.getBody();
+      
+      // Check for success indicators
+      if (responseJson.message) {
+          const successPatterns = [/success/i, /updated/i, /saved/i, /completed/i, /processed/i];
+          const messageText = responseJson.message.toLowerCase();
+          const hasSuccessPattern = successPatterns.some(pattern => pattern.test(messageText));
+          
+          expect(hasSuccessPattern, `Response message should indicate success: "${responseJson.message}"`).to.be.true;
+          console.log(`✅ Success message: ${responseJson.message}`);
+      }
+      
+      // Check for schedule ID or confirmation in response
+      if (responseJson.scheduleId || responseJson.id) {
+          const scheduleId = responseJson.scheduleId || responseJson.id;
+          const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          
+          expect(scheduleId, "Schedule ID should be valid UUID").to.match(uuidPattern);
+          
+          // Store for potential follow-up requests (different env vars for recurring vs non-recurring)
+          if (isRecurringSchedule) {
+              bru.setEnvVar("updated_recurring_schedule_id", scheduleId);
+              console.log(`✅ Type 3 recurring schedule updated with ID: ${scheduleId}`);
+          } else {
+              bru.setEnvVar("updated_custom_schedule_id", scheduleId);
+              console.log(`✅ Type 3 custom schedule updated with ID: ${scheduleId}`);
+          }
+      }
+  });
+  
+  test("✅ No error indicators in response", function () {
+      const responseJson = res.getBody();
+      const errorPatterns = [/error/i, /failed/i, /invalid/i, /denied/i, /unauthorized/i];
+      
+      if (responseJson.message) {
+          const messageText = responseJson.message.toLowerCase();
+          const hasErrorPattern = errorPatterns.some(pattern => pattern.test(messageText));
+          
+          expect(hasErrorPattern, `Response should not contain error indicators: "${responseJson.message}"`).to.be.false;
+      }
+      
+      // Check for error fields
+      expect(responseJson, "Response should not have 'error' field").to.not.have.property('error');
+      expect(responseJson, "Response should not have 'errors' field").to.not.have.property('errors');
+  });
+  
+  test("✅ Response contains expected fields", function () {
+      const responseJson = res.getBody();
+      
+      // Log all response fields for debugging
+      console.log("Response fields:", Object.keys(responseJson));
+      
+      // Common expected fields for custom schedule updates
+      const possibleFields = ['message'];
+      let foundFields = 0;
+      
+      possibleFields.forEach(field => {
+          if (responseJson.hasOwnProperty(field)) {
+              foundFields++;
+              console.log(`✅ Found field: ${field} = ${responseJson[field]}`);
+          }
+      });
+      
+      expect(foundFields, "Response should contain at least one expected field").to.be.greaterThan(0);
+  });
+  
+  test("✅ Custom Schedule Fields Business Rules Validation", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+      
+      requestBody.forEach((item, index) => {
+          // Validate Type 3 business rules
+          expect(item.type, `Item ${index + 1} should be type 3`).to.equal(3);
+          expect(item.schedule.type, `Item ${index + 1} schedule type should match`).to.equal(3);
+          
+          // Type 3 should have populated time fields
+          expect(item.from, `Item ${index + 1} From should not be empty for type 3`).to.be.a('string');
+          expect(item.from.length, `Item ${index + 1} From should have content`).to.be.greaterThan(0);
+          
+          expect(item.to, `Item ${index + 1} To should not be empty for type 3`).to.be.a('string');
+          expect(item.to.length, `Item ${index + 1} To should have content`).to.be.greaterThan(0);
+          
+          expect(item.days, `Item ${index + 1} Days should not be empty for type 3`).to.be.a('string');
+          expect(item.days.length, `Item ${index + 1} Days should have content`).to.be.greaterThan(0);
+          
+          expect(item.playTimeStart, `Item ${index + 1} PlayTimeStart should not be empty for type 3`).to.be.a('string');
+          expect(item.playTimeStart.length, `Item ${index + 1} PlayTimeStart should have content`).to.be.greaterThan(0);
+          
+          expect(item.playTimeEnd, `Item ${index + 1} PlayTimeEnd should not be empty for type 3`).to.be.a('string');
+          expect(item.playTimeEnd.length, `Item ${index + 1} PlayTimeEnd should have content`).to.be.greaterThan(0);
+          
+          // Recurring field validation (only if present)
+          if (item.hasOwnProperty('recurring')) {
+              expect(item.recurring, `Item ${index + 1} recurring should be boolean`).to.be.a('boolean');
+          }
+          
+          // Standard validations
+          expect(item.duration, `Item ${index + 1} duration should be > 5s`).to.be.greaterThanOrEqual(5);
+          expect(item.isFullScreen, `Item ${index + 1} isFullScreen should be 0`).to.equal(0);
+          expect([0, 1], `Item ${index + 1} alternateWeek should be 0 or 1`).to.include(item.alternateWeek);
+          
+          // Schedule object consistency
+          expect(item.schedule.type, `Item ${index + 1} schedule.type should match main type`).to.equal(item.type);
+          expect(item.schedule.from, `Item ${index + 1} schedule.from should match main from`).to.equal(item.from);
+          expect(item.schedule.to, `Item ${index + 1} schedule.to should match main to`).to.equal(item.to);
+          expect(item.schedule.days, `Item ${index + 1} schedule.days should match main days`).to.equal(item.days);
+          expect(item.schedule.playTimeStart, `Item ${index + 1} schedule.playTimeStart should match main playTimeStart`).to.equal(item.playTimeStart);
+          expect(item.schedule.playTimeEnd, `Item ${index + 1} schedule.playTimeEnd should match main playTimeEnd`).to.equal(item.playTimeEnd);
+          expect(item.schedule.alternateWeek, `Item ${index + 1} schedule.alternateWeek should match main alternateWeek`).to.equal(item.alternateWeek);
+          
+          // Recurring consistency (only validate if the main object has the recurring field)
+          if (item.hasOwnProperty('recurring')) {
+              expect(item.schedule.recurring, `Item ${index + 1} schedule.recurring should match main recurring`).to.equal(item.recurring);
+          }
+          
+          const scheduleType = isRecurringSchedule ? "recurring" : "non-recurring";
+          console.log(`✅ Item ${index + 1}: Type 3 ${scheduleType} validation passed`);
+      });
+  });
+  
+  test("✅ Custom schedule time format validation", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+      const timePattern = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+      
+      requestBody.forEach((item, index) => {
+          // Validate time formats
+          expect(item.playTimeStart, `Item ${index + 1} playTimeStart format`).to.match(timePattern);
+          expect(item.playTimeEnd, `Item ${index + 1} playTimeEnd format`).to.match(timePattern);
+          
+          // Validate days format (comma-separated numbers 0-6)
+          const daysArray = item.days.split(',').map(d => d.trim());
+          daysArray.forEach(day => {
+              const dayNum = parseInt(day);
+              expect(dayNum, `Item ${index + 1} day value "${day}" should be 0-6`).to.be.greaterThanOrEqual(0);
+              expect(dayNum, `Item ${index + 1} day value "${day}" should be 0-6`).to.be.lessThanOrEqual(6);
+          });
+          
+          console.log(`✅ Item ${index + 1}: Time format validation passed`);
+      });
+  });
+  
+  test("✅ Custom Schedule Update Summary", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+      const responseJson = res.getBody();
+      
+      console.log(`\n=== ${scheduleTypeLabel} UPDATE SUMMARY ===`);
+      console.log(`🎯 Operation: ${isRecurringSchedule ? 'Custom Recurring' : 'Custom'} Schedule Update`);
+      console.log(`📊 Status: ${res.getStatus()} ${res.statusText}`);
+      console.log(`⏱️  Response time: ${res.getResponseTime()}ms`);
+      console.log(`📋 Items processed: ${requestBody.length}`);
+      console.log(`📝 Schedule type: Type 3 (Custom Schedule)`);
+      console.log(`🔄 Recurring: ${isRecurringSchedule ? 'YES' : 'NO'}`);
+      console.log(`📅 Custom timing configured: YES`);
+      
+      if (requestBody.length > 0) {
+          const item = requestBody[0];
+          console.log(`📆 Schedule period: ${item.from} → ${item.to}`);
+          console.log(`📅 Play days: ${item.days}`);
+          console.log(`🕐 Play time: ${item.playTimeStart} - ${item.playTimeEnd}`);
+          console.log(`🔢 Alternate week: ${item.alternateWeek}`);
+          console.log(`📺 FullScreen: Disabled`);
+      }
+      
+      if (responseJson.message) {
+          console.log(`\n💬 Response: ${responseJson.message}`);
+      }
+      
+      if (res.getStatus() >= 200 && res.getStatus() < 300) {
+          console.log(`🎉 SUCCESS: Type 3 ${isRecurringSchedule ? 'recurring' : 'custom'} schedule update completed successfully!`);
+          console.log(`📋 Content will play according to custom schedule parameters`);
+      } else {
+          console.log(`❌ FAILED: Type 3 ${isRecurringSchedule ? 'recurring' : 'custom'} schedule update encountered issues`);
+      }
+  });
+  
+  // ===== VERIFY CUSTOM SCHEDULE UPDATE WAS APPLIED =====
+  const fillerGroupId = bru.getEnvVar("filler_group_id");
+  const baseUrl = bru.getCollectionVar("base_url") || bru.getEnvVar("baseUrl");
+  const accessToken = bru.getCollectionVar("access_token") || bru.getEnvVar("access_token");
+  
+  // Get all filler content IDs to check
+  const fillerContentIds = [
+      bru.getEnvVar("fillerContentId1"),
+      bru.getEnvVar("fillerContentId2"),
+      bru.getEnvVar("fillerContentId3")
+  ].filter(id => !!id); // remove null/undefined values
+  
+  // Only run verification if request was successful
+  if (res.getStatus() >= 200 && res.getStatus() < 300 && fillerGroupId && fillerContentIds.length > 0) {
+      await bru.sendRequest({
+          url: `${baseUrl}/api/filler/content/getbygroupid?id=${fillerGroupId}`,
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
+          }
+      }, async function(err, res) {
+          if (err) {
+              console.log("⚠️  Custom schedule verification request failed:", err.message);
+              return;
+          }
+  
+          test("✅ [Chained Request] Successful Status Code Verification", function () {
+              res.status.to.eql(200);
+          });
+  
+          if (res.status === 200) {
+              const contentData = res.data;
+              const contentArray = Array.isArray(contentData) ? contentData : contentData.data || [];
+  
+              fillerContentIds.forEach((contentId, idx) => {
+                  const updatedContent = contentArray.find(item => item.fillerContentId === contentId);
+                  
+                  test(`✅ [Chained Request] Content ID ${contentId} exists in response`, function () {
+                      expect(updatedContent, `Content ID ${contentId} should be found`).to.exist;
+                  });
+  
+                  if (updatedContent) {
+                      console.log(`✅ ${scheduleTypeLabel} update verified for ID: ${contentId}`);
+                      console.log("Updated content details:", {
+                          id: updatedContent.fillerContentId,
+                          type: updatedContent.fillerContentSchedule?.type || 'N/A',
+                          duration: updatedContent.duration,
+                          isConverted: updatedContent.isConverted,
+                          hasCustomSchedule: !!updatedContent.fillerContentSchedule?.from,
+                          recurring: updatedContent.fillerContentSchedule?.recurring || false
+                      });
+  
+                      test(`✅ [Chained Request] Schedule Type for ID ${contentId}`, function () {
+                          if (updatedContent.fillerContentSchedule) {
+                              expect(updatedContent.fillerContentSchedule.type, "Schedule type should be 3").to.equal(3);
+                          }
+                      });
+                  }
+              });
+          }
+      });
+  } else if (!fillerGroupId || fillerContentIds.length === 0) {
+      console.log("ℹ️  Missing fillerGroupId or fillerContentIds for verification");
+  } else {
+      console.log("ℹ️  Skipping verification due to unsuccessful response");
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

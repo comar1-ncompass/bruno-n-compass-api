@@ -1,0 +1,22 @@
+meta {
+  name: Cleanup License Timestamp
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/pi/license/timestamp/cleanup
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "licenseKey": "",
+       "ids": [""]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

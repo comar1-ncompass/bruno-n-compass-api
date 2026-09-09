@@ -1,0 +1,20 @@
+meta {
+  name: Get Licenses ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/licenses/4e7dc3f2-5793-42c9-862b-a12017fe4f6c
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

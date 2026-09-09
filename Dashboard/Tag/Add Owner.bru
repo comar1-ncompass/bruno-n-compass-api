@@ -1,0 +1,29 @@
+meta {
+  name: Add Owner
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/tag/addowners
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "owners": [
+          {
+              "ownerId": "fbd05b32-1fc5-4571-9dfc-7ae07af28c06",
+              "tagTypeId": "3"
+          }
+      ],
+      "tagIds": [
+          "15905f93-5902-41b0-aea3-5b345f21a98d"
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

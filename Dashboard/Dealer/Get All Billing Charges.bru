@@ -1,0 +1,90 @@
+meta {
+  name: Get All Billing Charges
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/billing/get/all/charges
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Endpoint Description
+  
+  This endpoint retrieves all billing charges associated with the dealers. It provides a comprehensive list of charges, including details such as dealer information, billing amounts, and statuses.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/billing/get/all/charges`
+      
+  
+  ### Response
+  
+  The response returns a JSON object containing two main sections: `charges` and `paging`.
+  
+  #### Charges
+  
+  The `charges` array includes objects with the following fields:
+  
+  - `dealerId`: Identifier for the dealer.
+      
+  - `dealerAlias`: Alias for the dealer.
+      
+  - `businessName`: Name of the business associated with the dealer.
+      
+  - `totalBill`: Total amount billed.
+      
+  - `billingDate`: Date of the billing.
+      
+  - `orderNo`: Associated order number (nullable).
+      
+  - `date`: Date related to the charge (nullable).
+      
+  - `description`: Description of the charge.
+      
+  - `amount`: Amount charged.
+      
+  - `status`: Current status of the charge.
+      
+  - `receiptUrl`: URL to the receipt (nullable).
+      
+  - `currency`: Currency used for the charge (nullable).
+      
+  
+  #### Paging
+  
+  The `paging` object provides metadata about the pagination of the results:
+  
+  - `hasPreviousPage`: Indicates if there is a previous page of results.
+      
+  - `hasNextPage`: Indicates if there is a next page of results.
+      
+  - `page`: Current page number.
+      
+  - `pageSize`: Number of items per page.
+      
+  - `pages`: Total number of pages available.
+      
+  - `totalEntities`: Total number of entities available.
+      
+  - `pageStart`: Starting index of the current page.
+      
+  - `entities`: An array of entities similar to the `charges` array, providing a detailed view of the charges.
+      
+  
+  ### Notes
+  
+  - The endpoint returns a 200 status code upon successful retrieval of the charges.
+      
+  - The response structure allows for easy navigation through multiple pages of billing charges.
+      
+  - Ensure to handle cases where some fields may be null or contain default values.
+}

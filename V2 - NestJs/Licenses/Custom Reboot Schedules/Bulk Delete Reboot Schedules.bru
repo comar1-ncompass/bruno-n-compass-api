@@ -1,0 +1,21 @@
+meta {
+  name: Bulk Delete Reboot Schedules
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/licenses/123e4567-e89b-12d3-a456-426614174001/reboot-schedules/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "ids": [5,6]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

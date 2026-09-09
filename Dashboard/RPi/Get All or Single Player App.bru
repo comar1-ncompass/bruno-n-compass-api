@@ -1,0 +1,21 @@
+meta {
+  name: Get All or Single Player App
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/playerapp/getapp
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~appId: 21d3d1fa-b818-4417-9c03-0140a4fb1bc6
+  ~appId: 7aaf98bb-7af3-46a2-92d6-f51e7f1c3378
+  ~licenseId: 81701855-9172-4634-acfe-31c360c10e8f
+}
+
+settings {
+  encodeUrl: true
+}

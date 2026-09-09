@@ -1,0 +1,172 @@
+meta {
+  name: License Status > Unassigned
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=&hostId=&assigned=false&pending=&online=&isActivated=0&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 
+  hostId: 
+  assigned: false
+  pending: 
+  online: 
+  isActivated: 0
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get All Licenses in License Status > Unassigned
+  
+  This endpoint retrieves a list of licenses filtered by various parameters, including their status. Specifically, it can be used to filter licenses based on their assignment status, allowing users to focus on 'Unassigned' licenses.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/getall`
+  
+  #### Query Parameters
+  
+  - **page** (integer): The page number of results to retrieve. Default is 1.
+      
+  - **search** (string): A search term to filter licenses. Default is an empty string.
+      
+  - **sortColumn** (string): The column by which to sort the results. Default is `PiStatus`.
+      
+  - **sortOrder** (string): The order of sorting, either `asc` or `desc`. Default is `desc`.
+      
+  - **pageSize** (integer): The number of results per page. Default is 15.
+      
+  - **includeAdmin** (boolean): Determines whether to include admin licenses. Default is false.
+      
+  - **piStatus** (string): Filter by the PI status of the licenses.
+      
+  - **daysOfflineFrom** (integer): Filter licenses based on the number of offline days from this value.
+      
+  - **daysOfflineTo** (integer): Filter licenses based on the number of offline days to this value.
+      
+  - **active** (boolean): Filter to show only active licenses.
+      
+  - **daysInstalled** (integer): Filter licenses based on the number of days installed.
+      
+  - **timezone** (string): The timezone to consider for the licenses.
+      
+  - **dealerId** (string): Filter licenses by dealer ID.
+      
+  - **hostId** (string): Filter licenses by host ID.
+      
+  - **assigned** (boolean): Set to false to filter for unassigned licenses.
+      
+  - **pending** (boolean): Filter for pending licenses.
+      
+  - **online** (boolean): Filter for online licenses.
+      
+  - **isActivated** (integer): Filter by activation status (0 for not activated).
+      
+  - **isFavorite** (boolean): Filter for favorite licenses.
+      
+  - **serverVersion** (string): Filter licenses by server version.
+      
+  - **uiVersion** (string): Filter licenses by UI version.
+      
+  - **piOrder** (string): Additional ordering parameter.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  #### Response Format
+  
+  The response will contain a JSON object with the following structure:
+  
+  - **licenses** (array): A list of license objects, each containing:
+      
+      - **licenseId** (string): The unique identifier for the license.
+          
+      - **licenseKey** (string): The key associated with the license.
+          
+      - **macAddress** (string|null): The MAC address associated with the license.
+          
+      - **isRegistered** (integer): Indicates if the license is registered.
+          
+      - **isActivated** (integer): Indicates if the license is activated.
+          
+      - **dealerId** (string): The dealer associated with the license.
+          
+      - **hostId** (string|null): The host associated with the license.
+          
+      - **dateCreated** (string): The date when the license was created.
+          
+      - **internetType** (string|null): The type of internet connection.
+          
+      - **internetSpeed** (string|null): The speed of the internet connection.
+          
+      - **memory** (string|null): The memory allocated.
+          
+      - **totalStorage** (string|null): The total storage available.
+          
+      - **freeStorage** (string|null): The free storage available.
+          
+      - **dateUpdated** (string): The date when the license was last updated.
+          
+      - **playerStatus** (integer): The status of the player.
+          
+      - **piStatus** (integer): The status of the PI.
+          
+      - **isFavorite** (boolean): Indicates if the license is marked as favorite.
+          
+      - Additional fields related to the license details.
+          
+  - **paging** (object): Contains pagination information:
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): The current page number.
+          
+      - **pageSize** (integer): The size of the page.
+          
+      - **totalEntities** (integer): The total number of entities available.
+          
+  - **totalCounts** (object): Contains counts of licenses based on their status:
+      
+      - **total** (integer): Total number of licenses.
+          
+      - **totalOnline** (integer): Total number of online licenses.
+          
+      - **totalOffline** (integer): Total number of offline licenses.
+          
+      - **totalInActive** (integer): Total number of inactive licenses.
+          
+      - **totalUnAssigned** (integer): Total number of unassigned licenses.
+          
+  
+  This endpoint allows users to effectively filter and retrieve licenses based on their assignment status and other criteria.
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Get Dealer Playlists
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/playlists/getplaylistsbydealerid?page=1&dealerid=dcb88788-22c8-48e3-ac3f-6be98c75ab351111111&search=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  dealerid: dcb88788-22c8-48e3-ac3f-6be98c75ab351111111
+  search: 
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,89 @@
+meta {
+  name: Create Dealer
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/dealer/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "roleid": "bb7a0ca4-495c-11ea-b77f-2e728ce88125",
+      "firstname": "Indian guy tutorial",
+      "lastname": "Indian guy tutorial",
+      "email": "iguy2@admin.com",
+      "password": "password",
+      "re_password": "password",
+      "contactNumber": "1111111111",
+      "generatedid": "Indian guy tutorial`",
+      "dealerIdAlias": "Indian guy tutorial",
+      "businessName": "Indian guy tutorial",
+      "contactPerson": "Indian guy tutorial",
+      "city": "Aaronsburg",
+      "state": "PA",
+      "region": "NE",
+      "createdby": "dc3cd150-e118-4c37-b4ea-65b859c0f920"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Create Dealer
+  
+  This endpoint allows you to create a new dealer in the system. It requires a POST request to the specified URL, and it expects a JSON payload containing the necessary information to register the dealer.
+  
+  ### Request Body
+  
+  The request body must be in JSON format and should include the following parameters:
+  
+  - **roleid** (string): The unique identifier for the role assigned to the dealer.
+      
+  - **firstname** (string): The first name of the dealer.
+      
+  - **lastname** (string): The last name of the dealer.
+      
+  - **email** (string): The email address of the dealer, which should be unique.
+      
+  - **password** (string): The password for the dealer's account.
+      
+  - **re_password** (string): A confirmation of the password to ensure it matches.
+      
+  - **contactNumber** (string): The contact number for the dealer.
+      
+  - **generatedid** (string): A unique identifier generated for the dealer.
+      
+  - **dealerIdAlias** (string): An alias for the dealer's ID.
+      
+  - **businessName** (string): The name of the business associated with the dealer.
+      
+  - **contactPerson** (string): The name of the primary contact person for the dealer.
+      
+  - **city** (string): The city where the dealer is located.
+      
+  - **state** (string): The state where the dealer is located.
+      
+  - **region** (string): The region where the dealer operates.
+      
+  - **createdby** (string): The unique identifier of the user who created the dealer account.
+      
+  
+  ### Response Structure
+  
+  Upon successful creation of the dealer, the response will typically include a confirmation message and may contain the following fields:
+  
+  - **status** (string): Indicates the success or failure of the request.
+      
+  - **message** (string): A message providing additional information about the request outcome.
+      
+  - **dealerId** (string): The unique identifier for the newly created dealer.
+      
+  
+  Ensure that all required fields are provided in the request body to avoid errors during the dealer creation process.
+}

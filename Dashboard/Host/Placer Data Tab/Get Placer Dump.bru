@@ -1,0 +1,129 @@
+meta {
+  name: Get Placer Dump
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/placer/dump?page=1&search=&sortColumn=&sortOrder=&filter=0&from=&to=&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+  filter: 0
+  from: 
+  to: 
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Retrieve Placer Dump Data
+  
+  This endpoint allows you to retrieve a paginated list of placer dump data based on specified query parameters.
+  
+  #### Request Method
+  
+  `GET`
+  
+  #### Request URL
+  
+  `https://dev-api.n-compass.online/api/placer/dump`
+  
+  #### Query Parameters
+  
+  - **page** (integer, required): The page number of the results to retrieve. For example, `page=1` retrieves the first page.
+      
+  - **search** (string, optional): A search term to filter the results. Leave empty for no filtering.
+      
+  - **sortColumn** (string, optional): The column by which to sort the results.
+      
+  - **sortOrder** (string, optional): The order of sorting, either ascending or descending.
+      
+  - **filter** (integer, optional): A filter option to narrow down the results.
+      
+  - **from** (string, optional): Start date for filtering results.
+      
+  - **to** (string, optional): End date for filtering results.
+      
+  - **pageSize** (integer, optional): The number of results to return per page. Default is 15.
+      
+  
+  #### Expected Response
+  
+  On successful execution, the API returns a JSON object with the following structure:
+  
+  ``` json
+  {
+    "paging": {
+      "hasPreviousPage": boolean,
+      "hasNextPage": boolean,
+      "page": integer,
+      "pageSize": integer,
+      "pages": integer,
+      "totalEntities": integer,
+      "pageStart": integer,
+      "entities": [
+        {
+          "placerDumpId": string,
+          "placerId": string,
+          "placerName": string,
+          "hostId": string,
+          "hostName": string,
+          "address": string,
+          "hostCity": string,
+          "hostState": string,
+          "postalCode": string,
+          "timezoneName": string,
+          "category": string,
+          "generalCategory": string,
+          "dealerName": string,
+          "latitude": string,
+          "longitude": string,
+          "averageDwellTime": integer,
+          "footTraffic": integer,
+          "publicationDate": string,
+          "month": string,
+          "sourceFile": string,
+          "dateUploaded": string,
+          "uploadedBy": string
+        }
+      ]
+    }
+  }
+  
+   ```
+  
+  - **paging**: Contains metadata about the pagination of the results.
+      
+      - **hasPreviousPage**: Indicates if there is a previous page.
+          
+      - **hasNextPage**: Indicates if there is a next page.
+          
+      - **page**: The current page number.
+          
+      - **pageSize**: The number of results per page.
+          
+      - **pages**: Total number of pages available.
+          
+      - **totalEntities**: Total number of entities available.
+          
+      - **pageStart**: The starting index of the current page.
+          
+      - **entities**: An array of placer dump records with various details.
+          
+  
+  #### Notes
+  
+  - Ensure to handle pagination by adjusting the `page` parameter as necessary to retrieve all results.
+      
+  - The response will vary based on the filters applied and the data available in the system.
+}

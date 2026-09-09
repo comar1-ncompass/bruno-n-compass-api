@@ -1,0 +1,126 @@
+meta {
+  name: Get Total License
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/license/gettotal
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Total License Information
+  
+  ### Description
+  
+  This endpoint retrieves the total counts of various license statuses within the system. It provides an overview of licenses categorized by their current state, allowing users to understand the distribution and availability of licenses.
+  
+  ### Request Method
+  
+  **GET**
+  
+  ### Request URL
+  
+  `https://dev-api.n-compass.online/api/license/gettotal`
+  
+  ### Response Structure
+  
+  The response is returned in JSON format and contains the following fields:
+  
+  - **total**: (integer) The total number of licenses.
+      
+  - **totalAssigned**: (integer) The number of licenses that are currently assigned.
+      
+  - **totalUnAssigned**: (integer) The number of licenses that are unassigned.
+      
+  - **totalDisabled**: (integer) The number of licenses that are disabled.
+      
+  - **totalActive**: (integer) The number of active licenses.
+      
+  - **totalPending**: (integer) The number of licenses that are pending.
+      
+  - **totalOnline**: (integer) The number of licenses that are currently online.
+      
+  - **totalOffline**: (integer) The number of licenses that are currently offline.
+      
+  - **totalLan**: (integer) The number of licenses connected via LAN.
+      
+  - **totalWifi**: (integer) The number of licenses connected via Wi-Fi.
+      
+  - **newLicensesThisWeek**: (integer) The number of new licenses issued this week.
+      
+  - **newLicensesLastWeek**: (integer) The number of new licenses issued last week.
+      
+  - **totalAd**: (integer) The total number of advertisements associated with licenses.
+      
+  - **totalMenu**: (integer) The total number of menus associated with licenses.
+      
+  - **totalClosed**: (integer) The total number of closed licenses.
+      
+  - **totalUnassignedScreenCount**: (integer) The count of screens that are unassigned.
+      
+  - **thisWeekTotalAd**: (integer) The total advertisements for this week.
+      
+  - **thisWeekTotalMenu**: (integer) The total menus for this week.
+      
+  - **thisWeekTotalClosed**: (integer) The total closed licenses for this week.
+      
+  - **thisWeekUnassignedCount**: (integer) The count of unassigned licenses for this week.
+      
+  - **lastWeekTotalAd**: (integer) The total advertisements for last week.
+      
+  - **lastWeekTotalMenu**: (integer) The total menus for last week.
+      
+  - **lastWeekTotalClosed**: (integer) The total closed licenses for last week.
+      
+  - **lastWeekUnassignedCount**: (integer) The count of unassigned licenses for last week.
+      
+  - **totalAdminLicenses**: (integer) The total number of admin licenses.
+      
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "total": 0,
+    "totalAssigned": 0,
+    "totalUnAssigned": 0,
+    "totalDisabled": 0,
+    "totalActive": 0,
+    "totalPending": 0,
+    "totalOnline": 0,
+    "totalOffline": 0,
+    "totalLan": 0,
+    "totalWifi": 0,
+    "newLicensesThisWeek": 0,
+    "newLicensesLastWeek": 0,
+    "totalAd": 0,
+    "totalMenu": 0,
+    "totalClosed": 0,
+    "totalUnassignedScreenCount": 0,
+    "thisWeekTotalAd": 0,
+    "thisWeekTotalMenu": 0,
+    "thisWeekTotalClosed": 0,
+    "thisWeekUnassignedCount": 0,
+    "lastWeekTotalAd": 0,
+    "lastWeekTotalMenu": 0,
+    "lastWeekTotalClosed": 0,
+    "lastWeekUnassignedCount": 0,
+    "totalAdminLicenses": 0
+  }
+  
+   ```
+  
+  ### Status Codes
+  
+  - **200 OK**: The request was successful, and the total license information is returned.
+      
+  
+  This endpoint is essential for monitoring and managing license allocations effectively, providing insights into current license usage and availability.
+}

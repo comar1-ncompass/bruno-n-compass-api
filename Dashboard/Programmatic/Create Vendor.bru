@@ -1,0 +1,23 @@
+meta {
+  name: Create Vendor
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/programmatic/vendor
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "Test Vendor",
+      "description": "this is a test vendor",
+      "apiUrl": "https://test-api.com/api/v1"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

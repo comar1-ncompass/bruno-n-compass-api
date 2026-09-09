@@ -1,0 +1,16 @@
+meta {
+  name: Get Single Dealer
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/Dealer/{{dealerId}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

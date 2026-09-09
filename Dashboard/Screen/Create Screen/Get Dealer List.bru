@@ -1,0 +1,137 @@
+meta {
+  name: Get Dealer List
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getall?page=1&search=&pageSize=15
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  pageSize: 15
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get All Dealers
+  
+  ### Method
+  
+  `GET`
+  
+  ### Endpoint
+  
+  `{{baseUrl}}/api/dealer/getall`
+  
+  ### Description
+  
+  This endpoint retrieves a list of dealers from the system. It supports pagination and allows for searching through the dealer records.
+  
+  ### Query Parameters
+  
+  - `page` (integer): The page number to retrieve. Default is `1`.
+      
+  - `search` (string): A search term to filter the dealers. Default is an empty string (no filtering).
+      
+  - `pageSize` (integer): The number of dealer records to return per page. Default is `15`.
+      
+  
+  ### Response Format
+  
+  The response is returned in JSON format and includes the following structure:
+  
+  - **dealers** (array): A list of dealer objects, each containing:
+      
+      - `dealerId` (string): The unique identifier for the dealer.
+          
+      - `businessName` (string): The name of the dealer's business.
+          
+      - `contactPerson` (string): The name of the contact person.
+          
+      - `contactNumber` (string): The contact number for the dealer.
+          
+      - `region` (string): The region where the dealer is located.
+          
+      - `state` (string): The state where the dealer operates.
+          
+      - `city` (string): The city of the dealer.
+          
+      - `userId` (string): The identifier of the user associated with the dealer.
+          
+      - `dateCreated` (string): The date when the dealer record was created.
+          
+      - `dateUpdated` (string or null): The date when the dealer record was last updated.
+          
+      - `createdBy` (string or null): The user who created the dealer record.
+          
+      - `updatedBy` (string or null): The user who last updated the dealer record.
+          
+      - `status` (string): The current status of the dealer.
+          
+      - `totalHost` (string): Total hosts associated with the dealer.
+          
+      - `activeHost` (string): Active hosts associated with the dealer.
+          
+      - `forInstallationHost` (string): Hosts designated for installation.
+          
+      - `email` (string): The dealer's email address.
+          
+      - `generatedId` (string): A generated identifier for the dealer.
+          
+      - `hosts` (array): A list of hosts associated with the dealer.
+          
+      - `advertisers` (array): A list of advertisers associated with the dealer.
+          
+      - `licenses` (null): License information, if applicable.
+          
+      - `monthAsDealer` (string): The duration the entity has been a dealer.
+          
+      - `owner` (string): The owner of the dealer.
+          
+      - `dealerIdAlias` (string): An alias for the dealer ID.
+          
+      - `totalOnlineLicense` (integer): Total number of online licenses.
+          
+      - `totalAdvertisers` (integer): Total number of advertisers.
+          
+      - `onlineLicenseCount` (integer): Count of online licenses.
+          
+      - `offlineLicenseCount` (integer): Count of offline licenses.
+          
+      - `pendingLicenseCount` (integer): Count of pending licenses.
+          
+      - `contractDetails` (null): Details of any contracts, if applicable.
+          
+      - `dealerStats` (null): Statistics related to the dealer, if applicable.
+          
+  - **paging** (object): Contains pagination information:
+      
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page.
+          
+      - `page` (integer): The current page number.
+          
+      - `pageSize` (integer): The size of the page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of dealer entities available.
+          
+      - `pageStart` (integer): The index of the first entity on the current page.
+          
+      - **entities** (array): A list of dealer entities for the current page.
+          
+  
+  ### Status Code
+  
+  - `200 OK`: The request was successful, and the dealer data is returned as specified above.
+}

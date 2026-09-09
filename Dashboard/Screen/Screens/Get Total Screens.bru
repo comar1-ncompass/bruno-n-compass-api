@@ -1,0 +1,25 @@
+meta {
+  name: Get Total Screens
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/screen/gettotal
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  insomnia.test("Status code is 200", function () {
+      insomnia.response.to.have.status(200);
+  });
+  
+  insomnia.test("Response time is acceptable", function () {
+      insomnia.expect(insomnia.response.res.getResponseTime()).to.be.below(5000);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

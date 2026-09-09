@@ -1,0 +1,19 @@
+meta {
+  name: Get Location Store Hours
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/googleapi/getstorehours?placeid={{placeId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  placeid: {{placeId}}
+}
+
+settings {
+  encodeUrl: true
+}

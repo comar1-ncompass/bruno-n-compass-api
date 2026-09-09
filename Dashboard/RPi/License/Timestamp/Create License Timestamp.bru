@@ -1,0 +1,25 @@
+meta {
+  name: Create License Timestamp
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/pi/license/timestamp
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "id": "1",
+      "type": "1",
+      "licenseKey": "0afcf617-7d0e-4b37-aa64-e7500a433bfc",
+      "createdAt": "1",
+      "updatedAt": "1"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

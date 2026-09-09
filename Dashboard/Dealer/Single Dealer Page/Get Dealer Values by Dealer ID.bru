@@ -1,0 +1,67 @@
+meta {
+  name: Get Dealer Values by Dealer ID
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/getdealervaluesbydealerid?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### Get Dealer Values by Dealer ID
+  
+  This endpoint retrieves dealer values associated with a specific dealer identified by their unique dealer ID. It is useful for obtaining detailed information about a dealer's attributes or settings.
+  
+  #### Request
+  
+  - **Method**: GET
+      
+  - **Endpoint**: `{{baseUrl}}/api/dealer/getdealervaluesbydealerid`
+      
+  - **Query Parameters**:
+      
+      - `dealerid` (required): The unique identifier for the dealer whose values are to be fetched. This should be a valid dealer ID.
+          
+  
+  #### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  - **Response Body**:
+      
+      - `message`: A string that may contain additional information about the request. In this case, the message is empty.
+          
+  
+  #### Example
+  
+  **Request**:
+  
+  ```
+  GET {{baseUrl}}/api/dealer/getdealervaluesbydealerid?dealerid={{dealerId}}
+  
+   ```
+  
+  **Response**:
+  
+  ``` json
+  {
+    "message": ""
+  }
+  
+   ```
+  
+  This endpoint does not return detailed dealer values in the response body, but it confirms the successful execution of the request with a status message.
+}

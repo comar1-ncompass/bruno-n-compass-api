@@ -1,0 +1,22 @@
+meta {
+  name: Latest Version
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/playerapp/getlatestversion?appId=21d3d1fa-b818-4417-9c03-0140a4fb1bc6&licenseId=81701855-9172-4634-acfe-31c360c10e8f&appiD=7aaf98bb-7af3-46a2-92d6-f51e7f1c3378
+  body: json
+  auth: inherit
+}
+
+params:query {
+  appId: 21d3d1fa-b818-4417-9c03-0140a4fb1bc6
+  licenseId: 81701855-9172-4634-acfe-31c360c10e8f
+  appiD: 7aaf98bb-7af3-46a2-92d6-f51e7f1c3378
+  ~appId: 7aaf98bb-7af3-46a2-92d6-f51e7f1c3378
+}
+
+settings {
+  encodeUrl: true
+}

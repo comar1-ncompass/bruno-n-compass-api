@@ -1,0 +1,226 @@
+meta {
+  name: Create Filler Feed
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/filler/playlist/upsert
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "[API] Peaceful Footage {{todayDate}} {{currentTime}}",
+      "Interval": 1,
+      "Duration": 7,
+      "AssignedDealerIds": [
+          // Assigned to Test Tech
+          "{{dealerId}}"
+      ],
+      "DeleteAssignedDealers": [],
+      "PlaylistGroups": [
+          {
+              "fillerGroupId": "{{filler_group_id}}",
+              "Quantity": 1
+          }
+      ]
+  }
+}
+
+script:post-response {
+  test("✅ Response status code validation", function () {
+      const successCodes = [200, 201];
+      expect(successCodes, "Status code should indicate success").to.include(res.getStatus());
+  });
+  
+  test("✅ Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  test("✅ Response has valid JSON structure", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+  
+  test("✅ Filler Feed creation response validation", function () {
+      const responseJson = res.getBody();
+      
+      // Check for success indicators
+      if (responseJson.message) {
+          const successPatterns = [/success/i, /created/i, /saved/i, /added/i];
+          const messageText = responseJson.message.toLowerCase();
+          const hasSuccessPattern = successPatterns.some(pattern => pattern.test(messageText));
+          
+          expect(hasSuccessPattern, `Response message should indicate success: "${responseJson.message}"`).to.be.true;
+          console.log(`✅ Success message: ${responseJson.message}`);
+      }
+      
+      // Check for filler group ID in response
+      if (responseJson.fillerGroupId || responseJson.id) {
+          const fillerGroupId = responseJson.fillerGroupId || responseJson.id;
+          const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          
+          expect(fillerGroupId, "Filler Group ID should be valid UUID").to.match(uuidPattern);
+          
+          // Store for potential follow-up requests
+          bru.setEnvVar("created_filler_group_id", fillerGroupId);
+          console.log(`✅ Filler Feed created with ID: ${fillerGroupId}`);
+      }
+  });
+  
+  test("✅ No error indicators in response", function () {
+      const responseJson = res.getBody();
+      const errorPatterns = [/error/i, /failed/i, /invalid/i, /denied/i, /unauthorized/i];
+      
+      if (responseJson.message) {
+          const messageText = responseJson.message.toLowerCase();
+          const hasErrorPattern = errorPatterns.some(pattern => pattern.test(messageText));
+          
+          expect(hasErrorPattern, `Response should not contain error indicators: "${responseJson.message}"`).to.be.false;
+      }
+      
+      // Check for error fields
+      expect(responseJson, "Response should not have 'error' field").to.not.have.property('error');
+      expect(responseJson, "Response should not have 'errors' field").to.not.have.property('errors');
+  });
+  
+  test("✅ Response contains expected fields", function () {
+      const responseJson = res.getBody();
+      
+      // Log all response fields for debugging
+      console.log("Response fields:", Object.keys(responseJson));
+      
+      // Common expected fields
+      const possibleFields = ['message', 'success', 'data', 'fillerGroupId', 'id', 'status'];
+      let foundFields = 0;
+      
+      possibleFields.forEach(field => {
+          if (responseJson.hasOwnProperty(field)) {
+              foundFields++;
+              console.log(`✅ Found field: ${field} = ${responseJson[field]}`);
+          }
+      });
+      
+      expect(foundFields, "Response should contain at least one expected field").to.be.greaterThan(0);
+  });
+  
+  test("📊 Filler Feed Verification", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+      const responseJson = res.getBody();
+      
+      console.log("=== FILLER FEED CREATION SUMMARY ===");
+      console.log(`📝 Filler Feed: ${requestBody.name}`);
+      console.log(`📊 Status: ${res.getStatus()} ${res.statusText}`);
+      console.log(`⏱️  Response time: ${res.getResponseTime()}ms`);
+      console.log(`📋 Playlist groups configured: ${requestBody.PlaylistGroups.length}`);
+      console.log(`👥 Dealers assigned: ${requestBody.AssignedDealerIds.length}`);
+      console.log(`🎯 Duration: ${requestBody.Duration} days`);
+      console.log(`⏰ Interval: ${requestBody.Interval} minutes`);
+      
+      if (responseJson.fillerGroupId || responseJson.id) {
+          console.log(`🆔 Filler Feed ID: ${responseJson.fillerGroupId || responseJson.id}`);
+      }
+      
+      if (responseJson.message) {
+          console.log(`💬 Response: ${responseJson.message}`);
+      }
+  });
+  
+  // ===== VERIFY FILLER FEED WAS CREATED =====
+  const jsonData = res.getBody();
+  
+  const fillerGroupId = jsonData.playlistGroups[0].fillerGroupId;
+  // Set it as an environment variable
+  if (fillerGroupId) {
+      bru.setEnvVar("filler_group_id", fillerGroupId);
+      console.log("✅ Extracted fillerGroupId:", fillerGroupId);
+  } else {
+      console.log("⚠️ No fillerGroupId found in playlistGroups");
+  }
+  
+  // // const createdfillerGroupId = pm.environment.get("created_filler_group_id");
+  const baseUrl = bru.getCollectionVar("base_url") || bru.getEnvVar("baseUrl");
+  const accessToken = bru.getCollectionVar("access_token") || bru.getEnvVar("access_token");
+  
+  if (fillerGroupId) {
+      await bru.sendRequest({
+          // URL found on the Feed > Fillers page to fetch the list of filler feeds created
+          url: `${baseUrl}/api/filler/playlist/getall?page=1&search=&sortColumn=DateCreated&sortOrder=desc&pageSize=15`, // Adjust endpoint as needed
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
+          }
+      }, async function(err, res) {
+          if (err) {
+              console.log("⚠️  Filler Feed verification request failed:", err.message);
+              return;
+          }
+  
+          test("✅ [Chained Response] Filler Feed Page - Filler Feed verification successful", function () {
+              res.status.to.eql(200);
+          });
+  
+          if (res.status === 200) {
+              // const fillerFeedData = res.json();
+              const fillerFeedData = res.getBody()
+              console.log("✅ [Chained Response] Filler Feed Page - Filler Feed creation verified successfully");
+              console.log("Filler Feed details:", {
+                  filler_group_id: fillerFeedData.playlistGroups[0].fillerGroupId,
+                  name: fillerFeedData.name,
+                  duration: fillerFeedData.duration,
+                  interval: fillerFeedData.interval,
+                  assigned_dealer: fillerFeedData.assignedDealerIds
+              });
+          }
+      });
+  } else {
+      console.log("ℹ️  No Filler Feed ID available for verification");
+  }
+  
+  let response = res.getBody();
+  const expectedPlaylistName = response.name
+  // // const expectedPlaylistName = pm.environment.get("expectedPlaylistName");
+  const selectedDealerId = bru.getEnvVar("dealerId");
+  
+  if (expectedPlaylistName) {
+      await bru.sendRequest({
+          url: `${baseUrl}/api/filler/playlist/getbyrole?role=2&dealerid=${selectedDealerId}`, // Adjust role parameter as needed
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
+          }
+      }, async function(err, res) {
+          if (err) {
+              console.log("⚠️  Filler Playlist verification request failed:", err.message);
+              return;
+          }
+  
+          test("✅ [Chained Response] Playlist - Add Content: Verification request successful", function () {
+              res.status.to.eql(200);
+          });
+  
+          if (res.status === 200) {
+              const responseData = res.data; // Move this line inside the callback
+              
+              // Check if the playlist exists in the entities array
+              const fillerFeedName = responseData.paging.entities.find(entity => entity.name === expectedPlaylistName
+              );
+              
+              test("✅ [Chained Response] Playlist - Add Content: Filler Feed found in fillers list", function () {
+                  expect(fillerFeedName).to.not.be.undefined;
+              });
+          }
+      });
+  } else {
+      console.log("ℹ️  No expected playlist name available for verification");
+  }
+}
+
+settings {
+  encodeUrl: true
+}

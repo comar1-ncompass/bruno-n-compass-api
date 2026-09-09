@@ -1,0 +1,22 @@
+meta {
+  name: Create Reboot Schedules
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/licenses/123e4567-e89b-12d3-a456-426614174001/reboot-schedules
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "rebootTime": "14:00",
+      "status": false
+  }
+}
+
+settings {
+  encodeUrl: true
+}

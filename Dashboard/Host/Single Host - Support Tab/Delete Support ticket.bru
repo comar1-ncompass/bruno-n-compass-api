@@ -1,0 +1,19 @@
+meta {
+  name: Delete Support ticket
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/support/:ticket_id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  ticket_id: bbc35d3f-24b9-4948-9d96-4d1649412c1a
+}
+
+settings {
+  encodeUrl: true
+}

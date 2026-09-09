@@ -1,0 +1,204 @@
+meta {
+  name: Filtered User Dealers
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{baseUrl}}/api/license/getall?page=1&search=&sortColumn=PiStatus&sortOrder=desc&pageSize=15&includeAdmin=false&piStatus=&daysOfflineFrom=&daysOfflineTo=&active=&daysInstalled=&timezone=&dealerId=49b7ff43-3728-437c-9d0b-87d1b6d26d33&hostId=&assigned=&pending=&online=&isActivated=&isFavorite=&serverVersion=&uiVersion=&piOrder=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: PiStatus
+  sortOrder: desc
+  pageSize: 15
+  includeAdmin: false
+  piStatus: 
+  daysOfflineFrom: 
+  daysOfflineTo: 
+  active: 
+  daysInstalled: 
+  timezone: 
+  dealerId: 49b7ff43-3728-437c-9d0b-87d1b6d26d33
+  hostId: 
+  assigned: 
+  pending: 
+  online: 
+  isActivated: 
+  isFavorite: 
+  serverVersion: 
+  uiVersion: 
+  piOrder: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # API Endpoint: Filtered User Dealers
+  
+  This endpoint retrieves a paginated list of all licenses associated with a specific dealer ID. It is designed to provide a comprehensive view of all licenses under a particular dealer, irrespective of individual hosts.
+  
+  ---
+  
+  ## HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  ## Endpoint
+  
+  `{{baseUrl}}/api/license/getall`
+  
+  ---
+  
+  ## Query Parameters
+  
+  The following query parameters are used to filter and sort the licenses.
+  
+  - **page** (integer, required): The page number for pagination (e.g., `1`).
+      
+  - **search** (string, optional): A search term to filter licenses.
+      
+  - **sortColumn** (string, required): The column to sort the results by (e.g., `PiStatus`).
+      
+  - **sortOrder** (string, required): The order of sorting (`desc`).
+      
+  - **pageSize** (integer, required): The number of records per page (e.g., `15`).
+      
+  - **includeAdmin** (boolean, optional): Whether to include admin licenses (`false`).
+      
+  - **timezone** (string, optional): The timezone for the results.
+      
+  - **dealerId** (string, required): The unique identifier of the dealer to filter by. For this request, the value is `49b7ff43-3728-437c-9d0b-87d1b6d26d33`.
+      
+  - **hostId** (string, optional): The unique identifier of the host to filter by. This parameter is intentionally left blank to retrieve all licenses for the dealer.
+      
+  - **piStatus** (string, optional): Filter licenses by their PI status.
+      
+  - **... (other optional parameters)**: Other optional parameters are left blank to retrieve a broad list.
+      
+  
+  ---
+  
+  ## Expected Response Format
+  
+  The response returns a list of license objects, with details about each license, along with pagination information and total counts for the filtered data.
+  
+  JSON
+  
+  ```
+  {
+      "licenses": [
+          {
+              "licenseId": "41c087a5-35b4-4bee-9325-5392a31b8f4f",
+              "licenseKey": "c4fb3d28-ce27-42cb-b24a-5cce6639af1e",
+              "macAddress": "2c:cf:67:0f:2c:89",
+              "isRegistered": 1,
+              "isActivated": 1,
+              "dealerId": "49b7ff43-3728-437c-9d0b-87d1b6d26d33",
+              "hostId": "a1794f62-e10d-4073-8f68-eb6ba89dbc72",
+              "dateCreated": "2025-05-05T06:35:27+00:00",
+              "internetType": "wlan0",
+              "internetSpeed": "Slow",
+              "memory": "2 GB",
+              "totalStorage": "29 GB",
+              "freeStorage": "49 %",
+              "dateUpdated": "2025-08-01T03:55:02+00:00",
+              "contentsUpdated": "2025-07-31T06:45:00+00:00",
+              "playerSocketId": null,
+              "piSocketId": "ke7b0dmUjsNQJS0YAGre",
+              "playerStatus": 1,
+              "piStatus": 1,
+              "sequence": null,
+              "alias": "License # 247",
+              "timeIn": "July 31, 2025, 8:25:50 PM",
+              "timeOut": "July 31, 2025, 7:03:39 AM",
+              "anydeskId": "1640513329",
+              "appVersion":"{\"chromium\":\"92.0.4515.98\",\"electron\":\"N/A\",\"puppeteer\":\"N/A\",\"rpi_model\":\"Raspberry Pi 4 Model B Rev 1.5\\u20ac\",\"server\":\"2.9.21\",\"ui\":\"3.0.44\"}",
+              "playerUiKey": null,
+              "playerAssetServerKey": null,
+              "installDate": "2025-05-05T00:00:00",
+              "internetInfo": "{\"date\":\"Fri Aug 01 2025 04:00:02 GMT-0500 (Eastern Standard Time)\",\"downloadMbps\":0.0,\"ping\":0.0,\"uploadMbps\":0.0}",
+              "screenshot": "20250731064936.jpg",
+              "displayStatus": 1,
+              "serverVersion": "2.9.21",
+              "uiVersion": "3.0.44",
+              "screenshotSettings": 1,
+              "speedtestSettings": 1,
+              "displayControlSettings": 1,
+              "resourceSettings": 0,
+              "bootDelay": null,
+              "emailSettings": 1,
+              "notificationSettings": 1,
+              "tvDisplaySettings": null,
+              "rebootTime": null,
+              "isCecEnabled": 0,
+              "isCecCtlEnabled": null,
+              "fastEdgeMonitoringTool": 0,
+              "tvBrand": null,
+              "publicIP": "112.202.162.247",
+              "prevPublicIP": null,
+              "installRequestDate": "2025-05-05T06:43:24",
+              "backgroundImageUrl": null,
+              "enableUpdates": false,
+              "piLocalDateTime": null,
+              "businessName": "Test Automation Business",
+              "hostName": "Test Automation Host",
+              "templateName": "NCT Standard Template",
+              "screenName": "Screen #1",
+              "screenType": "ad",
+              "hostAddress": "1820 W Pointe Dr a",
+              "category": "Post Office",
+              "storeHours": "[{\"id\":1,\"label\":\"M\",\"day\":\"Monday\",\"periods\":[{\"id\":\"9d780036-97f8-4d72-b745-fab24cb47aa6\",\"day_id\":1,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":2,\"label\":\"T\",\"day\":\"Tuesday\",\"periods\":[{\"id\":\"fc9e53eb-ac66-403f-ba98-64dd4b1640a8\",\"day_id\":2,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":3,\"label\":\"W\",\"day\":\"Wednesday\",\"periods\":[{\"id\":\"88d2d9a3-fe04-4075-bfe8-e9fe71b2c319\",\"day_id\":3,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":4,\"label\":\"Th\",\"day\":\"Thursday\",\"periods\":[{\"id\":\"d84f5a49-b504-4675-b6fa-567489a99a29\",\"day_id\":4,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":5,\"label\":\"F\",\"day\":\"Friday\",\"periods\":[{\"id\":\"f1813a78-bc98-40cc-91b4-a7cf8fd30853\",\"day_id\":5,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":6,\"label\":\"St\",\"day\":\"Saturday\",\"periods\":[{\"id\":\"4f6f0a7b-a36e-4c49-9a8c-cb05f153b052\",\"day_id\":6,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true},{\"id\":0,\"label\":\"Sn\",\"day\":\"Sunday\",\"periods\":[{\"id\":\"2963f290-2ebc-4fc6-8607-551227dd8dbd\",\"day_id\":0,\"open\":\"12:00 AM\",\"close\":\"11:59 PM\",\"openingHourData\":{\"hour\":0,\"minute\":0,\"second\":0},\"closingHourData\":{\"hour\":23,\"minute\":59,\"second\":0}}],\"status\":true}]",
+              "screenId": "1e5482f3-181f-4903-8d07-a5413ed27521",
+              "templateId": "2338b251-469b-43ac-9f2d-8e42f61a1538",
+              "timezoneName": "US/Eastern",
+              "startDate": "11/20/2024 00:00:00",
+              "dealerStatus": "A",
+              "offlineDays": 0,
+              "installedDays": 88,
+              "isFavorite": false,
+              "licenseFavoriteId": null,
+              "screenshotUrl": "https://nctv-images-dev.s3.amazonaws.com/screenshots/41c087a5-35b4-4bee-9325-5392a31b8f4f/20250731064936.jpg",
+              "uploadSpeed": 35.0,
+              "downloadSpeed": 71.3,
+              "tags": null
+          },
+          // ... (remaining licenses for the filtered dealer)
+      ],
+      "paging": {
+          "hasPreviousPage": false,
+          "hasNextPage": true,
+          "page": 1,
+          "pageSize": 15,
+          "pages": 13,
+          "totalEntities": 188,
+          "pageStart": 1,
+          "entities": [
+              // ... (duplicate of licenses array)
+          ]
+      },
+      "totalCounts": {
+          "total": 188,
+          "totalOnline": 140,
+          "totalOffline": 48,
+          "totalInActive": 0,
+          "totalUnAssigned": 0
+      }
+  }
+  
+   ```
+  
+  ---
+  
+  ## Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included in your request. The specific authentication method will depend on the API's security requirements.
+}

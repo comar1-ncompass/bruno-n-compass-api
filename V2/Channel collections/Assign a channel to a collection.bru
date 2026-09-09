@@ -1,0 +1,159 @@
+meta {
+  name: Assign a channel to a collection
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/channel-collections
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{bearer_token}}
+}
+
+body:json {
+  {
+    "collectionId": "{{standalone_collectionId}}",
+    "channels": [
+      {
+        "channelId": "{{standalone_channelId_B}}",
+        "sequenceOrder": 2
+      }
+    ],
+    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936"
+  }
+}
+
+script:pre-request {
+  const timestamp = new Date().getTime();
+  const ownerId = "a06d4cba-01ad-4792-a3eb-3c112fe62936";
+  const baseUrl = bru.getEnvVar("baseUrl");
+  const token = bru.getEnvVar("bearer_token");
+  
+  // STEP 1: Get next available position for Collection
+  await bru.sendRequest({
+      url: `${baseUrl}/api/collections`,
+      method: "GET",
+      headers: { "Authorization": `Bearer ${token}` }
+  }, async function(err, res) {
+      let nextIndex = 1;
+      if (!err && res.data.meta && res.data.meta.pagination) {
+          nextIndex = res.data.meta.pagination.totalCount + 1;
+      }
+  
+      // STEP 2: Create Content (Required for Channels)
+      await bru.sendRequest({
+          url: `${baseUrl}/api/contents`,
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+          data: JSON.stringify({
+              "title": `Prep_Content_${timestamp}`,
+              "ownerId": ownerId,
+              "description": "Standalone Prep Content",
+              "fileName": "prep.png",
+              "fileType": "image/png",
+              "fileSize": 1048576,
+              "url": "https://images3.alphacoders.com/109/thumb-1920-1093441.jpg",
+              "thumbnail": "https://images3.alphacoders.com/109/thumb-1920-1093441.jpg",
+              "duration": 30.5,
+              "isProtected": false,
+              "isConverted": true,
+              "isChannel": false,
+              "metadata": "{ \"upload\": { \"provider\": \"filestack\", \"handleId\": \"file-xyz123\" } }",
+              "createdBy": ownerId,
+              "nameConflict": "auto"
+          })
+      }, async function(errC, resC) {
+          if (!errC && resC.status === 201) {
+              const contentId = resC.data.data.contentId;
+              console.log("Prep 1/3: Content Created", contentId);
+  
+              // STEP 3: Create Channel A
+              await bru.sendRequest({
+                  url: `${baseUrl}/api/channels`,
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                  data: JSON.stringify({
+                      "channelName": `Channel_A_${timestamp}`,
+                      "description": "Prep Channel A",
+                      "genreIds": ["f5fb8536-e0f7-4277-9eef-b57834f63afb"],
+                      "thumbnailUrl": "https://media.istockphoto.com/id/1312267010/photo/background-of-many-banana-pieces-overhead-view-studio-food-photography.jpg?s=612x612&w=0&k=20&c=URFsGGi8o_q6o0Ou7A_aEUez5UFSvqWpGww947goOFY=",
+                      "isHero": false,
+                      "metadata": "",
+                      "createdBy": ownerId,
+                      "contents": [{ "contentId": contentId, "sequenceOrder": 1, "duration": 30 }]
+                  })
+              }, async function(errChA, resChA) {
+                  bru.setEnvVar("standalone_channelId_A", resChA.data.data.channelId);
+  
+                  // STEP 4: Create Channel B
+                  await bru.sendRequest({
+                      url: `${baseUrl}/api/channels`,
+                      method: "POST",
+                      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                      data: JSON.stringify({
+                          "channelName": `Channel_B_${timestamp}`,
+                          "description": "Prep Channel B",
+                          "genreIds": ["f5fb8536-e0f7-4277-9eef-b57834f63afb"],
+                          "thumbnailUrl": "https://www.shutterstock.com/image-photo/unripe-green-mangoes-hanging-on-600nw-2483878423.jpg",
+                          "isHero": false,
+                          "metadata": "",
+                          "createdBy": ownerId,
+                          "contents": [{ "contentId": contentId, "sequenceOrder": 1, "duration": 30 }]
+                      })
+                  }, async function(errChB, resChB) {
+                      bru.setEnvVar("standalone_channelId_B", resChB.data.data.channelId);
+                      console.log("Prep 2/3: Channels A & B Created");
+  
+                      // STEP 5: Create Collection with Channel A
+                      await bru.sendRequest({
+                          url: `${baseUrl}/api/collections`,
+                          method: "POST",
+                          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                          data: JSON.stringify({
+                              "collectionName": `Coll_${timestamp}`,
+                              "position": nextIndex,
+                              "isVisible": true,
+                              "isFeatured": false,
+                              "createdBy": ownerId,
+                              "channels": [{ "channelId": resChA.data.data.channelId, "sequenceOrder": 1, "duration": 30 }]
+                          })
+                      }, async function(errCol, resCol) {
+                          if (!errCol && resCol.status === 201) {
+                              bru.setEnvVar("standalone_collectionId", resCol.data.data.collectionId);
+                              console.log("Prep 3/3: Collection Created. Waterfall finished.");
+                          }
+                      });
+                  });
+              });
+          }
+      });
+  });
+}
+
+script:post-response {
+  // 1. Status code check
+  test("Status code is 201", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  // 2. Response time check
+  test("Response time is acceptable", function () {
+      expect(res.getResponseTime()).to.be.below(5000);
+  });
+  
+  // 3. Valid JSON Object check
+  test("Response is valid JSON object", function () {
+      expect(res.getBody()).to.exist;
+      const responseJson = res.getBody();
+      expect(responseJson).to.be.an('object');
+  });
+}
+
+settings {
+  encodeUrl: true
+}

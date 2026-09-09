@@ -1,0 +1,20 @@
+meta {
+  name: Get License Timestamps
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/pi/license/timestamp?licenseKey=5e3268ea-6ed8-4588-86bc-9985334010eb&type=last_startup
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseKey: 5e3268ea-6ed8-4588-86bc-9985334010eb
+  type: last_startup
+}
+
+settings {
+  encodeUrl: true
+}

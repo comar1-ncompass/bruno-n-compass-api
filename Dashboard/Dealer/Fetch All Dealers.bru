@@ -1,0 +1,105 @@
+meta {
+  name: Fetch All Dealers
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/dealer/fetchallsorttotal
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Fetch All Sort Total Dealers
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/dealer/fetchallsorttotal`
+  
+  #### Description
+  
+  This endpoint retrieves a paginated list of dealers along with their associated statistics. It provides comprehensive data about each dealer, including their business details and license information.
+  
+  #### Request Parameters
+  
+  This endpoint does not require any query parameters in the request.
+  
+  #### Expected Response
+  
+  On a successful request, the server responds with a `200 OK` status and a JSON object containing the following structure:
+  
+  - **paging**: An object containing pagination details.
+      
+      - **hasPreviousPage**: Boolean indicating if there is a previous page.
+          
+      - **hasNextPage**: Boolean indicating if there is a next page.
+          
+      - **page**: Current page number.
+          
+      - **pageSize**: Size of the page (number of items).
+          
+      - **pages**: Total number of pages available.
+          
+      - **totalEntities**: Total number of entities available.
+          
+      - **pageStart**: Index of the first entity on the current page.
+          
+      - **entities**: An array of dealer objects, each containing:
+          
+          - **dealerId**: Unique identifier for the dealer.
+              
+          - **businessName**: Name of the dealer's business.
+              
+          - **dealerIdAlias**: Alias for the dealer's ID.
+              
+          - **dateCreated**: Date the dealer was created.
+              
+          - **userId**: ID of the user associated with the dealer.
+              
+          - **status**: Current status of the dealer.
+              
+          - **totalLicenses**: Total number of licenses held by the dealer.
+              
+          - **monthAsDealer**: Duration (in months) the entity has been a dealer.
+              
+          - **totalLicensesUnassigned**: Number of unassigned licenses.
+              
+          - **totalLicensesOffline**: Number of offline licenses.
+              
+          - **contactPerson**: Name of the contact person.
+              
+          - **contactNumber**: Contact number (nullable).
+              
+          - **startDate**: Start date of the dealer's operation.
+              
+          - **totalAdvertisers**: Total number of advertisers associated with the dealer.
+              
+          - **totalHosts**: Total number of hosts.
+              
+          - **totalHostsActive**: Total number of active hosts.
+              
+          - **unassignedLicensesPercent**: Percentage of unassigned licenses.
+              
+          - **offlineLicensesPercent**: Percentage of offline licenses.
+              
+          - **playerCount**: Number of players associated with the dealer.
+              
+          - **totalLicensesOnline**: Total number of online licenses.
+              
+          - **totalScheduled**: Total number of scheduled licenses.
+              
+          - **totalAdvertisersActive**: Total number of active advertisers.
+              
+          - **forInstallationHost**: Number of licenses for installation hosts.
+              
+  
+  #### Notes
+  
+  - Ensure that you handle pagination appropriately when processing the response.
+      
+  - The structure of the dealer object may be similar to responses from other endpoints in this API, which can be useful for consistency in data handling.
+}

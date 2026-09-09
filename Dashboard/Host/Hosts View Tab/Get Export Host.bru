@@ -1,0 +1,106 @@
+meta {
+  name: Get Export Host
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/host/export?page=1&search=&sortColumn=&sortOrder=&pageSize=0&status=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  search: 
+  sortColumn: 
+  sortOrder: 
+  pageSize: 0
+  status: 
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Export Hosts
+  
+  This endpoint retrieves a list of hosts based on the specified query parameters. It allows for pagination and sorting of the results.
+  
+  #### Request Parameters
+  
+  - **page** (integer): Specifies the page number for pagination. Default is `1`.
+      
+  - **search** (string): A search term to filter the results. Default is an empty string.
+      
+  - **sortColumn** (string): The column by which to sort the results. Default is an empty string.
+      
+  - **sortOrder** (string): The order of sorting, either ascending or descending. Default is an empty string.
+      
+  - **pageSize** (integer): The number of results to return per page. Default is `0`, which may indicate no limit.
+      
+  - **status** (string): Filters results based on the status of the hosts. Default is an empty string.
+      
+  
+  #### Response Structure
+  
+  The response is returned in JSON format and contains the following structure:
+  
+  - **host** (array): An array of host objects, each containing:
+      
+      - **hostId** (string): Unique identifier for the host.
+          
+      - **dealerId** (string): Identifier for the dealer associated with the host.
+          
+      - **userId** (string|null): Identifier for the user associated with the host.
+          
+      - **hostName** (string): Name of the host.
+          
+      - **address** (string): Address of the host.
+          
+      - **city** (string): City where the host is located.
+          
+      - **postalCode** (string): Postal code for the host's address.
+          
+      - **state** (string): State where the host is located.
+          
+      - **country** (string|null): Country of the host.
+          
+      - **latitude** (string): Latitude coordinate of the host's location.
+          
+      - **longitude** (string): Longitude coordinate of the host's location.
+          
+      - **status** (string): Current status of the host.
+          
+      - **licenses** (array): An array of license objects associated with the host, each containing:
+          
+          - **license_id** (string): Unique identifier for the license.
+              
+          - **is_registered** (boolean): Indicates if the license is registered.
+              
+          - **is_activated** (boolean): Indicates if the license is activated.
+              
+          - Additional fields related to the license details.
+              
+  - **paging** (object): Contains pagination information, including:
+      
+      - **hasPreviousPage** (boolean): Indicates if there is a previous page.
+          
+      - **hasNextPage** (boolean): Indicates if there is a next page.
+          
+      - **page** (integer): Current page number.
+          
+      - **pageSize** (integer): Number of results per page.
+          
+      - **totalEntities** (integer): Total number of entities available.
+          
+  
+  #### Notes
+  
+  - Ensure to provide valid parameters to retrieve the desired results.
+      
+  - The response includes detailed information about each host and their associated licenses.
+      
+  - The `pageSize` parameter can be adjusted to control the number of results returned.
+}

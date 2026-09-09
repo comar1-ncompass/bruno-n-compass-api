@@ -1,0 +1,113 @@
+meta {
+  name: Get Content by License ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/content/getcontentbylicenseid?licenseid=de5796ea-b0ea-405d-95ab-3bccde81f19c
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseid: de5796ea-b0ea-405d-95ab-3bccde81f19c
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ### API Endpoint: Get Content by License ID
+  
+  This endpoint retrieves the playlist and content details currently assigned to a specific license ID. This is particularly useful for debugging and verifying the media scheduled to play on a digital signage device.
+  
+  ---
+  
+  #### HTTP Method
+  
+  `GET`
+  
+  ---
+  
+  #### Endpoint
+  
+  `{{baseUrl}}/api/content/getcontentbylicenseid`
+  
+  ---
+  
+  #### Query Parameters
+  
+  - **licenseid** (string, required): The unique identifier of the license to retrieve content for. In this case, `de5796ea-b0ea-405d-95ab-3bccde81f19c`.
+      
+  
+  ---
+  
+  #### Expected Response Format
+  
+  The response is a JSON object containing an array `screenZonePlaylistsContents`. Each object in this array represents a zone on the screen template and details the content scheduled for it.
+  
+  JSON
+  
+  ```
+  {
+      "screenZonePlaylistsContents": [
+          {
+              "screenTemplateZonePlaylist": {
+                  "screenTemplateZonePlaylistId": null,
+                  "screenId": "34304b2e-76db-42ab-b4eb-e38542df4e73",
+                  "templateId": "051bf153-a760-4c32-a1ac-4ddf64cbd9ce",
+                  "xPos": "0",
+                  "yPos": "0",
+                  "height": "1080",
+                  "width": "1920",
+                  "playlistId": "bc2e0264-ae60-43ff-aede-f89769f1dc93",
+                  "playlistName": "D.000 4-Background",
+                  "name": "Background",
+                  "order": 0,
+                  "isMainZone": false
+                  // ... (more playlist fields)
+              },
+              "contents": [
+                  {
+                      "playlistContentId": "646123a0-3cb0-45f2-880e-34be2496a491",
+                      "contentId": "5096dd7e-3920-455c-a3ba-4f283ff905cc",
+                      "fileName": "D.267-BG1-Test3.jpg",
+                      "url": "https://n-compass-filestack.s3.amazonaws.com/7oA89Y6SB2Rce2EEMjAH_D.267-BG1-Test3.jpg",
+                      "fileType": "jpg",
+                      "dateCreated": "2022-02-16T14:07:43",
+                      "duration": 20.0,
+                      "createdByName": "Brian Miller",
+                      "title": "D.267-BG1-Test3.jpg",
+                      "playlistContentSchedule": {
+                          "playlistContentsScheduleId": "60607f07-32bf-4aa1-9120-69ec5c5d5e1f",
+                          "playlistContentId": "646123a0-3cb0-45f2-880e-34be2496a491",
+                          "type": 1,
+                          "liveStream": 0,
+                          "from": "",
+                          "to": "",
+                          "days": "0,1,2,3,4,5,6",
+                          "alternateWeek": 0,
+                          "playTimeStart": null,
+                          "playTimeEnd": null,
+                          "dateCreated": "2022-07-15T07:42:49+00:00",
+                          "status": "A"
+                      }
+                      // ... (more content fields)
+                  },
+                  // ... (more content objects)
+              ]
+          },
+          // ... (other screenZonePlaylistsContents objects)
+      ]
+  }
+  
+   ```
+  
+  ---
+  
+  #### Authentication and Headers
+  
+  This endpoint requires the necessary authentication headers to be included with the request. The specific authentication method will depend on the API's security requirements.
+}

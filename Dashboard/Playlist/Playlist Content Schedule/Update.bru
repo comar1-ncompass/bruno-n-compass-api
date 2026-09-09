@@ -1,0 +1,32 @@
+meta {
+  name: Update
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://devapi.n-compass.online/api/playlistcontentsschedule/update
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXItYWRtaW5AdGVzdC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImE2OGI3NTgwLTk2OGUtMTFlOS04ZmRiLTI3ZWE1MTU2YzUwYyIsIm5iZiI6MTYxNDA2MzI3MiwiZXhwIjoxNjE0NDk1MjcyLCJpc3MiOiJKRGVjb3JzIExMQyIsImF1ZCI6IkFueW9uZSJ9.w75nIRqAWxhxD-krbI3npmneGDiWTy4mi8rZpEBsV84
+}
+
+body:json {
+  {
+      "playlistContentsScheduleId": "0e5f1e90-01f6-4226-8715-b0d565476e25",
+      "playlistContentId": "41bedcd3-713b-4cd5-93b5-3c5f1c10280f",
+      "type": 1,
+      "from": "2020-02-01",
+      "to": "2020-02-02",
+      "days": "1,2,3,4",
+      "playtimeStart": "09:00 AM",
+      "playTimeEnd": "11:00 AM"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

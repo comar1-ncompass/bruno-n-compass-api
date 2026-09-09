@@ -1,0 +1,15 @@
+meta {
+  name: Get Advertiser Export All
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/api/Advertiser/ExportAll
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

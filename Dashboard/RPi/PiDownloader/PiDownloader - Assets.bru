@@ -1,0 +1,19 @@
+meta {
+  name: PiDownloader - Assets
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/pidownloader/assets?licenseKey={{licenseKey}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  licenseKey: {{licenseKey}}
+}
+
+settings {
+  encodeUrl: true
+}

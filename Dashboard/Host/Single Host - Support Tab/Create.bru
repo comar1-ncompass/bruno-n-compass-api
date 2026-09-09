@@ -1,0 +1,24 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/support/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "hostId": "1ecdc863-820e-48d6-b2b0-5d633cf9c0a7",
+      "notes": "Ode to the Nameless Martyr (Lupa & Mya Theme) GMV — Wuthering Waves 2.4",
+      "url": "https://www.youtube.com/watch?v=pXl2TfvtPLw",
+      "createdBy": "dc0b5ca0-dd9a-4742-9b9a-0bb63eec5ece"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

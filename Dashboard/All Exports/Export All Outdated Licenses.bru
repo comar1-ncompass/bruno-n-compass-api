@@ -1,0 +1,160 @@
+meta {
+  name: Export All Outdated Licenses
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/license/GetOutDatedLicenses?pageSize=1000&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  pageSize: 1000
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Export All Outdated Licenses
+  
+  This endpoint allows you to retrieve a list of all outdated licenses from the system. It supports pagination through query parameters, enabling you to specify the page number and the number of records per page.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/GetOutDatedLicenses`
+  
+  #### Query Parameters
+  
+  - `page` (integer, required): The page number to retrieve. For example, `page=1` retrieves the first page.
+      
+  - `pageSize` (integer, required): The number of outdated license records to return per page. For example, `pageSize=1000` retrieves 1000 records.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  #### Response Structure
+  
+  The response contains two main components: `appUiVersion`, `appServerVersion`, and `paging`.
+  
+  - **appUiVersion** (string|null): Version of the application UI.
+      
+  - **appServerVersion** (string|null): Version of the application server.
+      
+  - **paging** (object): Contains pagination details:
+      
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Number of records per page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of outdated license records available.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page available.
+          
+      - `pageStart` (integer): Starting index of the current page.
+          
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page available.
+          
+      - **entities** (array): List of outdated license objects for the current page (currently empty).
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "appUiVersion": null,
+    "appServerVersion": null,
+    "paging": {
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "hasNextPage": true,
+      "pageStart": 0,
+      "hasPreviousPage": true,
+      "entities": []
+    }
+  }
+  
+   ```
+  
+  This endpoint retrieves a list of outdated licenses from the system, supporting pagination through query parameters. It allows clients to specify the page number and the number of items per page.
+  
+  This endpoint allows you to retrieve a list of outdated licenses from the system. It supports pagination through query parameters, enabling you to specify the page number and the number of records per page.
+  
+  ### Request
+  
+  **Method:** GET  
+  **URL:** `{{baseUrl}}/api/license/GetOutDatedLicenses`
+  
+  #### Query Parameters
+  
+  - `page` (integer, required): The page number to retrieve. For example, `page=1` retrieves the first page.
+      
+  - `pageSize` (integer, required): The number of license records to return per page. For example, `pageSize=1000` retrieves 1000 records.
+      
+  
+  ### Response
+  
+  **Status Code:** 200  
+  **Content-Type:** application/json
+  
+  #### Response Structure
+  
+  The response contains two main components: `appUiVersion`, `appServerVersion`, and `paging`.
+  
+  - **appUiVersion** (string|null): Version of the application UI.
+      
+  - **appServerVersion** (string|null): Version of the application server.
+      
+  - **paging** (object): Contains pagination details:
+      
+      - `page` (integer): Current page number.
+          
+      - `pageSize` (integer): Number of records per page.
+          
+      - `pages` (integer): Total number of pages available.
+          
+      - `totalEntities` (integer): Total number of outdated licenses available.
+          
+      - `hasNextPage` (boolean): Indicates if there is a next page available.
+          
+      - `pageStart` (integer): Starting index of the current page.
+          
+      - `hasPreviousPage` (boolean): Indicates if there is a previous page available.
+          
+      - **entities** (array): List of outdated license objects for the current page.
+          
+  
+  ### Example Response
+  
+  ``` json
+  {
+    "appUiVersion": null,
+    "appServerVersion": null,
+    "paging": {
+      "page": 0,
+      "pageSize": 0,
+      "pages": 0,
+      "totalEntities": 0,
+      "hasNextPage": true,
+      "pageStart": 0,
+      "hasPreviousPage": true,
+      "entities": []
+    }
+  }
+  
+   ```
+  
+  This endpoint is useful for applications that need to monitor and manage outdated licenses, allowing for efficient retrieval of relevant data.
+}

@@ -1,0 +1,188 @@
+meta {
+  name: Update Schedule: Default Play
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/filler/content/schedule/upsert/bulk
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+      {
+          // Fetched from Get by Group ID
+          "fillerContentId": "{{randomFillerContentId}}",
+          "type": 1,
+          "schedule": {
+              "type": 1
+          },
+          "duration": 20,
+          "isFullScreen": 0,
+          "Recurring": false,
+          "LiveStream": 0,
+          "From": "",
+          "To": "",
+          "Days": "",
+          "AlternateWeek": 0,
+          "PlayTimeStart": "",
+          "PlayTimeEnd": "",
+          "Status": "A"
+      }
+  ]
+}
+
+script:pre-request {
+  // Define the request to get filler content
+  const getFillerContentRequest = {
+      url: `https://dev-api.n-compass.online/api/filler/content/getbygroupid?id=${bru.getCollectionVar("filler_group_id")}`,
+      method: 'GET',
+      headers: {
+          // Add any required headers here, for example:
+  //         // 'Authorization': `Bearer ${pm.collectionVariables.get("access_token")}`,
+          'Content-Type': 'application/json'
+      }
+  };
+  
+  // Send the request
+  await bru.sendRequest(getFillerContentRequest, async function(err, response) {
+      if (err) {
+          console.error('Error fetching filler content:', err);
+          return;
+      }
+  
+      if (response.status !== 200) {
+          response.status;
+          console.error('Response:', response.data);
+          return;
+      }
+  
+      // Parse the response JSON
+      const responseJson = response.data;
+  
+      if (!responseJson || responseJson.length === 0) {
+          console.error('No filler content found or empty response');
+          return;
+      }
+  
+      // Get a random index from the array
+      const randomIndex = Math.floor(Math.random() * responseJson.length);
+  
+      // Extract the random fillerContentId
+      const randomFillerContentId = responseJson[randomIndex].fillerContentId;
+  
+      // Store it as a collection variable for reuse
+  //     pm.collectionVariables.set("randomFillerContentId", randomFillerContentId);
+  
+      // Log it to console to see what was selected
+      console.log("Selected random fillerContentId:", randomFillerContentId);
+      console.log("From", responseJson.length, "available content items");
+  });
+}
+
+script:post-response {
+  // ===== DETERMINE SCHEDULE TYPE(S) FROM REQUEST =====
+  let scheduleTypesFound = [];
+  let fillerContentIdFromTest = null;
+  
+  try {
+      const requestBody = JSON.parse(req.getBody().raw);
+      scheduleTypesFound = [...new Set(requestBody.map(i => i.type))]; // Unique types
+      if (requestBody.length > 0) {
+          fillerContentIdFromTest = requestBody[0].fillerContentId; // take first item or adjust if multiple
+      }
+  } catch (e) {
+      console.log("⚠️ Could not parse request body for schedule type check");
+  }
+  
+  // Helper to get label
+  const getScheduleTypeLabel = t => t === 1 ? "TYPE 1 DEFAULT PLAY" : "TYPE 2 DO NOT PLAY";
+  const expectedScheduleType = 1; // Change to 2 if testing "Do Not Play"
+  const expectedScheduleTypeLabel = getScheduleTypeLabel(expectedScheduleType);
+  
+  // ===== BUSINESS RULES VALIDATION =====
+  test("✅ Business rules validation per type", function () {
+      const requestBody = JSON.parse(req.getBody().raw);
+  
+      requestBody.forEach((item, index) => {
+          expect(item.type, `Item ${index + 1} type`).to.be.oneOf([1, 2]);
+  
+          // Common rules
+          expect(item.duration, `Item ${index + 1} duration`).to.be.gte(5);
+          expect(item.isFullScreen, `Item ${index + 1} isFullScreen`).to.equal(0);
+          expect(item.LiveStream, `Item ${index + 1} LiveStream`).to.equal(0);
+          expect(item.Status, `Item ${index + 1} Status`).to.equal('A');
+          expect(item.Recurring, `Item ${index + 1} Recurring`).to.be.a('boolean');
+          expect(item.AlternateWeek, `Item ${index + 1} AlternateWeek`).to.be.oneOf([0, 1]);
+  
+          // Type-specific rules
+          if (item.type === 1) {
+              ['From', 'To', 'Days', 'PlayTimeStart', 'PlayTimeEnd'].forEach(f => {
+                  expect(item[f], `Item ${index + 1} ${f} must be empty for Type 1`).to.equal('');
+              });
+          } else if (item.type === 2) {
+              ['From', 'To', 'Days', 'PlayTimeStart', 'PlayTimeEnd'].forEach(f => {
+                  expect(item[f], `Item ${index + 1} ${f} should be string`).to.be.a('string');
+              });
+          }
+          console.log(`✅ Item ${index + 1}: ${getScheduleTypeLabel(item.type)} rules validated`);
+      });
+  });
+  
+  // ===== CHAINED REQUEST VERIFICATION =====
+  if (res.getStatus() >= 200 && res.getStatus() < 300 && fillerContentIdFromTest) {
+      const fillerGroupId = bru.getEnvVar("filler_group_id");
+      const baseUrl = bru.getCollectionVar("base_url") || bru.getEnvVar("baseUrl");
+      const accessToken = bru.getCollectionVar("access_token") || bru.getEnvVar("access_token");
+  
+      if (fillerGroupId) {
+          await bru.sendRequest({
+              url: `${baseUrl}/api/filler/content/getbygroupid?id=${fillerGroupId}`,
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
+              }
+          }, async function(err, res) {
+              if (err) return console.log("⚠️ Verification request failed:", err.message);
+  
+              test("✅ [Chained Request] Content Retrieval Status Code for Verification", () => 
+                  res.status.to.eql(200)
+              );
+  
+              const contentData = res.data;
+              const contentArray = Array.isArray(contentData) ? contentData : contentData.data || [];
+              const updatedContent = contentArray.find(item => item.fillerContentId === fillerContentIdFromTest);
+  
+              test("✅ [Chained Request] Configured schedule exists", () => 
+                  expect(updatedContent).to.exist
+              );
+  
+              const actualScheduleType = updatedContent?.fillerContentSchedule?.type;
+              const actualScheduleTypeLabel = getScheduleTypeLabel(actualScheduleType);
+  
+              test(`✅ Schedule type validation – Expected: ${expectedScheduleTypeLabel}`, function () {
+                  console.log(`🔍 Testing schedule type: ${actualScheduleType} (${actualScheduleTypeLabel})`);
+  
+                  expect(
+                      actualScheduleType,
+                      `Schedule type should be ${expectedScheduleType} (${expectedScheduleTypeLabel}) but got ${actualScheduleType} (${actualScheduleTypeLabel})`
+                  ).to.equal(expectedScheduleType);
+  
+                  if (actualScheduleType === expectedScheduleType) {
+                      console.log(`✅ Schedule type matches ${expectedScheduleTypeLabel}`);
+                  } else {
+                      console.error(`❌ Schedule type mismatch! Expected: ${expectedScheduleType} (${expectedScheduleTypeLabel}), Got: ${actualScheduleType} (${actualScheduleTypeLabel})`);
+                  }
+              });
+          });
+      }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}

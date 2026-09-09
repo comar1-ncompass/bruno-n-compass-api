@@ -1,0 +1,70 @@
+meta {
+  name: Get Hosts by Dealer with Total
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/host/getbydealerwithtotal?dealerid={{dealerId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  dealerid: {{dealerId}}
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## API Endpoint: Get Dealer Information with Total
+  
+  ### Description
+  
+  This endpoint retrieves information about a dealer, including total metrics associated with that dealer. It is particularly useful for applications that need to display dealer-specific data based on a unique dealer identifier.
+  
+  ### Request
+  
+  - **Method**: GET
+      
+  - **URL**: `{{baseUrl}}/api/host/getbydealerwithtotal?dealerid={{dealerId}}`
+      
+  
+  #### Query Parameters
+  
+  - `dealerid` (required): The unique identifier for the dealer whose information is being requested.
+      
+  
+  ### Response
+  
+  - **Status Code**: 200 OK
+      
+  - **Content-Type**: application/json
+      
+  
+  #### Response Body
+  
+  The response will contain a JSON object with the following structure:
+  
+  ``` json
+  {
+    "message": ""
+  }
+  
+   ```
+  
+  The `message` field is currently empty, indicating that the request was successful but does not return additional data.
+  
+  ### Headers
+  
+  While no specific headers are required for this request, it is good practice to include the following:
+  
+  - `Content-Type`: application/json
+      
+  - `Accept`: application/json
+      
+  
+  This endpoint is useful for fetching dealer-specific data efficiently, allowing clients to integrate dealer information into their applications seamlessly.
+}

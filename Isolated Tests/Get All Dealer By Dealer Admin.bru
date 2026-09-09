@@ -1,0 +1,49 @@
+meta {
+  name: Get All Dealer By Dealer Admin
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/Dealer/GetAll
+  body: none
+  auth: inherit
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0
+  Accept: application/json
+  Accept-Language: en-US,en;q=0.9
+  Accept-Encoding: gzip, deflate, br, zstd
+  Content-Type: application/json
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLWFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYWNmYzg0YWMtNzdlZi00Y2RkLTlmNzQtZjY3OTFkMjMzMzdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIEFkbWluIiwibmJmIjoxNzcyNjEyMDIwLCJleHAiOjE3NzI2NDA4MjAsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.ooG5JQOpnFKtCGU85kMJSe1fugva2-L3jSSULMy7F8w
+  Origin: https://stg-dashboard.n-compass.online
+  Connection: keep-alive
+  Referer: https://stg-dashboard.n-compass.online/
+  Cookie: stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLWFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYWNmYzg0YWMtNzdlZi00Y2RkLTlmNzQtZjY3OTFkMjMzMzdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIEFkbWluIiwibmJmIjoxNzcyNjEyMDIwLCJleHAiOjE3NzI2NDA4MjAsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.ooG5JQOpnFKtCGU85kMJSe1fugva2-L3jSSULMy7F8w; stg_nctvRefToken=rBqr7CxfbYxkFn%2Bv37cM%2By6RiiuwqElLx3AXgmkeccM%3D; stg_nctvUserId=acfc84ac-77ef-4cdd-9f74-f6791d23337e; stg_nctvRoleName=Dealer%20Admin; stg_nctvRoleId=bb7a0880-495c-11ea-b77f-2e728ce81950
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: same-site
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  Generated from cURL: curl.exe ^"https://stg-api.n-compass.online/api/dealeradmin/dealer/getall?page=1^&search=^&pageSize=15^" ^
+    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0^" ^
+    -H ^"Accept: application/json^" ^
+    -H ^"Accept-Language: en-US,en;q=0.9^" ^
+    -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+    -H ^"Content-Type: application/json^" ^
+    -H ^"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLWFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYWNmYzg0YWMtNzdlZi00Y2RkLTlmNzQtZjY3OTFkMjMzMzdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIEFkbWluIiwibmJmIjoxNzcyNjEyMDIwLCJleHAiOjE3NzI2NDA4MjAsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.ooG5JQOpnFKtCGU85kMJSe1fugva2-L3jSSULMy7F8w^" ^
+    -H ^"Origin: https://stg-dashboard.n-compass.online^" ^
+    -H ^"Connection: keep-alive^" ^
+    -H ^"Referer: https://stg-dashboard.n-compass.online/^" ^
+    -H ^"Cookie: stg_nctvAuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZnJhbmNpc2NAZGVhbGVyLWFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYWNmYzg0YWMtNzdlZi00Y2RkLTlmNzQtZjY3OTFkMjMzMzdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiRGVhbGVyIEFkbWluIiwibmJmIjoxNzcyNjEyMDIwLCJleHAiOjE3NzI2NDA4MjAsImlzcyI6IkpEZWNvcnMgTExDIiwiYXVkIjoiQW55b25lIn0.ooG5JQOpnFKtCGU85kMJSe1fugva2-L3jSSULMy7F8w; stg_nctvRefToken=rBqr7CxfbYxkFn^%^2Bv37cM^%^2By6RiiuwqElLx3AXgmkeccM^%^3D; stg_nctvUserId=acfc84ac-77ef-4cdd-9f74-f6791d23337e; stg_nctvRoleName=Dealer^%^20Admin; stg_nctvRoleId=bb7a0880-495c-11ea-b77f-2e728ce81950^" ^
+    -H ^"Sec-Fetch-Dest: empty^" ^
+    -H ^"Sec-Fetch-Mode: cors^" ^
+    -H ^"Sec-Fetch-Site: same-site^"
+}

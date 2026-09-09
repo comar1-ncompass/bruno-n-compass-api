@@ -1,0 +1,20 @@
+meta {
+  name: Get Host
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/hosts?limit=100
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 100
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
