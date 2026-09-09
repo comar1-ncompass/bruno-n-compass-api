@@ -1,0 +1,45 @@
+meta {
+  name: Advertiser SC
+  type: http
+  seq: 6
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dashboard/users
+  body: none
+  auth: inherit
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Total Advertiser should exist", function () {
+    expect(body.data.advertiser).to.not.be.undefined;
+  });
+  
+  test("Total Advertiser overall count should be a number", function () {
+    expect(body.data.advertiser.overall).to.be.a("number");
+    expect(body.data.advertiser.overall).to.be.at.least(0);
+  });
+  
+  test("This Week count should exist and be valid", function () {
+    expect(body.data.advertiser.thisWeek).to.not.be.undefined;
+    expect(body.data.advertiser.thisWeek).to.be.a("number");
+    expect(body.data.advertiser.thisWeek).to.be.at.least(0);
+  });
+  
+  test("Last Week count should exist and be valid", function () {
+    expect(body.data.advertiser.lastWeek).to.not.be.undefined;
+    expect(body.data.advertiser.lastWeek).to.be.a("number");
+    expect(body.data.advertiser.lastWeek).to.be.at.least(0);
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

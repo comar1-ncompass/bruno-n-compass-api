@@ -1,0 +1,84 @@
+meta {
+  name: Create a New Host
+  type: http
+  seq: 18
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/hosts
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "host": {
+      "ownerId": "16c10e73-64c7-4ded-bee7-a66c16d2b7a0",
+      "businessName": "Popeyes Louisiana Kitchen",
+      "latitude": "41.8958088",
+      "longitude": "-87.7068214",
+      "address": "3202 W Chicago Ave, Chicago, IL 60651",
+      "city": "Chicago",
+      "state": "IL",
+      "region": "MW",
+      "postalCode": "60651",
+      "generalCategory": "Bar/Restaurant",
+      "category": "Chicken restaurant",
+      "timezone": "US/Central",
+      "googlePlaceId": "ChIJp-LMXK0yDogR2c_AFMukbLA",
+      "contactPerson": "Jane Doe",
+      "contactNumber": "1234567890",
+      "businessHours": "{\"mon\":{\"open\":\"08:00\",\"close\":\"17:00\"}}",
+      "logo": "https://lh3.googleusercontent.com/..."
+    },
+    "licenses": [
+      {
+        "licenseId": "1818e6c4-4270-4e5e-bd4a-af85ae1fd9cf",
+        "alias": "license-1818e6c4-4270-4e5e-bd4a-af85ae1fd9cf",
+        "installDate": "2025-10-15T00:00:00.000Z",
+        "bgColor": "#3B82F6",
+        "isGenerated": true
+      }
+    ],
+    "screen": {
+      "screenName": "Popeyes Louisiana Kitchen",
+      "description": "Popeyes Louisiana Kitchen",
+      "screenType": "menu",
+      "templateId": "511b66d5-6bd6-4443-a1d7-9e381b429af4",
+      "zones": [
+        {
+          "templateZoneId": "6d7283fb-d1d5-4dc8-922b-50f2bf801e9f",
+          "playlistId": "2152ed1b-7594-43f5-9c43-8e80a658f494",
+          "playlistName": "Newly created playlist",
+          "playlistDescription": "erwerwe",
+          "contents": [
+            {
+              "contentId": "3e4c5c72-e7fd-4194-86de-41e76e23a4d3",
+              "contentTitle": "IMG_9466.jpg",
+              "contentType": "IMAGE",
+              "dateCreated": "2026-07-16T03:59:06.124Z",
+              "createdBy": "system",
+              "src": "https://n-compass-filestack.s3.amazonaws.com/...",
+              "thumbnail": "https://cdn.filestackcontent.com/...",
+              "filename": "vrde1YcaQL6XUED1QBLI_IMG_9466.jpg",
+              "fileType": "jpg",
+              "duration": 20,
+              "frequencyMultiplier": 1,
+              "originalDateCreated": "2024-10-21T16:35:31",
+              "sequence": 1
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+settings {
+  encodeUrl: false
+}

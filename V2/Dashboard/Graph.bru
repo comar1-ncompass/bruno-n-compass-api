@@ -1,0 +1,70 @@
+meta {
+  name: Graph
+  type: http
+  seq: 7
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dashboard/graph?type=licenses&year=2023&month=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('type of user to retrieve')
+  type: licenses
+  @description('year to retrieve chart data')
+  year: 2023
+  @description('month to retrieve chart data')
+  month: 
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("dataPoints should exist", function () {
+    expect(body.data.dataPoints).to.be.an("array");
+    expect(body.data.dataPoints.length).to.be.greaterThan(0);
+  });
+  
+  test("Month should be valid", function () {
+    body.data.dataPoints.forEach(function (item) {
+      expect(item.month).to.be.a("number");
+      expect(item.month).to.be.at.least(1);
+      expect(item.month).to.be.at.most(12);
+    });
+  });
+  
+  test("Growth should be a number", function () {
+    body.data.dataPoints.forEach(function (item) {
+      expect(item.growth).to.be.a("number");
+    });
+  });
+  
+  test("Downturn should be a number", function () {
+    body.data.dataPoints.forEach(function (item) {
+      expect(item.downturn).to.be.a("number");
+    });
+  });
+  
+  test("Growth should not be negative", function () {
+    body.data.dataPoints.forEach(function (item) {
+      expect(item.growth).to.be.at.least(0);
+    });
+  });
+  
+  test("Downturn should not be positive", function () {
+    body.data.dataPoints.forEach(function (item) {
+      expect(item.downturn).to.be.at.most(0);
+    });
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

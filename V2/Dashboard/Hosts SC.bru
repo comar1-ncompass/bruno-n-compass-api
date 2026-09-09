@@ -1,0 +1,45 @@
+meta {
+  name: Hosts SC
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/dashboard/hosts
+  body: none
+  auth: inherit
+}
+
+tests {
+  const body = res.getBody();
+  
+  test("Status code should be 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Total Hosts should exist", function () {
+    expect(body.data.totalHosts).to.not.be.undefined;
+  });
+  
+  test("Total Hosts overall count should be a number", function () {
+    expect(body.data.totalHosts.overall).to.be.a("number");
+    expect(body.data.totalHosts.overall).to.be.at.least(0);
+  });
+  
+  test("This Week count should exist and be valid", function () {
+    expect(body.data.totalHosts.thisWeek).to.not.be.undefined;
+    expect(body.data.totalHosts.thisWeek).to.be.a("number");
+    expect(body.data.totalHosts.thisWeek).to.be.at.least(0);
+  });
+  
+  test("Last Week count should exist and be valid", function () {
+    expect(body.data.totalHosts.lastWeek).to.not.be.undefined;
+    expect(body.data.totalHosts.lastWeek).to.be.a("number");
+    expect(body.data.totalHosts.lastWeek).to.be.at.least(0);
+  });
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

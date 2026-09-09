@@ -1,0 +1,30 @@
+meta {
+  name: Delete Host by ID
+  type: http
+  seq: 19
+}
+
+delete {
+  url: https://ntv360api-dev.n-compass.online/api/hosts/8819e200-ec01-4934-bec3-6bcc09c8428b
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  ### DELETED HOSTIDs (Premade Hosts for testing)
+  1st deleted hostID: 53aa697d-49db-4f1d-9317-48b9fd61109b (Mai Dealer - Popeyes Louisiana)
+  2nd deleted hostID: 05d45c94-c7bf-4926-b56d-f9d50a625f7a (LCA 78 - Popeyes Louisiana K3)
+  3rd deleted hostID: 7e5e5f95-56bf-4b43-966a-784240f36c95 (LCA 78 - Popeyes Louisiana K3)
+  4th deleted hostID: 6e879041-dcc6-4f26-9817-f0990cde7dfe (LCA 78 - Popeyes Louisiana K2)
+  5th deleted hostID: 02cb00e8-3090-438b-bd6f-f67de974cf05 (LCA 78 - Popeyes Louisiana Kitchen)
+  6th deleted hostID: 8819e200-ec01-4934-bec3-6bcc09c8428b (LCA 10 Popeyes Louisiana Kitchen)
+}

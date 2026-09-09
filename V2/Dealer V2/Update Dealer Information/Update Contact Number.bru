@@ -18,15 +18,25 @@ headers {
 body:json {
   {
     "user": {
+<<<<<<< HEAD
       "contactNumber": "{{uniqueId}}"
     }
   }
+=======
+      "contactNumber": {{contactNumber}}
+    }
+  } 
+>>>>>>> a193c8b (Update Bruno collection for Rai)
 }
 
 script:pre-request {
   const uniqueId = Date.now().toString().slice(-10);
   
+<<<<<<< HEAD
   bru.setVar("uniqueId", uniqueId);
+=======
+  bru.setVar("contactNumber", uniqueId);
+>>>>>>> a193c8b (Update Bruno collection for Rai)
 }
 
 settings {
