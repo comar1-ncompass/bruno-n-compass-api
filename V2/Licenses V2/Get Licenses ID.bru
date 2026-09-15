@@ -5,13 +5,30 @@ meta {
 }
 
 get {
-  url: https://ntv360api-dev.n-compass.online/api/licenses/4e7dc3f2-5793-42c9-862b-a12017fe4f6c
+  url: https://ntv360api-dev.n-compass.online/api/licenses/3df61002-8a54-48a4-bdb4-4f13af2e5de2
   body: none
   auth: inherit
 }
 
 headers {
   Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+script:post-response {
+  const body = res.getBody();
+  const data = body && body.data ? body.data : body;
+  
+  const licenseId = data && (data.id || data.licenseId || data.licenseID);
+  
+  console.log("GET Licenses ID - raw response body:", JSON.stringify(body));
+  
+  if (!licenseId) {
+    throw new Error("Could not find id/licenseId in response body - check the response shape and update the script.");
+  }
+  
+  bru.setVar("licenseId", licenseId);
+  
+  console.log("Captured licenseId:", licenseId);
 }
 
 settings {

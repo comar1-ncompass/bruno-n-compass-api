@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: https://ntv360api-dev.n-compass.online/api/licenses/4e7dc3f2-5793-42c9-862b-a12017fe4f6c
+  url: https://ntv360api-dev.n-compass.online/api/licenses/{{licenseId}}
   body: json
   auth: inherit
 }
@@ -17,11 +17,9 @@ headers {
 
 body:json {
    {
-  
      
-        "statusId": 2
-        
-      
+        "statusId": 1
+          
    }
 }
 

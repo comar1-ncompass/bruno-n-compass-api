@@ -1,7 +1,7 @@
 meta {
   name: Create Host
   type: http
-  seq: 3
+  seq: 4
 }
 
 post {
@@ -18,7 +18,7 @@ headers {
 body:json {
   {
     "host": {
-      "ownerId": "f4971625-a4b5-42b6-a033-da660a43e397",
+      "ownerId": "c60028d5-a2b5-4206-a733-7d8caa2fc8ec", // test api automation dealer id
       "businessName": "{{businessName}}",
       "latitude": "41.8958088",
       "longitude": "-87.7068214",
@@ -38,7 +38,7 @@ body:json {
     },
     "licenses": [
       {
-        "licenseId": "{{licenseId}}",
+        "licenseId": "1a401a97-8270-4b64-bd1d-c8b82fd0fce6",
         "alias": "license-{{licenseId}}",
         "installDate": "2025-10-15T00:00:00.000Z",
         "bgColor": "#3B82F6",
@@ -103,7 +103,7 @@ script:pre-request {
   const licenseId = generateUUID();
   
   // Generate clearly identifiable test business name
-  const businessName = `API Test Host - ${uniqueId}`;
+  const businessName = `QA API Automation Test Host - ${uniqueId}`;
   
   // Store variables
   bru.setVar("googlePlaceId", googlePlaceId);

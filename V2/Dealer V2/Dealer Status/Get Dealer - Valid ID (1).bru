@@ -15,6 +15,7 @@ headers {
 }
 
 script:post-response {
+  
   const data = res.getBody();
   
   const currentStatusId = Number(data.data.user.statusId);
