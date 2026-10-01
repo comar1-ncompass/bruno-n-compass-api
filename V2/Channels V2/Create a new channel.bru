@@ -13,23 +13,23 @@ post {
 body:json {
   {
     "channelName": "{{templatedName}}",
-    "description": "A channel focused on science and nature documentaries.",
+    "description": "{{templatedDescription}}",
     "genreIds": [
-      "f5fb8536-e0f7-4277-9eef-b57834f63afb",
-      "4098c48e-0724-48e6-92d0-02940f5ad58c"
+      "550e8400-e29b-41d4-a716-446655440006",
+      "550e8400-e29b-41d4-a716-446655440007"
     ],
-    "thumbnailUrl": "https://cdn.example.com/thumbnails/discovery.png",
+    "thumbnailUrl": "https://cdn.filestackcontent.com/wLMZa4x0SlSUNCmTjXjH",
     "isHero": false,
     "metadata": "",
-    "createdBy": "a06d4cba-01ad-4792-a3eb-3c112fe62936",
+    "createdBy": "229e168a-db92-46d5-943a-a9df5ed83961", // test admin ID for testing purposes
     "contents": [
       {
-        "contentId": "9946b685-85d9-41bb-8449-a0c19859fbbb",
+        "contentId": "9572690e-2813-461a-9494-8ff28d1c1ad1", // test contentID webm
         "sequenceOrder": 1,
         "duration": 30
       },
       {
-        "contentId": "775e7952-72d2-4abe-8c7d-2830b4443fcf",
+        "contentId": "b5426c1b-9db0-40a4-b4e1-1890abf4084a", // testcontentID image
         "sequenceOrder": 2,
         "duration": 45
       }
@@ -48,8 +48,12 @@ script:pre-request {
   // Build the collection name
   const templatedName = `API_Discovery_Channel_${date}_${time}`;
   
-  // Save to environment variable
+  // Build a matching description
+  const templatedDescription = `Automated test channel for the Discovery genre, created by Bruno on ${date} at ${time}.`;
+  
+  // Save to environment variables
   bru.setEnvVar("templatedName", templatedName);
+  bru.setEnvVar("templatedDescription", templatedDescription);
   
   //remove everything above when fix is made
 }
@@ -84,4 +88,5 @@ script:post-response {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -1,0 +1,29 @@
+meta {
+  name: POST - AdvertiserDealerOwnership
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/advertiser-dealer-ownership
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "advertiserClientInformationId": "1039010a-7c24-432a-96ea-d7d11d67377d",
+    "dealerClientInformationId": "ab6cb93a-72b0-41be-bc93-f539c6933f90"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

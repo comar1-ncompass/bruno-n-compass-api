@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: https://ntv360api-dev.n-compass.online/api/licenses/{{licenseId}}
+  url: {{baseUrl}}/api/licenses/{{licenseId}}
   body: json
   auth: inherit
 }
@@ -16,11 +16,115 @@ headers {
 }
 
 body:json {
-   {
+  // // //  {
      
-        "statusId": 1
+  // // // "statusId": null
           
-   }
+  // // //  }
+  
+  // // {
+  // //   "isActivated": true
+  // // }
+  
+  // {
+  //   "alias": "License API updated"
+  // }
+  
+  {
+    "statusId": 1,
+    "isActivated": false,
+    "alias": "License API updated - 2"  
+  }
+}
+
+vars:pre-request {
+  licenseId: 80440433-5b55-4251-94c6-da07ee251a6b
+}
+
+script:pre-request {
+  // Snapshot the license BEFORE the PATCH so we can compare old vs new afterwards.
+  const axios = require("axios");
+  
+  const resolve = (str) => (str || "").replace(/{{\s*([\w.-]+)\s*}}/g, (m, k) => {
+    const v = bru.getRequestVar(k) ?? bru.getVar(k) ?? bru.getEnvVar(k) ?? bru.getCollectionVar(k);
+    return v !== undefined && v !== null ? v : m;
+  });
+  
+  const url = resolve(req.getUrl());
+  const auth = resolve(req.getHeader("Authorization"));
+  bru.setVar("licensePatchUrl", url);
+  bru.setVar("licensePatchAuth", auth);
+  
+  try {
+    const res = await axios.get(url, { headers: { Authorization: auth } });
+    const body = res.data;
+    const before = body && body.data ? body.data : body;
+    bru.setVar("licenseBefore", JSON.stringify(before));
+    console.log("License BEFORE:", JSON.stringify(before));
+  } catch (err) {
+    bru.setVar("licenseBefore", "");
+    console.log("Could not fetch license before PATCH:", err.response ? err.response.status : err.message);
+  }
+}
+
+script:post-response {
+  // After a successful PATCH, re-fetch the license and show previous vs new for every field sent.
+  const axios = require("axios");
+  
+  if (res.getStatus() < 200 || res.getStatus() >= 300) {
+    console.log("PATCH failed with status", res.getStatus(), "- skipping comparison.");
+    return;
+  }
+  
+  let sent = req.getBody();
+  if (typeof sent === "string") {
+    sent = JSON.parse(sent.replace(/^\s*\/\/.*$/gm, ""));
+  }
+  sent = sent || {};
+  
+  const beforeRaw = bru.getVar("licenseBefore");
+  const before = beforeRaw ? JSON.parse(beforeRaw) : {};
+  
+  let after;
+  try {
+    const r = await axios.get(bru.getVar("licensePatchUrl"), {
+      headers: { Authorization: bru.getVar("licensePatchAuth") }
+    });
+    after = r.data && r.data.data ? r.data.data : r.data;
+  } catch (err) {
+    // Fall back to the PATCH response body if the re-fetch fails
+    const body = res.getBody();
+    after = body && body.data ? body.data : body;
+  }
+  after = after || {};
+  
+  const fmt = (v) => (v === undefined ? "(not returned)" : JSON.stringify(v));
+  const rows = Object.keys(sent).map((key) => ({
+    field: key,
+    previous: fmt(before[key]),
+    new: fmt(after[key]),
+    sent: fmt(sent[key]),
+    changed: JSON.stringify(before[key]) !== JSON.stringify(after[key]) ? "YES" : "no"
+  }));
+  
+  console.log("===== License PATCH: previous vs new =====");
+  rows.forEach((r) => {
+    console.log(`${r.field}: ${r.previous}  ->  ${r.new}   (sent ${r.sent}, changed: ${r.changed})`);
+  });
+  bru.setVar("licensePatchDiff", JSON.stringify(rows));
+}
+
+tests {
+  test("PATCH license returns success", () => {
+    expect(res.getStatus()).to.be.within(200, 299);
+  });
+  
+  const rows = JSON.parse(bru.getVar("licensePatchDiff") || "[]");
+  rows.forEach((r) => {
+    test(`${r.field}: ${r.previous} -> ${r.new}`, () => {
+      expect(r.new).to.equal(r.sent);
+    });
+  });
 }
 
 settings {

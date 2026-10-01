@@ -1,0 +1,37 @@
+meta {
+  name: POST advertiser
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/advertisers
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+body:json {
+  {
+    "clientTypeId": "550e8400-e29b-41d4-a716-446655440011",
+    "businessName": "Test api Advertising",
+    "region": "North America",
+    "state": "California",
+    "city": "Los Angeles",
+    "address": "123 Main Street",
+    "zip": "90001",
+    "alias": "advertiser-api-test-001",
+    "dateActivated": "2026-04-01",
+    "logoUrl": "https://example.com/logo.png"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

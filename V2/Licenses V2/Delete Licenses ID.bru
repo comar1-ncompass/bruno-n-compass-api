@@ -1,0 +1,21 @@
+meta {
+  name: Delete Licenses ID
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/api/licenses/0c3c4892-67e3-4a71-ae52-988e66c9935e
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

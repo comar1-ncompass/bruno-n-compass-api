@@ -1,13 +1,17 @@
 meta {
-  name: Get all channels
+  name: Get genre by ID
   type: http
-  seq: 2
+  seq: 3
 }
 
 get {
-  url: {{baseUrl}}/api/channels
+  url: {{baseUrl}}/api/genres/{{genreId}}
   body: text
   auth: inherit
+}
+
+vars:pre-request {
+  genreId: 550e8400-e29b-41d4-a716-446655440006
 }
 
 script:post-response {
@@ -28,4 +32,5 @@ script:post-response {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -1,0 +1,21 @@
+meta {
+  name: GET Advertiser
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/advertisers/1039010a-7c24-432a-96ea-d7d11d67377d
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

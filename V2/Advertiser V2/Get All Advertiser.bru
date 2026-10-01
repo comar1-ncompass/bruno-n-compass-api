@@ -1,0 +1,21 @@
+meta {
+  name: Get All Advertiser
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/advertiser-dealer-ownership
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer YOUR_SECRET_TOKEN
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
