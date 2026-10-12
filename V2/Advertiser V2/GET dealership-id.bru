@@ -1,0 +1,21 @@
+meta {
+  name: GET dealership/id
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/advertiser-dealer-ownership/6c36c35f-a3d9-4396-8640-9dd6d5ceee7d
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer <ACCESS_TOKEN>
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

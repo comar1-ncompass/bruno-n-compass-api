@@ -1,0 +1,21 @@
+meta {
+  name: Get Folders
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://ntv360api-dev.n-compass.online/api/folders
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer <ACCESS_TOKEN>
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

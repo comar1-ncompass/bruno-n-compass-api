@@ -1,0 +1,32 @@
+meta {
+  name: Create Folder
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/folders
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer <ACCESS_TOKEN>
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "folderName": "Test Folder QA 2",
+    "ownerId": "c60028d5-a2b5-4206-a733-7d8caa2fc8ec",
+    "hostLocationId": "809e5278-9b87-41b3-b7d8-585a3c1e05e1",
+    "advertiserId": "eb769a9d-e080-4f86-bf03-a607bfa1d57f",
+    "createdBy": "c60028d5-a2b5-4206-a733-7d8caa2fc8ec"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,29 @@
+meta {
+  name: PATCH Folder ID
+  type: http
+  seq: 4
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/folders/77684972-2a5e-44e1-accc-54ab6ca48dd5
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer <ACCESS_TOKEN>
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "folderName": "Test Folder QA 1 - updated"
+  
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

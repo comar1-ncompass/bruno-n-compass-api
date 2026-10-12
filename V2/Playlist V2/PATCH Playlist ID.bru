@@ -1,0 +1,27 @@
+meta {
+  name: PATCH Playlist ID
+  type: http
+  seq: 5
+}
+
+patch {
+  url: https://ntv360api-dev.n-compass.online/api/playlists/not-a-uuid
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "playlistName": "test"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

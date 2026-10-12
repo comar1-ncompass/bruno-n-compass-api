@@ -1,0 +1,17 @@
+meta {
+  name: Get Playlist
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/playlists
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

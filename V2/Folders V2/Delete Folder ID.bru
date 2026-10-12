@@ -1,0 +1,21 @@
+meta {
+  name: Delete Folder ID
+  type: http
+  seq: 5
+}
+
+delete {
+  url: https://ntv360api-dev.n-compass.online/api/folders/0e23de43-d015-43f5-bedb-48a94e40f28d
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer <ACCESS_TOKEN>
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

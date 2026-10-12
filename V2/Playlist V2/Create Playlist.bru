@@ -1,0 +1,35 @@
+meta {
+  name: Create Playlist
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://ntv360api-dev.n-compass.online/api/playlists
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "playlistName": "Test QA Playlist Main show VINCE",
+    "description": "QA playlist description",
+    "ownerId": "c60028d5-a2b5-4206-a733-7d8caa2fc8ec",
+    "isMain": false,
+    "isFullscreen": false,
+    "contents": [
+      { "contentId": "9572690e-2813-461a-9494-8ff28d1c1ad1", "contentType": "media", "duration": 15 },
+      { "contentId": "b5426c1b-9db0-40a4-b4e1-1890abf4084a", "contentType": "media", "duration": 15 }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
